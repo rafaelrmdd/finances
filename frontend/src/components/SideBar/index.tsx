@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function SideBar() {
     return (
-        <aside className="bg-gray-900 w-50 h-screen p-4 border-r border-r-gray-800">
+        <aside className="bg-gray-900 w-50 h-full min-h-screen p-4 border-r border-r-gray-800">
             <h1 className="text-green-300 font-bold">Money Management</h1>
 
             <nav className="flex flex-col text-gray-300 mt-6">

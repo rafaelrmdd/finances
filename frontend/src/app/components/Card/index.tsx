@@ -19,7 +19,7 @@ export function Card({ icon, percentage, balance, cardName, cardBgColor } : Card
     return (
         <div className={`${cardBgColor} p-5 rounded-xl`}>
             <div className="flex justify-between mb-3">
-                <div className="p-3 bg-green-200 rounded-xl">
+                <div className={`p-3 ${color} rounded-xl`}>
                     <Icon className={`${color}`}/>
                 </div>
 
