@@ -1,10 +1,6 @@
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
-  MdKeyboardDoubleArrowDown,
-  MdFilterList,
-  MdSearch,
-  MdAdd,
   MdShoppingCart,
   MdRestaurant,
   MdLocalGasStation,
