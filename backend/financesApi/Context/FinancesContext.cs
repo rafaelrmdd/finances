@@ -1,10 +1,26 @@
+using backend.financesApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 class FinancesContext : DbContext
 {
+    public readonly IConfiguration _configuration;
+    public FinancesContext(IConfiguration configuration, DbContextOptions options) : base(options)
+    {
+        _configuration = configuration;
+    }
 
-    public FinancesContext(DbContextOptions options) : base(options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseNpgsql(_configuration["ConnectionStrings:NpgsqlConnectionString"]);
+        }
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
     }
+
+    public DbSet<Transaction> Transactions { get; set; }
 }
