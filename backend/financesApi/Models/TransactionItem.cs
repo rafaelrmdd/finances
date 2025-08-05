@@ -1,6 +1,6 @@
 namespace backend.financesApi.Models;
 
-class Transaction
+class TransactionItem
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }

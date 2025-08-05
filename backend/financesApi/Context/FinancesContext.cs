@@ -1,6 +1,8 @@
 using backend.financesApi.Models;
 using Microsoft.EntityFrameworkCore;
 
+namespace backend.financesApi.Context;
+
 class FinancesContext : DbContext
 {
     public readonly IConfiguration _configuration;
@@ -22,5 +24,5 @@ class FinancesContext : DbContext
 
     }
 
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<TransactionItem> Transactions { get; set; }
 }
