@@ -9,7 +9,7 @@ import {
   MdSchool
 } from "react-icons/md";
 
-enum TransactionCategory {
+export enum CategoryEnum {
     INCOME = 'income',
     FOOD = 'food',
     TRANSPORTATION = 'transportation',
@@ -24,51 +24,51 @@ interface TransactionItemProps {
     name?: string;
     value?: string;
     type?: 'income' | 'expense';
-    category?: TransactionCategory;
+    category?: CategoryEnum;
     timestamp?: string;
 }
 
 export function TransactionItem({name, value, type, category, timestamp} : TransactionItemProps) {
     //remove undefined when the backend is created
-    const handleIcon = (category: TransactionCategory | undefined) => {
+    const handleIcon = (category: CategoryEnum | undefined) => {
         switch(category) {
-            case TransactionCategory.INCOME:
+            case CategoryEnum.INCOME:
                 return (
                     <div className="p-3 rounded-full bg-green-200">
                         <MdKeyboardDoubleArrowUp className="text-green-600 text-[1.5rem]" />
                     </div>
                 )
-            case TransactionCategory.FOOD:
+            case CategoryEnum.FOOD:
                 return (
                     <div className="p-3 rounded-full bg-orange-200">
                         <MdRestaurant className="text-orange-600 text-[1.5rem]" />
                     </div>
                 );
-            case TransactionCategory.TRANSPORTATION:
+            case CategoryEnum.TRANSPORTATION:
                 return (
                     <div className="p-3 rounded-full bg-blue-200">
                         <MdLocalGasStation className="text-blue-600 text-[1.5rem]" />
                     </div>
                 );
-            case TransactionCategory.ENTERTAINMENT:
+            case CategoryEnum.ENTERTAINMENT:
                 return (
                     <div className="p-3 rounded-full bg-purple-200">
                         <MdMovie className="text-purple-600 text-[1.5rem]" />
                     </div>
                 );
-            case TransactionCategory.HOUSING:
+            case CategoryEnum.HOUSING:
                 return (
                     <div className="p-3 rounded-full bg-yellow-200">
                         <MdHome className="text-yellow-600 text-[1.5rem]" />
                     </div>
                 );
-            case TransactionCategory.EDUCATION:
+            case CategoryEnum.EDUCATION:
                 return (
                     <div className="p-3 rounded-full bg-indigo-200">
                         <MdSchool className="text-indigo-600 text-[1.5rem]" />
                     </div>
                 );
-            case TransactionCategory.OTHER:
+            case CategoryEnum.OTHER:
                 return (
                     <div className="p-3 rounded-full bg-gray-200">
                         <MdShoppingCart className="text-gray-600 text-[1.5rem]" />

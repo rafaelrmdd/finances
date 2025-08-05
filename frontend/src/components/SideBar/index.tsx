@@ -17,7 +17,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/transactions'}
                 >
                     Transactions
                 </Link>
@@ -25,7 +25,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/budgets'}
                 >
                     Budgets
                 </Link>
@@ -33,7 +33,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/savings'}
                 >
                     Savings
                 </Link>
@@ -41,7 +41,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/investments'}
                 >
                     Investments
                 </Link>
@@ -49,7 +49,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/reports'}
                 >
                     Reports
                 </Link>
@@ -57,7 +57,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/'}
+                    href={'/settings'}
                 >
                     Settings
                 </Link>
