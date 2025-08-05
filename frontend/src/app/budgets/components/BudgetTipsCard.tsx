@@ -1,11 +1,32 @@
-export function BudgetTipsCard() {
+import { wordFormatter } from "@/utils/formatters";
+
+interface BudgetTipsCardProps {
+    title: string;
+    titleColor?: string;
+    description: string;
+    descriptionColor?: string;
+    cardBgColor: string;
+    cardBorderColor?: string;
+}
+
+export function BudgetTipsCard({
+    title,
+    titleColor,
+    description,
+    descriptionColor,
+    cardBgColor,
+    cardBorderColor,
+}: BudgetTipsCardProps) {
+
+    const titleFormatted = wordFormatter(title);
+
     return (
         <div
-            className="rounded-lg bg-blue-700 border border-blue-800 p-3"
+            className={`rounded-lg ${cardBgColor} border ${cardBorderColor ?? "border-blue-800/35"} p-3`}
         >
-            <h2 className="mb-2 text-blue-300 font-semibold">Smart Spending</h2>
+            <h2 className={`mb-2 ${titleColor ?? "text-black"} font-semibold`}>{titleFormatted}</h2>
 
-            <p className="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, ipsam!</p>
+            <p className={`${descriptionColor ?? "text-black"}`}>{description}</p>
         </div>
     )
 }

@@ -78,12 +78,13 @@ export default function Budgets() {
 
                 <main className="grid grid-cols-3 gap-x-4">
                     <div className="bg-gray-800 rounded-lg col-span-2 p-4">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between items-center mb-6">
                             <h2 className="text-white text-2xl font-semibold">Monthly Budget Overview</h2>
 
                             <div className="flex gap-x-4">
                                 <select
-                                    className="text-white" 
+                                    className="text-white bg-gray-700 rounded-lg px-3 py-2 outline-0
+                                    border border-transparent focus:border-blue-500" 
                                     name="months"
                                 >
                                     <option value="">August 2025</option>
@@ -92,7 +93,8 @@ export default function Budgets() {
                                 </select>
 
                                 <button
-                                    className="px-3 py-2 text-white"
+                                    className="px-3 py-2 flex items-center text-white bg-blue-500
+                                    rounded-lg gap-x-3 hover:cursor-pointer"
                                 >
                                     <MdAdd /> Add Category
                                 </button>
@@ -111,6 +113,30 @@ export default function Budgets() {
                                 valueLimit="1000"
                                 valueSpent="870"
                             />
+
+                            <BudgetCard 
+                                icon={{
+                                    icon: MdRestaurant,
+                                    color: "text-black"  
+                                }}
+                                cardBgColor="bg-orange-200"
+                                category={CategoryEnum.FOOD}
+                                status={StatusEnum.ON_TRACK}
+                                valueLimit="1000"
+                                valueSpent="870"
+                            />
+
+                            <BudgetCard 
+                                icon={{
+                                    icon: MdRestaurant,
+                                    color: "text-black"  
+                                }}
+                                cardBgColor="bg-orange-200"
+                                category={CategoryEnum.FOOD}
+                                status={StatusEnum.ON_TRACK}
+                                valueLimit="1000"
+                                valueSpent="870"
+                            />
                         </BudgetCardContainer>
                     </div>
 
@@ -118,10 +144,28 @@ export default function Budgets() {
                         <h2 className="mb-4 text-white font-semibold text-2xl">Budget Tips</h2>
 
                         <BudgetTipsContainer>
-                            <BudgetTipsCard />
-                            <BudgetTipsCard />
-                            <BudgetTipsCard />
-                            <BudgetTipsCard />
+                            <BudgetTipsCard 
+                                title="Teste"
+                                description="teste teste teste"
+                                //           color/opacity
+                                cardBgColor="bg-yellow-400/40"
+                                cardBorderColor="border-yellow-200"
+                            />
+
+                            <BudgetTipsCard 
+                                title="Teste"
+                                description="teste teste teste"
+                                cardBgColor="bg-yellow-400/40"
+                                cardBorderColor="border-yellow-200"
+                            />
+
+                            <BudgetTipsCard 
+                                title="Teste"
+                                description="teste teste teste"
+                                cardBgColor="bg-yellow-400/40"
+                                cardBorderColor="border-yellow-200"
+                            />
+
                         </BudgetTipsContainer>
                     </div>
                 </main>
