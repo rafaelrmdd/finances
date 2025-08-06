@@ -5,7 +5,7 @@ using backend.financesApi.Repository;
 
 namespace backend.financesApi.Services;
 
-class TransactionService : ITransactionService
+public class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _repository;
     private readonly IMapper _mapper;
@@ -40,15 +40,19 @@ class TransactionService : ITransactionService
         return _mapper.Map<TransactionResponseDTO>(transaction);
     }
 
-    public async Task<TransactionResponseDTO> AddTransactionAsync(TransactionItem transaction)
+    public async Task<TransactionResponseDTO> AddTransactionAsync(AddTransactionDTO addTransactionDTO)
     {
+        TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionDTO);
+
         var transactionEntity = await _repository.AddTransactionAsync(transaction);
 
         return _mapper.Map<TransactionResponseDTO>(transactionEntity);
     }
 
-    public async Task<TransactionResponseDTO> EditTransactionAsync(TransactionItem transaction)
+    public async Task<TransactionResponseDTO> EditTransactionAsync(EditTransactionDTO editTransactionDTO)
     {
+        TransactionItem transaction = _mapper.Map<TransactionItem>(editTransactionDTO);
+
         var transactionEntity = await _repository.EditTransactionAsync(transaction);
 
         return _mapper.Map<TransactionResponseDTO>(transactionEntity);
