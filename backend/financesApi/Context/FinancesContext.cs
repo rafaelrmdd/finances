@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.financesApi.Context;
 
-class FinancesContext : DbContext
+public class FinancesContext : DbContext
 {
     public readonly IConfiguration _configuration;
     public FinancesContext(IConfiguration configuration, DbContextOptions options) : base(options)

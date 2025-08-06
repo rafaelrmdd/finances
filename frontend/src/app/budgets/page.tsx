@@ -1,5 +1,5 @@
-import { Card } from "../components/Card";
-import { TopBar } from "../components/TopBar";
+import { Card } from "../(dashboard)/components/Card";
+import { TopBar } from "../(dashboard)/components/TopBar";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 

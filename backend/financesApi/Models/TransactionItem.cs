@@ -1,12 +1,13 @@
 namespace backend.financesApi.Models;
 
-class TransactionItem
+public class TransactionItem
 {
     public Guid Id { get; set; }
     public string? Name { get; set; }
     public string? Type { get; set; }
     public string? Category { get; set; }
     public string? Value { get; set; }
-    public DateTimeOffset timestamp = DateTimeOffset.UtcNow;
+    public DateTimeOffset Timestamp = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt = DateTimeOffset.UtcNow;
 
 }

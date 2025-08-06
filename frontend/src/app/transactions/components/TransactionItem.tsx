@@ -1,3 +1,4 @@
+import { wordFormatter } from "@/utils/formatters";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
@@ -19,18 +20,16 @@ export enum CategoryEnum {
     OTHER = 'other',
 }
 
-//Remove the question marks when the backend is created '?'
 interface TransactionItemProps {
-    name?: string;
-    value?: string;
-    type?: 'income' | 'expense';
-    category?: CategoryEnum;
-    timestamp?: string;
+    name: string;
+    value: string;
+    type: 'income' | 'expense';
+    category: CategoryEnum;
+    timestamp: string;
 }
 
 export function TransactionItem({name, value, type, category, timestamp} : TransactionItemProps) {
-    //remove undefined when the backend is created
-    const handleIcon = (category: CategoryEnum | undefined) => {
+    const handleIcon = (category: CategoryEnum) => {
         switch(category) {
             case CategoryEnum.INCOME:
                 return (
@@ -83,20 +82,22 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
         }
     }
 
+    const typeFormatted = wordFormatter(type);
+
     return (
         <div className="flex justify-between bg-gray-700 rounded-lg p-4">
             <div className="flex w-[60%] gap-x-4">
                 {handleIcon(category)}
 
                 <div>
-                    <h2 className="text-white font-semibold">Lorem, ipsum.</h2>
-                    <h3 className="text-[0.8rem] text-gray-400">Lorem, ipsum.</h3>
+                    <h2 className="text-white font-semibold">{name}</h2>
+                    <h3 className="text-[0.8rem] text-gray-400">{typeFormatted}</h3>
                 </div>
             </div>
 
             <div className="text-end">
-                <h2 className="text-white font-semibold">Lorem, ipsum.</h2>
-                <h3 className="text-[0.8rem] text-gray-400">Lorem, ipsum.</h3>
+                <h2 className="text-white font-semibold">{value}</h2>
+                <h3 className="text-[0.8rem] text-gray-400">{timestamp}</h3>
             </div>
         </div>
     )

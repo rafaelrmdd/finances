@@ -1,4 +1,4 @@
-import { Card } from "../components/Card";
+import { Card } from "../(dashboard)/components/Card";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
@@ -13,8 +13,8 @@ import {
   MdHome,
   MdSchool
 } from "react-icons/md";
-import { TopBar } from "../components/TopBar";
-import { TransactionItem } from "./components/TransactionItem";
+import { TopBar } from "../(dashboard)/components/TopBar";
+import { CategoryEnum, TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 
 export default function Transactions() {
@@ -131,11 +131,29 @@ export default function Transactions() {
 					</div>
 
 					<TransactionContainer>
-						<TransactionItem />
-						<TransactionItem />
-						<TransactionItem />
-						<TransactionItem />
-						<TransactionItem />
+						<TransactionItem 
+							name="Name"
+							category={CategoryEnum.FOOD}
+							value="Value"
+							type='income'
+							timestamp="Timestamp"
+						/>
+
+						<TransactionItem 
+							name="Name"
+							category={CategoryEnum.FOOD}
+							value="Value"
+							type='income'
+							timestamp="Timestamp"
+						/>
+
+						<TransactionItem 
+							name="Name"
+							category={CategoryEnum.FOOD}
+							value="Value"
+							type='income'
+							timestamp="Timestamp"
+						/>
 
 						<div className="mt-4">
 							<hr className="text-gray-700 mb-4"/>

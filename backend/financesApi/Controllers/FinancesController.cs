@@ -4,7 +4,7 @@ namespace backend.financesApi.Controllers;
 
 [Controller]
 [Route("/api/")]
-class FinancesController : ControllerBase
+public class FinancesController : ControllerBase
 {
 
 }
