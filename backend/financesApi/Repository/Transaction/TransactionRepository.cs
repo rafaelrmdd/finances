@@ -13,7 +13,6 @@ public class TransactionRepository : ITransactionRepository
         _context = context;
     }
 
-
     public async Task<IEnumerable<TransactionItem>> GetTransactionsAsync()
     {
         return await _context.Transactions.ToListAsync();

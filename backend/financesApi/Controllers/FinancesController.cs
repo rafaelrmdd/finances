@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.financesApi.Controllers;
 
+/// <summary>
+/// Controller responsible for managing financial transactions
+/// </summary>
 [Controller]
-[Route("/api/")]
+[Route("/api/finances/")]
 public class FinancesController : ControllerBase
 {
     private readonly ITransactionService _service;
@@ -15,7 +18,15 @@ public class FinancesController : ControllerBase
         _service = service;
     }
 
+    /// <summary>
+    /// Gets all available transactions
+    /// </summary>
+    /// <returns>A list of all transactions</returns>
+    /// <response code="200">Returns the list of transactions successfully</response>
+    /// <response code="404">When a validation error occurs</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetTransactionsAsync()
     {
         try
@@ -30,8 +41,18 @@ public class FinancesController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Gets a specific transaction by ID
+    /// </summary>
+    /// <param name="id">The unique identifier of the transaction</param>
+    /// <returns>The requested transaction data</returns>
+    /// <response code="200">Returns the found transaction</response>
+    /// <response code="404">When the transaction is not found or validation error occurs</response>
     [HttpGet]
-    public async Task<ActionResult> GetTransactionsByIdAsync(Guid id)
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetTransactionsByIdAsync([FromRoute] Guid id)
     {
         try
         {
@@ -45,8 +66,19 @@ public class FinancesController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Adds a new transaction
+    /// </summary>
+    /// <param name="addTransactionDTO">Data for the transaction to be created</param>
+    /// <returns>The created transaction data</returns>
+    /// <response code="200">Transaction created successfully</response>
+    /// <response code="400">When the provided data is invalid</response>
+    /// <response code="404">When a validation error occurs</response>
     [HttpPost]
-    public async Task<ActionResult> AddTransactionAsync(AddTransactionDTO addTransactionDTO)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AddTransactionAsync([FromBody] AddTransactionDTO addTransactionDTO)
     {
         try
         {
@@ -60,8 +92,19 @@ public class FinancesController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Updates an existing transaction
+    /// </summary>
+    /// <param name="editTransactionDTO">Updated transaction data</param>
+    /// <returns>The updated transaction data</returns>
+    /// <response code="200">Transaction updated successfully</response>
+    /// <response code="400">When the provided data is invalid</response>
+    /// <response code="404">When the transaction is not found or validation error occurs</response>
     [HttpPut]
-    public async Task<ActionResult> EditTransactionAsync(EditTransactionDTO editTransactionDTO)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> EditTransactionAsync([FromBody] EditTransactionDTO editTransactionDTO)
     {
         try
         {
@@ -75,8 +118,17 @@ public class FinancesController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Removes a transaction by ID
+    /// </summary>
+    /// <param name="id">The unique identifier of the transaction to be removed</param>
+    /// <returns>Confirmation of successful deletion</returns>
+    /// <response code="200">Transaction removed successfully</response>
+    /// <response code="404">When the transaction is not found or validation error occurs</response>
     [HttpDelete]
-    public async Task<ActionResult> RemoveTransactionAsync(Guid id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> RemoveTransactionAsync([FromBody] Guid id)
     {
         try
         {

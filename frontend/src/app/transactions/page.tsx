@@ -14,7 +14,7 @@ import {
   MdSchool
 } from "react-icons/md";
 import { TopBar } from "../(dashboard)/components/TopBar";
-import { CategoryEnum, TransactionItem } from "./components/TransactionItem";
+import { CategoriesEnum, TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 
 export default function Transactions() {
@@ -133,7 +133,7 @@ export default function Transactions() {
 					<TransactionContainer>
 						<TransactionItem 
 							name="Name"
-							category={CategoryEnum.FOOD}
+							category={CategoriesEnum.FOOD}
 							value="Value"
 							type='income'
 							timestamp="Timestamp"
@@ -141,7 +141,7 @@ export default function Transactions() {
 
 						<TransactionItem 
 							name="Name"
-							category={CategoryEnum.FOOD}
+							category={CategoriesEnum.FOOD}
 							value="Value"
 							type='income'
 							timestamp="Timestamp"
@@ -149,7 +149,7 @@ export default function Transactions() {
 
 						<TransactionItem 
 							name="Name"
-							category={CategoryEnum.FOOD}
+							category={CategoriesEnum.FOOD}
 							value="Value"
 							type='income'
 							timestamp="Timestamp"

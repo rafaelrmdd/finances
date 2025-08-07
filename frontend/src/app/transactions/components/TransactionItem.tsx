@@ -10,7 +10,7 @@ import {
   MdSchool
 } from "react-icons/md";
 
-export enum CategoryEnum {
+export enum CategoriesEnum {
     INCOME = 'income',
     FOOD = 'food',
     TRANSPORTATION = 'transportation',
@@ -24,50 +24,50 @@ interface TransactionItemProps {
     name: string;
     value: string;
     type: 'income' | 'expense';
-    category: CategoryEnum;
+    category: CategoriesEnum;
     timestamp: string;
 }
 
 export function TransactionItem({name, value, type, category, timestamp} : TransactionItemProps) {
-    const handleIcon = (category: CategoryEnum) => {
+    const handleIcon = (category: CategoriesEnum) => {
         switch(category) {
-            case CategoryEnum.INCOME:
+            case CategoriesEnum.INCOME:
                 return (
                     <div className="p-3 rounded-full bg-green-200">
                         <MdKeyboardDoubleArrowUp className="text-green-600 text-[1.5rem]" />
                     </div>
                 )
-            case CategoryEnum.FOOD:
+            case CategoriesEnum.FOOD:
                 return (
                     <div className="p-3 rounded-full bg-orange-200">
                         <MdRestaurant className="text-orange-600 text-[1.5rem]" />
                     </div>
                 );
-            case CategoryEnum.TRANSPORTATION:
+            case CategoriesEnum.TRANSPORTATION:
                 return (
                     <div className="p-3 rounded-full bg-blue-200">
                         <MdLocalGasStation className="text-blue-600 text-[1.5rem]" />
                     </div>
                 );
-            case CategoryEnum.ENTERTAINMENT:
+            case CategoriesEnum.ENTERTAINMENT:
                 return (
                     <div className="p-3 rounded-full bg-purple-200">
                         <MdMovie className="text-purple-600 text-[1.5rem]" />
                     </div>
                 );
-            case CategoryEnum.HOUSING:
+            case CategoriesEnum.HOUSING:
                 return (
                     <div className="p-3 rounded-full bg-yellow-200">
                         <MdHome className="text-yellow-600 text-[1.5rem]" />
                     </div>
                 );
-            case CategoryEnum.EDUCATION:
+            case CategoriesEnum.EDUCATION:
                 return (
                     <div className="p-3 rounded-full bg-indigo-200">
                         <MdSchool className="text-indigo-600 text-[1.5rem]" />
                     </div>
                 );
-            case CategoryEnum.OTHER:
+            case CategoriesEnum.OTHER:
                 return (
                     <div className="p-3 rounded-full bg-gray-200">
                         <MdShoppingCart className="text-gray-600 text-[1.5rem]" />

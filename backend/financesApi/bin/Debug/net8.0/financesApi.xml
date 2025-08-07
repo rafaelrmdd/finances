@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>financesApi</name>
+    </assembly>
+    <members>
+        <member name="T:backend.financesApi.Controllers.FinancesController">
+            <summary>
+            Controller responsible for managing financial transactions
+            </summary>
+        </member>
+        <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsAsync">
+            <summary>
+            Gets all available transactions
+            </summary>
+            <returns>A list of all transactions</returns>
+            <response code="200">Returns the list of transactions successfully</response>
+            <response code="404">When a validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsByIdAsync(System.Guid)">
+            <summary>
+            Gets a specific transaction by ID
+            </summary>
+            <param name="id">The unique identifier of the transaction</param>
+            <returns>The requested transaction data</returns>
+            <response code="200">Returns the found transaction</response>
+            <response code="404">When the transaction is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.FinancesController.AddTransactionAsync(backend.financesApi.DTOs.AddTransactionDTO)">
+            <summary>
+            Adds a new financial transaction
+            </summary>
+            <param name="addTransactionDTO">Data for the transaction to be created</param>
+            <returns>The created transaction data</returns>
+            <response code="200">Transaction created successfully</response>
+            <response code="400">When the provided data is invalid</response>
+            <response code="404">When a validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.FinancesController.EditTransactionAsync(backend.financesApi.DTOs.EditTransactionDTO)">
+            <summary>
+            Updates an existing transaction
+            </summary>
+            <param name="editTransactionDTO">Updated transaction data</param>
+            <returns>The updated transaction data</returns>
+            <response code="200">Transaction updated successfully</response>
+            <response code="400">When the provided data is invalid</response>
+            <response code="404">When the transaction is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.FinancesController.RemoveTransactionAsync(System.Guid)">
+            <summary>
+            Removes a transaction by ID
+            </summary>
+            <param name="id">The unique identifier of the transaction to be removed</param>
+            <returns>Confirmation of successful deletion</returns>
+            <response code="200">Transaction removed successfully</response>
+            <response code="404">When the transaction is not found or validation error occurs</response>
+        </member>
+        <member name="T:financesApi.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.DbSetFixMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.DbSetFixMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.DbSetFixMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.DbSetFixMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddRowUpdatedAtInTableTransactions">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
