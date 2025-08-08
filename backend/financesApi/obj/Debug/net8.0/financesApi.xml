@@ -28,9 +28,13 @@
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.AddTransactionAsync(backend.financesApi.DTOs.AddTransactionDTO)">
             <summary>
-            Adds a new financial transaction
+            Adds a new transaction
             </summary>
-            <param name="addTransactionDTO">Data for the transaction to be created</param>
+            <param name="addTransactionDTO">
+            Data for the transaction to be created
+            <para> Parameter 'category' must be one of these: </para>
+            <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+            </param>
             <returns>The created transaction data</returns>
             <response code="200">Transaction created successfully</response>
             <response code="400">When the provided data is invalid</response>

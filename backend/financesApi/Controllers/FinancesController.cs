@@ -1,4 +1,5 @@
 using backend.financesApi.DTOs;
+using backend.financesApi.Exceptions;
 using backend.financesApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,7 +70,11 @@ public class FinancesController : ControllerBase
     /// <summary>
     /// Adds a new transaction
     /// </summary>
-    /// <param name="addTransactionDTO">Data for the transaction to be created</param>
+    /// <param name="addTransactionDTO">
+    /// Data for the transaction to be created
+    /// <para> Parameter 'category' must be one of these: </para>
+    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+    /// </param>
     /// <returns>The created transaction data</returns>
     /// <response code="200">Transaction created successfully</response>
     /// <response code="400">When the provided data is invalid</response>
@@ -90,12 +95,20 @@ public class FinancesController : ControllerBase
         {
             return NotFound(e);
         }
+        catch (InvalidDataException e)
+        {
+            return BadRequest(e);
+        }
     }
 
     /// <summary>
     /// Updates an existing transaction
     /// </summary>
-    /// <param name="editTransactionDTO">Updated transaction data</param>
+    /// <param name="editTransactionDTO">
+    /// Updated transaction data
+    /// <para> Parameter 'category' must be one of these: </para>
+    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+    /// </param>
     /// <returns>The updated transaction data</returns>
     /// <response code="200">Transaction updated successfully</response>
     /// <response code="400">When the provided data is invalid</response>
@@ -115,6 +128,10 @@ public class FinancesController : ControllerBase
         catch (ValidationException e)
         {
             return NotFound(e);
+        }
+        catch (InvalidDataException e)
+        {
+            return BadRequest(e);
         }
     }
 

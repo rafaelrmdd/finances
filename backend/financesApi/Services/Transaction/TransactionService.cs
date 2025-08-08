@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using backend.financesApi.DTOs;
 using backend.financesApi.Models;
 using backend.financesApi.Repository;
+
 
 namespace backend.financesApi.Services;
 
@@ -42,6 +44,26 @@ public class TransactionService : ITransactionService
 
     public async Task<TransactionResponseDTO> AddTransactionAsync(AddTransactionDTO addTransactionDTO)
     {
+        if (string.IsNullOrEmpty(addTransactionDTO.Name))
+        {
+            throw new InvalidDataException("Field 'name' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(addTransactionDTO.Value))
+        {
+            throw new InvalidDataException("Field 'value' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(addTransactionDTO.Category))
+        {
+            throw new InvalidDataException("Field 'category' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(addTransactionDTO.Type))
+        {
+            throw new InvalidDataException("Field 'type' cannot be empty.");
+        }
+
         TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionDTO);
 
         var transactionEntity = await _repository.AddTransactionAsync(transaction);
@@ -51,6 +73,26 @@ public class TransactionService : ITransactionService
 
     public async Task<TransactionResponseDTO> EditTransactionAsync(EditTransactionDTO editTransactionDTO)
     {
+        if (string.IsNullOrEmpty(editTransactionDTO.Name))
+        {
+            throw new InvalidDataException("Field 'name' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(editTransactionDTO.Value))
+        {
+            throw new InvalidDataException("Field 'value' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(editTransactionDTO.Category))
+        {
+            throw new InvalidDataException("Field 'category' cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(editTransactionDTO.Type))
+        {
+            throw new InvalidDataException("Field 'type' cannot be empty.");
+        }
+
         TransactionItem transaction = _mapper.Map<TransactionItem>(editTransactionDTO);
 
         var transactionEntity = await _repository.EditTransactionAsync(transaction);
