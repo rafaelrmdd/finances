@@ -74,6 +74,8 @@ public class FinancesController : ControllerBase
     /// Data for the transaction to be created
     /// <para> Parameter 'category' must be one of these: </para>
     /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+    /// <para> Parameter 'type' must be one of these: </para>
+    /// <para>'income', 'expense' </para>
     /// </param>
     /// <returns>The created transaction data</returns>
     /// <response code="200">Transaction created successfully</response>

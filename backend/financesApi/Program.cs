@@ -24,7 +24,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.RegisterAllServices();
 builder.Services.RegisterAllRepositories();
-
 builder.Services.AddDbContext<FinancesContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionStrings:NpgsqlConnectionString"));

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using backend.financesApi.DTOs;
+using backend.financesApi.Enums;
 using backend.financesApi.Models;
 using backend.financesApi.Repository;
 
@@ -64,7 +65,25 @@ public class TransactionService : ITransactionService
             throw new InvalidDataException("Field 'type' cannot be empty.");
         }
 
-        TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionDTO);
+        if (!Enum.TryParse(addTransactionDTO.Type, ignoreCase: true, out TypesEnum type))
+        {
+            throw new ArgumentException($"Invalid type: {addTransactionDTO.Type}");
+        }
+
+        if (!Enum.TryParse(addTransactionDTO.Category, ignoreCase: true, out CategoriesEnum category))
+        {
+            throw new ArgumentException($"Invalid category: {addTransactionDTO.Category}");
+        }
+
+        AddTransactionWithEnumDTO addTransactionWithEnumDTO = new AddTransactionWithEnumDTO
+        (
+            addTransactionDTO.Name,
+            type,
+            category,
+            addTransactionDTO.Value
+        );
+
+        TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionWithEnumDTO);
 
         var transactionEntity = await _repository.AddTransactionAsync(transaction);
 

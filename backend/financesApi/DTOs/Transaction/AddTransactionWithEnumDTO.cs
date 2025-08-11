@@ -2,9 +2,9 @@ using backend.financesApi.Enums;
 
 namespace backend.financesApi.DTOs;
 
-public record AddTransactionDTO(
+public record AddTransactionWithEnumDTO(
     string Name,
-    string Type,
-    string Category,
+    TypesEnum Type,
+    CategoriesEnum Category,
     string Value
 );
