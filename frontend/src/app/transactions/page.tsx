@@ -18,12 +18,25 @@ import {
 import { TopBar } from "../(dashboard)/components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TransactionsContext } from "../../../context/transactionsProvider";
 
 export default function Transactions() {
-	const { transactions } = useContext(TransactionsContext);
-	console.log('transactions: ', transactions);
+	const { transactions } = useContext(TransactionsContext) || {};
+
+	const [searchKeyword, setSearchKeyword] = useState<string>("");
+	const [currentPage, setCurrentPage] = useState<number>(1);
+
+	const [sliceBeginning, setSliceBeginning] = useState<number>(0);
+	const [sliceLimit, setSliceLimit] = useState<number>(10);
+	
+	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword));
+
+	const transactionsPerPage = 10;
+    const totalPages = Math.ceil(filteredTransactions.length / 10);
+
+	const canGoNextPage = currentPage < totalPages;
+	const canGoPreviousPage = sliceBeginning != 0;
 
     return (
         <div className="w-full">
@@ -92,7 +105,8 @@ export default function Transactions() {
 							<div className="relative bg-gray-700 rounded-lg w-96 text-white
 							placeholder:text-gray-600 border-white ">
 								<MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
-								<input 
+								<input
+									onChange={(e) => setSearchKeyword(e.target.value)} 
 									className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
 									rounded-lg"
 									type="text" 
@@ -138,7 +152,7 @@ export default function Transactions() {
 					</div>
 
 					<TransactionContainer>
-						{transactions ? transactions.map((t) => (
+						{filteredTransactions ? filteredTransactions.map((t) => (
 							<TransactionItem 
 								name={t.name}
 								category={t.category}
@@ -146,15 +160,7 @@ export default function Transactions() {
 								type={t.type}
 								timestamp={t.timestamp}
 							/>
-						)) : 'Loading...'}
-
-						{/* <TransactionItem 
-							name="Name"
-							category={CategoriesEnum.FOOD}
-							value="Value"
-							type='income'
-							timestamp="Timestamp"
-						/> */}
+						)).slice(initialValue, splitLimit) : 'Loading...'}
 
 						<div className="mt-4">
 							<hr className="text-gray-700 mb-4"/>
@@ -163,7 +169,16 @@ export default function Transactions() {
 								<span className="text-gray-400 text-[0.9rem]">Showing 8 of 245 transactions</span>
 
 								<div className="flex items-start gap-x-3">
-									<div className="rounded-lg bg-gray-700 px-3 py-1">
+									<div 
+										onClick={() => {
+											if (canGoPreviousPage) {
+												setCurrentPage((currentPage) - 1);
+												setSliceBeginning((sliceBeginning) - transactionsPerPage)
+												setSliceLimit((sliceLimit) + transactionsPerPage);
+											}
+										}}
+										className="rounded-lg bg-gray-700 px-3 py-1 hover:cursor-pointer"
+									>
 										<span className="text-gray-400">Previous</span>
 									</div>
 
@@ -179,7 +194,16 @@ export default function Transactions() {
 										<span className="text-gray-400">3</span>
 									</div>
 
-									<div className="rounded-lg bg-gray-700 px-3 py-1">
+									<div 
+										onClick={() => {
+											if (canGoNextPage){
+												setCurrentPage((currentPage) + 1);
+												setSliceBeginning((sliceBeginning) + transactionsPerPage)
+												setSliceLimit((sliceLimit) + transactionsPerPage);
+											}
+										}}
+										className="rounded-lg bg-gray-700 px-3 py-1 hover:cursor-pointer"
+									>
 										<span className="text-gray-400">Next</span>
 									</div>
 								</div>
