@@ -1,4 +1,4 @@
-import { wordFormatter } from "@/utils/formatters";
+import { dateFormatter, moneyFormatter, wordFormatter } from "@/utils/formatters";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
@@ -9,21 +9,12 @@ import {
   MdHome,
   MdSchool
 } from "react-icons/md";
-
-export enum CategoriesEnum {
-    INCOME = 'income',
-    FOOD = 'food',
-    TRANSPORTATION = 'transportation',
-    ENTERTAINMENT = 'entertainment',
-    HOUSING = 'housing',
-    EDUCATION = 'education',
-    OTHER = 'other',
-}
+import { CategoriesEnum, TypesEnum } from "../../../../context/transactionsProvider";
 
 interface TransactionItemProps {
     name: string;
     value: string;
-    type: 'income' | 'expense';
+    type: TypesEnum;
     category: CategoriesEnum;
     timestamp: string;
 }
@@ -83,12 +74,13 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
     }
 
     const typeFormatted = wordFormatter(type);
+    const dateFormatted = dateFormatter(new Date(timestamp));
+    const valueFormatted = moneyFormatter(Number(value));
 
     return (
         <div className="flex justify-between bg-gray-700 rounded-lg p-4">
             <div className="flex w-[60%] gap-x-4">
                 {handleIcon(category)}
-
                 <div>
                     <h2 className="text-white font-semibold">{name}</h2>
                     <h3 className="text-[0.8rem] text-gray-400">{typeFormatted}</h3>
@@ -96,8 +88,15 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
             </div>
 
             <div className="text-end">
-                <h2 className="text-white font-semibold">{value}</h2>
-                <h3 className="text-[0.8rem] text-gray-400">{timestamp}</h3>
+                <h2 
+                    className={`${
+                        type === "income" 
+                        ? "text-green-400 before:content-['+']" 
+                        : "text-red-400 before:content-['-']"} font-semibold`}
+                >
+                    {valueFormatted}
+                </h2>
+                <h3 className="text-[0.8rem] text-gray-400">{dateFormatted}</h3>
             </div>
         </div>
     )

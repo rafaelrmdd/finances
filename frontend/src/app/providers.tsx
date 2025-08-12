@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
 import { TransactionsProvider } from "../../context/transactionsProvider";
 

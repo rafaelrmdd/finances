@@ -1,3 +1,5 @@
+'use client'
+
 import { Card } from "../(dashboard)/components/Card";
 import { 
   MdAccountBalanceWallet, 
@@ -14,10 +16,15 @@ import {
   MdSchool
 } from "react-icons/md";
 import { TopBar } from "../(dashboard)/components/TopBar";
-import { CategoriesEnum, TransactionItem } from "./components/TransactionItem";
+import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
+import { useContext } from "react";
+import { TransactionsContext } from "../../../context/transactionsProvider";
 
 export default function Transactions() {
+	const { transactions } = useContext(TransactionsContext);
+	console.log('transactions: ', transactions);
+
     return (
         <div className="w-full">
             <TopBar />
@@ -131,29 +138,23 @@ export default function Transactions() {
 					</div>
 
 					<TransactionContainer>
-						<TransactionItem 
-							name="Name"
-							category={CategoriesEnum.FOOD}
-							value="Value"
-							type='income'
-							timestamp="Timestamp"
-						/>
+						{transactions ? transactions.map((t) => (
+							<TransactionItem 
+								name={t.name}
+								category={t.category}
+								value={t.value}
+								type={t.type}
+								timestamp={t.timestamp}
+							/>
+						)) : 'Loading...'}
 
-						<TransactionItem 
+						{/* <TransactionItem 
 							name="Name"
 							category={CategoriesEnum.FOOD}
 							value="Value"
 							type='income'
 							timestamp="Timestamp"
-						/>
-
-						<TransactionItem 
-							name="Name"
-							category={CategoriesEnum.FOOD}
-							value="Value"
-							type='income'
-							timestamp="Timestamp"
-						/>
+						/> */}
 
 						<div className="mt-4">
 							<hr className="text-gray-700 mb-4"/>

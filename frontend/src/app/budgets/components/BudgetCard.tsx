@@ -1,4 +1,4 @@
-import { CategoryEnum } from "@/app/transactions/components/TransactionItem";
+import { CategoriesEnum } from "../../../../context/transactionsProvider";
 import { moneyFormatter, wordFormatter } from "@/utils/formatters";
 import { IconType } from "react-icons";
 import { 
@@ -35,7 +35,7 @@ interface BudgetCardProps {
     status: StatusEnum;
     valueSpent: string;
     valueLimit: string;
-    category: CategoryEnum;
+    category: CategoriesEnum;
 }
 
 export function BudgetCard({

@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.financesApi.Controllers;
 
 /// <summary>
-/// Controller responsible for managing financial transactions
+/// Controller responsible for managing transactions
 /// </summary>
 [Controller]
-[Route("/api/finances/")]
+[Route("/api/transactions")]
 public class FinancesController : ControllerBase
 {
     private readonly ITransactionService _service;

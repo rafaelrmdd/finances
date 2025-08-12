@@ -6,7 +6,7 @@
     <members>
         <member name="T:backend.financesApi.Controllers.FinancesController">
             <summary>
-            Controller responsible for managing financial transactions
+            Controller responsible for managing transactions
             </summary>
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsAsync">
@@ -99,6 +99,18 @@
             <inheritdoc />
         </member>
         <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -31,11 +31,11 @@ builder.Services.AddDbContext<FinancesContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAny",
-        builder =>
+    options.AddPolicy("AllowLocalHost",
+        policy =>
         {
-            builder
-                .AllowAnyOrigin()
+            policy
+                .WithOrigins("http://localhost:3000", "https://localhost:3000, https://localhost:5185")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -46,11 +46,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DefaultModelsExpandDepth(-1);
+    });
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAny");
+app.UseCors("AllowLocalHost");
 app.UseAuthorization();
 app.MapControllers();
 

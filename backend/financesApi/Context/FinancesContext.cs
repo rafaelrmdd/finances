@@ -21,7 +21,13 @@ public class FinancesContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TransactionItem>()
+            .Property(e => e.Type)
+            .HasConversion<string>();
 
+        modelBuilder.Entity<TransactionItem>()
+            .Property(e => e.Category)
+            .HasConversion<string>();
     }
 
     public DbSet<TransactionItem> Transactions { get; set; }
