@@ -20,7 +20,7 @@ import { BudgetCard, StatusEnum } from "./components/BudgetCard";
 import { BudgetCardContainer } from "./components/BudgetCardContainer";
 import { BudgetTipsContainer } from "./components/BudgetTipsContainer";
 import { BudgetTipsCard } from "./components/BudgetTipsCard";
-import { CategoryEnum } from "../transactions/components/TransactionItem";
+import { CategoriesEnum } from "../../../context/transactionsProvider";
 
 export default function Budgets() {
 
@@ -108,7 +108,7 @@ export default function Budgets() {
                                     color: "text-black"  
                                 }}
                                 cardBgColor="bg-orange-200"
-                                category={CategoryEnum.FOOD}
+                                category={CategoriesEnum.FOOD}
                                 status={StatusEnum.ON_TRACK}
                                 valueLimit="1000"
                                 valueSpent="870"
@@ -120,7 +120,7 @@ export default function Budgets() {
                                     color: "text-black"  
                                 }}
                                 cardBgColor="bg-orange-200"
-                                category={CategoryEnum.FOOD}
+                                category={CategoriesEnum.FOOD}
                                 status={StatusEnum.ON_TRACK}
                                 valueLimit="1000"
                                 valueSpent="870"
@@ -132,7 +132,7 @@ export default function Budgets() {
                                     color: "text-black"  
                                 }}
                                 cardBgColor="bg-orange-200"
-                                category={CategoryEnum.FOOD}
+                                category={CategoriesEnum.FOOD}
                                 status={StatusEnum.ON_TRACK}
                                 valueLimit="1000"
                                 valueSpent="870"

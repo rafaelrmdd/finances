@@ -1,126 +1,281 @@
 'use client'
 
 import { Card } from "../(dashboard)/components/Card";
-import { 
-  MdAccountBalanceWallet, 
-  MdKeyboardDoubleArrowUp, 
-  MdKeyboardDoubleArrowDown,
-  MdFilterList,
-  MdSearch,
-  MdAdd,
-  MdShoppingCart,
-  MdRestaurant,
-  MdLocalGasStation,
-  MdMovie,
-  MdHome,
-  MdSchool
+import {
+	MdAccountBalanceWallet,
+	MdKeyboardDoubleArrowUp,
+	MdKeyboardDoubleArrowDown,
+	MdFilterList,
+	MdSearch,
+	MdAdd,
+	MdShoppingCart,
+	MdRestaurant,
+	MdLocalGasStation,
+	MdMovie,
+	MdHome,
+	MdSchool,
+	MdAttachMoney
 } from "react-icons/md";
 import { TopBar } from "../(dashboard)/components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 import { useContext, useState } from "react";
 import { TransactionsContext } from "../../../context/transactionsProvider";
+import Modal from "react-modal";
+import { AddTransactionModalContainer } from "./components/AddTransactionModalContainer";
 
 export default function Transactions() {
-	const { transactions } = useContext(TransactionsContext) || {};
+	Modal.setAppElement('body')
 
-	const [searchKeyword, setSearchKeyword] = useState<string>("");
-	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const [sliceBeginning, setSliceBeginning] = useState<number>(0);
-	const [sliceLimit, setSliceLimit] = useState<number>(10);
-	
-	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword));
+	const openModal = () => {
+        setIsModalOpen(true);
+    }
+
+	const closeModal = () => {
+        setIsModalOpen(false);
+    }
+
+	const { transactions = [] } = useContext(TransactionsContext) || {};
+
+	const [searchKeyword, setSearchKeyword] = useState("");
+	const [currentPage, setCurrentPage] = useState(1);
+	const [sliceBeginning, setSliceBeginning] = useState(0);
+	const [sliceLimit, setSliceLimit] = useState(10);
+
+	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword)) || [];
+	const lengthOfFilteredTransactions = filteredTransactions.length;
 
 	const transactionsPerPage = 10;
-    const totalPages = Math.ceil(filteredTransactions.length / 10);
-
+	const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
 	const canGoNextPage = currentPage < totalPages;
 	const canGoPreviousPage = sliceBeginning != 0;
 
-    return (
-        <div className="w-full">
-            <TopBar />
+	return (
+		<div className="w-full">
+			<TopBar />
 
-            <div className="px-4 py-4 bg-gray-900 min-h-screen h-full">
-                <section className="grid grid-cols-4 gap-x-4 mb-8">
-                    <Card 
-                        icon={{
-                            icon: MdAccountBalanceWallet,
-                            color: 'bg-green-200'
-                        }}
-                        percentage="12.5%"
-                        balance="50.000.00"
-                        cardName="Total Balance"
-                        cardBgColor="bg-green-400"
-                    />
+			<div className="px-4 py-4 bg-gray-900 min-h-screen h-full">
+				<section className="grid grid-cols-4 gap-x-4 mb-8">
+					<Card
+						icon={{
+							icon: MdAccountBalanceWallet,
+							color: 'bg-green-200'
+						}}
+						percentage="12.5%"
+						balance="50.000.00"
+						cardName="Total Balance"
+						cardBgColor="bg-green-400"
+					/>
 
-                    <Card 
-                        icon={{
-                            icon: MdKeyboardDoubleArrowUp,
-                            color: 'bg-blue-200',
-                        }}
-                        percentage="12.5%"
-                        balance="50.000.00"
-                        cardName="Month's Income"
-                        cardBgColor="bg-blue-400"
-                    />
+					<Card
+						icon={{
+							icon: MdKeyboardDoubleArrowUp,
+							color: 'bg-blue-200',
+						}}
+						percentage="12.5%"
+						balance="50.000.00"
+						cardName="Month's Income"
+						cardBgColor="bg-blue-400"
+					/>
 
-                    <Card 
-                        icon={{
-                            icon: MdKeyboardDoubleArrowDown,
-                            color: 'bg-red-200'
-                        }}
-                        percentage="12.5%"
-                        balance="50.000.00"
-                        cardName="Month's Expenses"
-                        cardBgColor="bg-red-400"
-                    />
+					<Card
+						icon={{
+							icon: MdKeyboardDoubleArrowDown,
+							color: 'bg-red-200'
+						}}
+						percentage="12.5%"
+						balance="50.000.00"
+						cardName="Month's Expenses"
+						cardBgColor="bg-red-400"
+					/>
 
-                    <Card
-                        icon={{
-                            icon: MdKeyboardDoubleArrowDown,
-                            color: 'bg-yellow-200'
-                        }}
-                        percentage="12.5%"
-                        balance="50.000.00"
-                        cardName="Month's Expenses"
-                        cardBgColor="bg-yellow-400"
-                    />
-                </section>
+					<Card
+						icon={{
+							icon: MdKeyboardDoubleArrowDown,
+							color: 'bg-yellow-200'
+						}}
+						percentage="12.5%"
+						balance="50.000.00"
+						cardName="Month's Expenses"
+						cardBgColor="bg-yellow-400"
+					/>
+				</section>
 
-                <main>
+				<main>
 					<div className="bg-gray-800 rounded-lg p-4 mb-8">
 						<div className="flex justify-between">
 							<h2 className="text-white text-2xl font-semibold">All Transactions</h2>
-							<button 
-								className="flex items-center gap-x-2 px-3 py-2 rounded-lg bg-blue-500 text-white"
+							<button
+								onClick={() => openModal()}
+								className="flex items-center gap-x-2 px-3 py-2 rounded-lg
+								bg-blue-500 text-white hover:cursor-pointer hover:bg-blue-600
+								transition duration-150"
 							>
-								<MdAdd className="text-xl"/> 
+								<MdAdd className="text-xl" />
 								Add Transaction
 							</button>
+
+							<Modal
+								isOpen={isModalOpen}
+								onRequestClose={closeModal}
+								//background style
+								overlayClassName={"fixed inset-0 backdrop-blur-sm bg-black/35 flex items-center justify-center z-50"}
+								className={"flex items-center justify-center"}
+							>
+								<div 
+									className="bg-gray-800 p-6 rounded-lg w-[474px]"
+								>
+									<h1 className="text-white font-bold text-2xl mb-6">Add Transaction</h1>
+
+									<form className="flex flex-col gap-y-4">
+										<div>
+											<label className="block text-white font-semibold mb-2">
+												Transaction Name
+											</label>
+											<input
+												className="w-full bg-gray-700 rounded-lg px-4 py-3 outline-0 
+												placeholder:text-gray-400"
+												name="transactionName" 
+												type="text" 
+												placeholder="Enter transaction name..."
+											/>
+										</div>
+
+										<div>
+											<label className="block text-white font-semibold mb-2">
+												Transaction Type
+											</label>
+
+											<div className="flex gap-x-2">
+												<button 
+													className="flex w-1/2 items-center gap-x-2 bg-green-500 
+													rounded-lg px-4 py-3 text-white"
+												>
+													<MdKeyboardDoubleArrowUp/> Income
+												</button>
+												<button 
+													className="flex w-1/2 items-center gap-x-2 bg-red-500 
+													rounded-lg px-4 py-3 text-white"
+												>
+													<MdKeyboardDoubleArrowUp/> Expense
+												</button>
+											</div>
+										</div>
+
+										<div>
+											<label className="block text-white font-semibold mb-2">
+												Category
+											</label>
+
+											<div className="grid grid-cols-2 gap-y-2 gap-x-2">
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdRestaurant /> Food & Dining
+												</button>	
+
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdLocalGasStation /> Transportation
+												</button>
+
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdMovie /> Entertainment
+												</button>
+
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdHome /> Housing
+												</button>
+
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdSchool /> Education
+												</button>
+
+												<button
+													className="flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
+													text-white bg-gray-700 text-[0.9rem] hover:bg-blue-600
+													transition duration-150"
+												>
+													<MdShoppingCart /> Shopping
+												</button>
+											</div>
+										</div>
+
+										<div>
+											<label className="blosck text-white font-semibold mb-2">
+												Value ($)
+											</label>
+
+											<div className="relative text-white bg-gray-700 rounded-lg ">
+												<MdAttachMoney className="absolute top-[17px] left-3 text-lg"/>
+												<input
+													className="pl-10 pr-4 py-3 rounded-lg outline-0 text-[1.1rem]"  
+													type="text" 
+													placeholder="teste"
+												/>
+											</div>
+										</div>
+
+										<div className="flex gap-x-2">
+											<button 
+												className="flex w-1/2 justify-center gap-x-2 bg-gray-700 
+												rounded-lg px-4 py-3 text-white"
+											>
+												Cancel
+											</button>
+
+											<button 
+												className="flex w-1/2 items-center justify-center gap-x-2 
+												bg-blue-500 hover:bg-blue-600 rounded-lg px-4 py-3 text-white
+												transiction duration-150"
+											>
+												<MdAdd /> Add Transaction
+											</button>
+										</div>
+									</form>
+								</div>
+							</Modal>
 						</div>
-						
+
 						<div className="flex gap-x-3 items-start">
 							<div className="relative bg-gray-700 rounded-lg w-96 text-white
 							placeholder:text-gray-600 border-white ">
 								<MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
 								<input
-									onChange={(e) => setSearchKeyword(e.target.value)} 
+									onChange={(e) => setSearchKeyword(e.target.value)}
 									className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
 									rounded-lg"
-									type="text" 
+									type="text"
 									placeholder="Search for..."
 								/>
 							</div>
 
 							<div className="flex items-center gap-x-2 bg-gray-700 rounded-lg px-3 py-2">
-								<MdFilterList className="text-white"/>
+								<MdFilterList className="text-white" />
 								<h3 className="text-white">Filter</h3>
 							</div>
 
 							<div className="bg-gray-700 rounded-lg">
-								<select 
+								<select
 									className="text-white bg-gray-700 w-36 border border-transparent
 									focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
 									name="categories"
@@ -136,7 +291,7 @@ export default function Transactions() {
 							</div>
 
 							<div className="bg-gray-700 rounded-lg">
-								<select 
+								<select
 									className="text-white px-3 py-2 bg-gray-700 border border-transparent 
 									focus:border-blue-500 rounded-lg outline-0"
 									name="time"
@@ -153,23 +308,31 @@ export default function Transactions() {
 
 					<TransactionContainer>
 						{filteredTransactions ? filteredTransactions.map((t) => (
-							<TransactionItem 
+							<TransactionItem
 								name={t.name}
 								category={t.category}
 								value={t.value}
 								type={t.type}
 								timestamp={t.timestamp}
 							/>
-						)).slice(initialValue, splitLimit) : 'Loading...'}
+						)).slice(sliceBeginning, sliceLimit) : 'Loading...'}
 
 						<div className="mt-4">
-							<hr className="text-gray-700 mb-4"/>
+							<hr className="text-gray-700 mb-4" />
 
 							<div className="flex justify-between items-center">
-								<span className="text-gray-400 text-[0.9rem]">Showing 8 of 245 transactions</span>
+								<span 
+									className="text-gray-400 text-[0.9rem]"
+								>
+									Showing  
+									{lengthOfFilteredTransactions < transactionsPerPage 
+									? " " + lengthOfFilteredTransactions + " " 
+									: transactionsPerPage} 
+									of {transactions.length} transactions
+								</span>
 
 								<div className="flex items-start gap-x-3">
-									<div 
+									<div
 										onClick={() => {
 											if (canGoPreviousPage) {
 												setCurrentPage((currentPage) - 1);
@@ -194,9 +357,9 @@ export default function Transactions() {
 										<span className="text-gray-400">3</span>
 									</div>
 
-									<div 
+									<div
 										onClick={() => {
-											if (canGoNextPage){
+											if (canGoNextPage) {
 												setCurrentPage((currentPage) + 1);
 												setSliceBeginning((sliceBeginning) + transactionsPerPage)
 												setSliceLimit((sliceLimit) + transactionsPerPage);
@@ -210,11 +373,11 @@ export default function Transactions() {
 							</div>
 						</div>
 					</TransactionContainer>
-					
-                </main>
 
-            </div>
+				</main>
 
-        </div>
-    )
+			</div>
+
+		</div>
+	)
 }

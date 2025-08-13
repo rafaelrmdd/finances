@@ -1,4 +1,4 @@
-import { dateFormatter, moneyFormatter, wordFormatter } from "@/utils/formatters";
+import { formatDate, formatMoney, formatWord } from "@/utils/formatters";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
@@ -73,9 +73,9 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
         }
     }
 
-    const typeFormatted = wordFormatter(type);
-    const dateFormatted = dateFormatter(new Date(timestamp));
-    const valueFormatted = moneyFormatter(Number(value));
+    const typeFormatted = formatWord(type);
+    const dateFormatted = formatDate(new Date(timestamp));
+    const valueFormatted = formatMoney(Number(value));
 
     return (
         <div className="flex justify-between bg-gray-700 rounded-lg p-4">

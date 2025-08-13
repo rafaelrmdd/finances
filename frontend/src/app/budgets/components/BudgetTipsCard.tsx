@@ -1,4 +1,4 @@
-import { wordFormatter } from "@/utils/formatters";
+import { formatWord } from "@/utils/formatters";
 
 interface BudgetTipsCardProps {
     title: string;
@@ -18,7 +18,7 @@ export function BudgetTipsCard({
     cardBorderColor,
 }: BudgetTipsCardProps) {
 
-    const titleFormatted = wordFormatter(title);
+    const titleFormatted = formatWord(title);
 
     return (
         <div

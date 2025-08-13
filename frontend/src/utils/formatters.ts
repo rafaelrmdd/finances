@@ -1,4 +1,4 @@
-export function moneyFormatter(amount: number){
+export function formatMoney(amount: number){
     const moneyFormatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -7,7 +7,7 @@ export function moneyFormatter(amount: number){
     return moneyFormatted;
 }
 
-export function wordFormatter(word: string){
+export function formatWord(word: string){
     const cleanWords = word.replaceAll('_', " ")
 
     const words = cleanWords.split(" ");
@@ -18,7 +18,7 @@ export function wordFormatter(word: string){
     return wordsFormatted;
 }
 
-export function dateFormatter(date: Date) {
+export function formatDate(date: Date) {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();

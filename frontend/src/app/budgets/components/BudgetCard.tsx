@@ -1,5 +1,5 @@
 import { CategoriesEnum } from "../../../../context/transactionsProvider";
-import { moneyFormatter, wordFormatter } from "@/utils/formatters";
+import { formatMoney, formatWord } from "@/utils/formatters";
 import { IconType } from "react-icons";
 import { 
   MdAccountBalanceWallet, 
@@ -57,12 +57,12 @@ export function BudgetCard({
     const valueRemaining = valueLimitNumber - valueSpentNumber;
     const valueSpentPercentage = (valueSpentNumber / valueLimitNumber) * 100;
     
-    const valueLimitUSD = moneyFormatter(valueLimitNumber);
-    const valueSpentUSD = moneyFormatter(valueSpentNumber);
-    const valueRemainingUSD = moneyFormatter(valueRemaining);
+    const valueLimitUSD = formatMoney(valueLimitNumber);
+    const valueSpentUSD = formatMoney(valueSpentNumber);
+    const valueRemainingUSD = formatMoney(valueRemaining);
 
-    const categoryFormatted = wordFormatter(category);
-    const statusFormatted = wordFormatter(status)
+    const categoryFormatted = formatWord(category);
+    const statusFormatted = formatWord(status)
 
     return (
         <div className="bg-gray-700 rounded-lg p-4 ">
