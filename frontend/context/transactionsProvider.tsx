@@ -23,6 +23,7 @@ export enum TypesEnum {
 }
 
 interface Transaction {
+    id: string;
     name: string;
     type: TypesEnum;
     category: CategoriesEnum;
@@ -38,13 +39,12 @@ export const TransactionsContext = createContext<TransactionsDataProps>({} as Tr
 
 export function TransactionsProvider({children}: ContextProviderProps) {
     const { isPending, error, 'data': transactions } = useQuery({
-        queryKey: ['transactionsData'],
+        queryKey: ['transactions'],
         queryFn: async () => {
             const response = await fetch('https://localhost:5185/api/transactions');
 
             return await response.json();
-        }
-            
+        }   
     });
 
     return (

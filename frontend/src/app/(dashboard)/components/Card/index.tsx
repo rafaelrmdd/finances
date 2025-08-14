@@ -29,7 +29,7 @@ export function Card({ icon, percentage, balance, cardName, cardBgColor } : Card
             </div>
 
             <div>
-                <span className="text-white font-bold text-2xl">${balance}</span>
+                <span className="text-white font-bold text-2xl">{balance}</span>
                 <h3 className="text-gray-400 text-xs">{cardName}</h3>
             </div>
         </div>
