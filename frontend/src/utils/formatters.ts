@@ -1,8 +1,19 @@
-export function formatMoney(amount: number){
-    const moneyFormatted = new Intl.NumberFormat('en-US', {
+export function formatMoney(value: number | string){
+    const intlFormatMoney = (display: 'code' | 'symbol') => new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-    }).format(amount);
+        currencyDisplay: display
+    });
+
+    if (typeof value === "string"){
+        value = Number(value);
+
+        const moneyFormatted = intlFormatMoney('code').format(value).replace('USD', "").trim();
+
+        return String(moneyFormatted);
+    }
+
+    const moneyFormatted = intlFormatMoney('symbol').format(value);
 
     return moneyFormatted;
 }

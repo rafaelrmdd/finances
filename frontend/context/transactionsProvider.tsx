@@ -14,6 +14,7 @@ export enum CategoriesEnum {
     ENTERTAINMENT = 'entertainment',
     HOUSING = 'housing',
     EDUCATION = 'education',
+    SHOPPING = 'shopping',
     OTHER = 'other',
 }
 

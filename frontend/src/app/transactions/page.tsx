@@ -19,16 +19,16 @@ import {
 import { TopBar } from "../(dashboard)/components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { CategoriesEnum, TransactionsContext, TypesEnum } from "../../../context/transactionsProvider";
 import Modal from "react-modal";
 import { formatMoney } from "@/utils/formatters";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
 
 export default function Transactions() {
-	
+
 	interface TransactionFormInputs {
 		id: string;
 		name: string;
@@ -36,7 +36,7 @@ export default function Transactions() {
 		category: CategoriesEnum;
 		value: string;
 	}
-	
+
 	Modal.setAppElement('body')
 
 	const { transactions = [] } = useContext(TransactionsContext) || {};
@@ -46,8 +46,19 @@ export default function Transactions() {
 		register, 
 		handleSubmit, 
 		formState: { errors }, 
-		setValue
+		setValue,
+		reset
 	} = useForm<TransactionFormInputs>();
+
+	const {
+		isIncomeActive,
+		isExpenseActive,
+		isCategoryActive,
+		toggleCategory,
+		selectIncome,
+		selectExpense,
+		resetCategoryAndType
+	} = useTransactionsButtonManagement();
 
 	const openModal = () => {
         setIsModalOpen(true);
@@ -57,37 +68,44 @@ export default function Transactions() {
         setIsModalOpen(false);
     }
 
+	const queryClient = useQueryClient();
+	const createTransactionMutation = useMutation({
+		mutationFn: async (data: TransactionFormInputs) => {
+			await fetch('https://localhost:5185/api/transactions', {
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {'Content-type': 'application/json'}
+			})
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['transactions'] })
+		},
+	})
+
 	const onSubmit: SubmitHandler<TransactionFormInputs> = (data) => {
 		closeModal();
-		console.log('formevent: ', data);
+		reset();
+		resetCategoryAndType();
+		toggleCategory("");
 
-		// useMutation({
-		// 	mutationFn: async () => {
-		// 		await fetch('https://localhost:5185/api/transactions', {
-		// 			method: 'POST',
-		// 			body: 
-		// 		})
-		// 	}
-		// })
+		const newData: TransactionFormInputs = {
+			id: data.id,
+			name: data.name,
+			category: data.category,
+			type: data.type,
+			value: formatMoney(data.value)
+		}
+
+		createTransactionMutation.mutate(newData);
 	}
+
+	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword)) || [];
+	const lengthOfFilteredTransactions = filteredTransactions.length;
 	
 	const [searchKeyword, setSearchKeyword] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [sliceBeginning, setSliceBeginning] = useState(0);
 	const [sliceLimit, setSliceLimit] = useState(10);
-
-	const {
-		isIncomeActive,
-        isExpenseActive,
-        isCategoryActive,
-        toggleCategory,
-        selectIncome,
-        selectExpense,
-	} = useTransactionsButtonManagement();
-
-	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword)) || [];
-	const lengthOfFilteredTransactions = filteredTransactions.length;
-
 	const transactionsPerPage = 10;
 	const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
 	const canGoNextPage = currentPage < totalPages;
@@ -183,7 +201,6 @@ export default function Transactions() {
 
 									<form
 										onSubmit={handleSubmit(onSubmit)}
-										
 										className="flex flex-col gap-y-4"
 									>
 										<div>
@@ -193,8 +210,8 @@ export default function Transactions() {
 											<input
 												{...register("name")}
 												className="w-full bg-gray-700 rounded-lg px-4 py-3 outline-0 
-												placeholder:text-gray-400"
-												name="transactionName" 
+												placeholder:text-gray-400 text-white"
+												name="name" 
 												type="text" 
 												placeholder="Enter transaction name..."
 											/>
@@ -242,7 +259,10 @@ export default function Transactions() {
 
 											<div className="grid grid-cols-2 gap-y-2 gap-x-2">
 												<button
-													onClick={() => toggleCategory("food")}
+													onClick={() => {
+														toggleCategory("food");
+														setValue("category", CategoriesEnum.FOOD);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("food") ? "bg-blue-600" : "bg-gray-700"}
@@ -253,7 +273,10 @@ export default function Transactions() {
 												</button>	
 
 												<button
-													onClick={() => toggleCategory("transportation")}
+													onClick={() => {
+														toggleCategory("transportation");
+														setValue("category", CategoriesEnum.TRANSPORTATION);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("transportation") ? "bg-blue-600" : "bg-gray-700"}
@@ -264,7 +287,10 @@ export default function Transactions() {
 												</button>
 
 												<button
-													onClick={() => toggleCategory("entertainment")}
+													onClick={() => {
+														toggleCategory("entertainment");
+														setValue("category", CategoriesEnum.ENTERTAINMENT);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("entertainment") ? "bg-blue-600" : "bg-gray-700"}
@@ -275,7 +301,10 @@ export default function Transactions() {
 												</button>
 
 												<button
-													onClick={() => toggleCategory("housing")}
+													onClick={() => {
+														toggleCategory("housing");
+														setValue("category", CategoriesEnum.HOUSING);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("housing") ? "bg-blue-600" : "bg-gray-700"}
@@ -286,7 +315,10 @@ export default function Transactions() {
 												</button>
 
 												<button
-													onClick={() => toggleCategory("education")}
+													onClick={() => {
+														toggleCategory("education");
+														setValue("category", CategoriesEnum.EDUCATION);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("education") ? "bg-blue-600" : "bg-gray-700"}
@@ -297,7 +329,10 @@ export default function Transactions() {
 												</button>
 
 												<button
-													onClick={() => toggleCategory("shopping")}
+													onClick={() => {
+														toggleCategory("shopping");
+														setValue("category", CategoriesEnum.SHOPPING);
+													}}
 													className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
 													text-white text-[0.9rem] hover:bg-blue-600
 													${isCategoryActive("shopping") ? "bg-blue-600" : "bg-gray-700"}
@@ -309,18 +344,18 @@ export default function Transactions() {
 											</div>
 										</div>
 
-										<div>
-											<label className="blosck text-white font-semibold mb-2">
+										<div className="mb-4">
+											<label className="block text-white font-semibold mb-2">
 												Value ($)
 											</label>
 
 											<div className="relative text-white bg-gray-700 rounded-lg ">
-												<MdAttachMoney className="absolute top-[17px] left-3 text-lg"/>
+												<MdAttachMoney className="absolute top-[15px] left-3 text-lg"/>
 												<input
 													{...register("value")}
-													className="pl-10 pr-4 py-3 rounded-lg outline-0 text-[1.1rem]"  
-													type="text" 
-													placeholder="teste"
+													className="pl-10 pr-4 py-3 rounded-lg outline-0"  
+													type="number" 
+													placeholder="Enter value"
 												/>
 											</div>
 										</div>

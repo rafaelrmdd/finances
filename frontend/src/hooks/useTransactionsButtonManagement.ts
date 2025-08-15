@@ -32,5 +32,9 @@ export function useTransactionsButtonManagement() {
         toggleCategory,
         selectIncome: () => setTransactionType("income"),
         selectExpense: () => setTransactionType("expense"),
+        resetCategoryAndType: () => {
+            setTransactionCategory("");
+            setTransactionType("");
+        }
     }
 }

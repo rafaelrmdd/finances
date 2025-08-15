@@ -9,7 +9,7 @@ public class TransactionItem
     public TypesEnum Type { get; set; }
     public CategoriesEnum Category { get; set; }
     public string? Value { get; set; }
-    public DateTimeOffset Timestamp = DateTimeOffset.UtcNow;
-    public DateTimeOffset UpdatedAt = DateTimeOffset.UtcNow;
+    public DateTimeOffset Timestamp { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
 }

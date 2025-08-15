@@ -80,7 +80,8 @@ public class TransactionService : ITransactionService
             addTransactionDTO.Name,
             type,
             category,
-            addTransactionDTO.Value
+            addTransactionDTO.Value,
+            DateTimeOffset.UtcNow
         );
 
         TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionWithEnumDTO);

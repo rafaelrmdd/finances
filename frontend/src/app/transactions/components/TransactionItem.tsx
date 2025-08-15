@@ -58,6 +58,12 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
                         <MdSchool className="text-indigo-600 text-[1.5rem]" />
                     </div>
                 );
+            case CategoriesEnum.SHOPPING:
+                return (
+                    <div className="p-3 rounded-full bg-indigo-200">
+                        <MdShoppingCart className="text-cyan-600 text-[1.5rem]" />
+                    </div>
+                )
             case CategoriesEnum.OTHER:
                 return (
                     <div className="p-3 rounded-full bg-gray-200">

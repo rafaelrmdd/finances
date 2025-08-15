@@ -45,6 +45,7 @@ public class TransactionRepository : ITransactionRepository
         entityTransaction.Value = transaction.Value;
         entityTransaction.Timestamp = transaction.Timestamp;
         entityTransaction.Type = transaction.Type;
+        entityTransaction.Timestamp = DateTimeOffset.UtcNow;
         entityTransaction.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _context.SaveChangesAsync();

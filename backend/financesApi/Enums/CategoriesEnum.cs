@@ -15,6 +15,8 @@ public enum CategoriesEnum
     HOUSING,
     [EnumMember(Value = "education")]
     EDUCATION,
+    [EnumMember(Value = "shopping")]
+    SHOPPING,
     [EnumMember(Value = "other")]
     OTHER,
 }

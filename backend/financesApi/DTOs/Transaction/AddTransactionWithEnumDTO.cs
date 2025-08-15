@@ -6,5 +6,6 @@ public record AddTransactionWithEnumDTO(
     string Name,
     TypesEnum Type,
     CategoriesEnum Category,
-    string Value
+    string Value,
+    DateTimeOffset Timestamp
 );

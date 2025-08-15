@@ -113,5 +113,17 @@
         <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>
