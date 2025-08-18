@@ -1,5 +1,5 @@
-import { Card } from "./components/Card";
-import { TopBar } from "./components/TopBar";
+import { Card } from "@/components/Card";
+import { TopBar } from "@/components/TopBar";
 import { MdAccountBalanceWallet, MdKeyboardDoubleArrowUp, MdKeyboardDoubleArrowDown } from "react-icons/md";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
     <div className="w-full">
       <TopBar />
 
-      <main className="px-4 py-4 bg-gray-900 min-h-screen h-full">
+      <main className="px-4 py-4 min-h-screen h-full bg-gray-800">
             <section className="grid grid-cols-4 gap-x-4 mb-8">
                 <Card 
                     icon={{

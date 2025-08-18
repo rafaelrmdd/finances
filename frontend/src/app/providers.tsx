@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
-import { TransactionsProvider } from "../../context/transactionsProvider";
+import { TransactionsProvider } from "../../context/TransactionsProvider";
 
 interface ProvidersProps {
     children: ReactNode;

@@ -1,4 +1,4 @@
-import { CategoriesEnum } from "../../../../context/transactionsProvider";
+import { CategoriesEnum } from "../../../../context/TransactionsProvider";
 import { formatMoney, formatWord } from "@/utils/formatters";
 import { IconType } from "react-icons";
 import { 
@@ -61,8 +61,8 @@ export function BudgetCard({
     const valueSpentUSD = formatMoney(valueSpentNumber);
     const valueRemainingUSD = formatMoney(valueRemaining);
 
-    const categoryFormatted = formatWord(category);
-    const statusFormatted = formatWord(status)
+    const categoryFormatted = formatWord(String(category));
+    const statusFormatted = formatWord(String(status));
 
     return (
         <div className="bg-gray-700 rounded-lg p-4 ">

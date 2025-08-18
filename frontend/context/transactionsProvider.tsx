@@ -33,15 +33,17 @@ interface Transaction {
 }
 
 interface TransactionsDataProps {
-    transactions: Transaction[];
+    transactions: Transaction[] | undefined;
+    error: Error | null;
+    isPending: boolean;
 }
 
-export const TransactionsContext = createContext<TransactionsDataProps>({} as TransactionsDataProps);
+export const TransactionsContext = createContext({} as TransactionsDataProps);
 
 export function TransactionsProvider({children}: ContextProviderProps) {
     const { isPending, error, 'data': transactions } = useQuery({
         queryKey: ['transactions'],
-        queryFn: async () => {
+        queryFn: async (): Promise<Transaction[]> => {
             const response = await fetch('https://localhost:5185/api/transactions');
 
             return await response.json();
@@ -49,7 +51,11 @@ export function TransactionsProvider({children}: ContextProviderProps) {
     });
 
     return (
-        <TransactionsContext.Provider value={{ transactions }}>
+        <TransactionsContext.Provider value={{ 
+            transactions, 
+            error, 
+            isPending 
+        }}>
             {children}
         </TransactionsContext.Provider>
     )

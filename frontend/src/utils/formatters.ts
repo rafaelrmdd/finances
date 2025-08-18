@@ -18,9 +18,9 @@ export function formatMoney(value: number | string){
     return moneyFormatted;
 }
 
-export function formatWord(word: string){
-    const cleanWords = word.replaceAll('_', " ")
-
+export function formatWord(word: string ){ 
+    const cleanWords = word.replaceAll('_', " ");
+    
     const words = cleanWords.split(" ");
     const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
 

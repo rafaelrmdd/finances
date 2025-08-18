@@ -73,16 +73,16 @@ public class FinancesController : ControllerBase
     /// <param name="addTransactionDTO">
     /// Data for the transaction to be created
     /// <para> Parameter 'category' must be one of these: </para>
-    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'shopping', 'other' </para>
     /// <para> Parameter 'type' must be one of these: </para>
     /// <para>'income', 'expense' </para>
     /// </param>
     /// <returns>The created transaction data</returns>
-    /// <response code="200">Transaction created successfully</response>
+    /// <response code="201">Transaction created successfully</response>
     /// <response code="400">When the provided data is invalid</response>
     /// <response code="404">When a validation error occurs</response>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> AddTransactionAsync([FromBody] AddTransactionDTO addTransactionDTO)
@@ -91,7 +91,7 @@ public class FinancesController : ControllerBase
         {
             var transactionResponseDTO = await _service.AddTransactionAsync(addTransactionDTO);
 
-            return Ok(transactionResponseDTO);
+            return Created();
         }
         catch (ValidationException e)
         {
@@ -109,7 +109,7 @@ public class FinancesController : ControllerBase
     /// <param name="editTransactionDTO">
     /// Updated transaction data
     /// <para> Parameter 'category' must be one of these: </para>
-    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'other' </para>
+    /// <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'shopping', 'other' </para>
     /// </param>
     /// <returns>The updated transaction data</returns>
     /// <response code="200">Transaction updated successfully</response>

@@ -1,35 +1,23 @@
-import { Card } from "../(dashboard)/components/Card";
-import { TopBar } from "../(dashboard)/components/TopBar";
+import { Card } from "../../components/Card";
+import { TopBar } from "../../components/TopBar";
 import { 
   MdAccountBalanceWallet, 
   MdKeyboardDoubleArrowUp, 
   MdKeyboardDoubleArrowDown,
   MdAdd,
-  MdEdit,
-  MdDelete,
-  MdShoppingCart,
   MdRestaurant,
-  MdLocalGasStation,
-  MdMovie,
-  MdHome,
-  MdSchool,
-  MdTrendingUp,
-  MdWarning
 } from "react-icons/md";
 import { BudgetCard, StatusEnum } from "./components/BudgetCard";
-import { BudgetCardContainer } from "./components/BudgetCardContainer";
-import { BudgetTipsContainer } from "./components/BudgetTipsContainer";
 import { BudgetTipsCard } from "./components/BudgetTipsCard";
-import { CategoriesEnum } from "../../../context/transactionsProvider";
+import { CategoriesEnum } from "../../../context/TransactionsProvider";
 
 export default function Budgets() {
 
-
     return (
-        <div className="w-full bg-gray-800">
+        <div className="w-full">
             <TopBar />
 
-            <div className="px-4 py-4 bg-gray-900 min-h-screen h-full">
+            <div className="px-4 py-4 min-h-screen bg-gray-900 h-full">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">
                     <Card
                         icon={{
@@ -75,7 +63,6 @@ export default function Budgets() {
                         cardBgColor="bg-yellow-400"
                     />
                 </section>
-
                 <main className="grid grid-cols-3 gap-x-4">
                     <div className="bg-gray-800 rounded-lg col-span-2 p-4">
                         <div className="flex justify-between items-center mb-6">
@@ -101,18 +88,7 @@ export default function Budgets() {
                             </div>
                         </div>
 
-                        <BudgetCardContainer>
-                            <BudgetCard 
-                                icon={{
-                                    icon: MdRestaurant,
-                                    color: "text-black"  
-                                }}
-                                cardBgColor="bg-orange-200"
-                                category={CategoriesEnum.FOOD}
-                                status={StatusEnum.ON_TRACK}
-                                valueLimit="1000"
-                                valueSpent="870"
-                            />
+                        <div className="flex flex-col gap-y-4">
 
                             <BudgetCard 
                                 icon={{
@@ -137,13 +113,25 @@ export default function Budgets() {
                                 valueLimit="1000"
                                 valueSpent="870"
                             />
-                        </BudgetCardContainer>
+
+                            <BudgetCard 
+                                icon={{
+                                    icon: MdRestaurant,
+                                    color: "text-black"  
+                                }}
+                                cardBgColor="bg-orange-200"
+                                category={CategoriesEnum.FOOD}
+                                status={StatusEnum.ON_TRACK}
+                                valueLimit="1000"
+                                valueSpent="870"
+                            />
+                        </div>
                     </div>
 
-                    <div className="bg-gray-700 rounded-lg p-3">
+                    <div className="bg-gray-800 rounded-lg p-3">
                         <h2 className="mb-4 text-white font-semibold text-2xl">Budget Tips</h2>
 
-                        <BudgetTipsContainer>
+                        <div className="flex flex-col gap-y-4">
                             <BudgetTipsCard 
                                 title="Teste"
                                 description="teste teste teste"
@@ -165,10 +153,10 @@ export default function Budgets() {
                                 cardBgColor="bg-yellow-400/40"
                                 cardBorderColor="border-yellow-200"
                             />
-
-                        </BudgetTipsContainer>
+                        </div>
                     </div>
                 </main>
+
             </div>
 
         </div>
