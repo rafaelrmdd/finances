@@ -27,10 +27,10 @@ export default function Savings() {
     // const canGoPreviousPage = sliceBeginning != 0;
 
     return (
-        <div className="w-full bg-gray-800">
+        <div className="w-full bg-gray-900">
             <TopBar />
 
-            <div className="p-4 min-h-screen h-full bg-gray-800">
+            <div className="p-4 min-h-screen h-full bg-gray-900">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">
                     <Card
                         icon={{
