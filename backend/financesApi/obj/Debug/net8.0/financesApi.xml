@@ -4,6 +4,65 @@
         <name>financesApi</name>
     </assembly>
     <members>
+        <member name="T:backend.financesApi.Controllers.BudgetController">
+            <summary>
+            Controller responsible for managing budgets
+            </summary>
+        </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.GetBudgetsAsync">
+            <summary>
+            Gets all available budgets
+            </summary>
+            <returns>A list of all budgets</returns>
+            <response code="200">Returns the list of budgets successfully</response>
+            <response code="204">Returns NoContent when the list of budgets is empty</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.GetBudgetsByIdAsync(System.Guid)">
+            <summary>
+            Gets a specific budget by ID
+            </summary>
+            <param name="id">The unique identifier of the budget</param>
+            <returns>The requested budget data</returns>
+            <response code="200">Returns the found budget</response>
+            <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.AddBudgetAsync(backend.financesApi.DTOs.AddBudgetDTO)">
+            <summary>
+            Adds a new budget
+            </summary>
+            <param name="addBudgetDTO">
+            Data for the budget to be created
+            <para> Parameter 'category' must be one of these: </para>
+            <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'shopping', 'other' </para>
+            </param>
+            <returns>The created budget data</returns>
+            <response code="201">Returns Created when the budget is created successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound When a validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.EditBudgetAsync(backend.financesApi.DTOs.EditBudgetDTO)">
+            <summary>
+            Updates an existing budget
+            </summary>
+            <param name="editBudgetDTO">
+            Updated budget data
+            <para> Parameter 'category' must be one of these: </para>
+            <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'shopping', 'other' </para>
+            </param>
+            <returns>The updated budget data</returns>
+            <response code="200">Budget updated successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.RemoveBudgetAsync(System.Guid)">
+            <summary>
+            Removes a budget by ID
+            </summary>
+            <param name="id">The unique identifier of the budget to be removed</param>
+            <returns>Confirmation of successful deletion</returns>
+            <response code="200">Returns Ok when the budget is removed successfully</response>
+            <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
+        </member>
         <member name="T:backend.financesApi.Controllers.FinancesController">
             <summary>
             Controller responsible for managing transactions
@@ -15,7 +74,7 @@
             </summary>
             <returns>A list of all transactions</returns>
             <response code="200">Returns the list of transactions successfully</response>
-            <response code="404">When a validation error occurs</response>
+            <response code="204">Returns NoContent when the list of transactions is empty</response>
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsByIdAsync(System.Guid)">
             <summary>
@@ -24,7 +83,7 @@
             <param name="id">The unique identifier of the transaction</param>
             <returns>The requested transaction data</returns>
             <response code="200">Returns the found transaction</response>
-            <response code="404">When the transaction is not found or validation error occurs</response>
+            <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.AddTransactionAsync(backend.financesApi.DTOs.AddTransactionDTO)">
             <summary>
@@ -39,8 +98,8 @@
             </param>
             <returns>The created transaction data</returns>
             <response code="201">Transaction created successfully</response>
-            <response code="400">When the provided data is invalid</response>
-            <response code="404">When a validation error occurs</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when a validation error occurs</response>
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.EditTransactionAsync(backend.financesApi.DTOs.EditTransactionDTO)">
             <summary>
@@ -53,8 +112,8 @@
             </param>
             <returns>The updated transaction data</returns>
             <response code="200">Transaction updated successfully</response>
-            <response code="400">When the provided data is invalid</response>
-            <response code="404">When the transaction is not found or validation error occurs</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
         <member name="M:backend.financesApi.Controllers.FinancesController.RemoveTransactionAsync(System.Guid)">
             <summary>
@@ -62,8 +121,8 @@
             </summary>
             <param name="id">The unique identifier of the transaction to be removed</param>
             <returns>Confirmation of successful deletion</returns>
-            <response code="200">Transaction removed successfully</response>
-            <response code="404">When the transaction is not found or validation error occurs</response>
+            <response code="200">Returns Ok when the transaction is removed successfully</response>
+            <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
         <member name="T:financesApi.Migrations.InitialMigration">
             <inheritdoc />
@@ -123,6 +182,42 @@
             <inheritdoc />
         </member>
         <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewTableBudgets">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableBudgets.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableBudgets.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableBudgets.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddRowCategoryInBudgetsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

@@ -3,12 +3,16 @@ using backend.financesApi.Context;
 using Microsoft.EntityFrameworkCore;
 using backend.financesApi.Extensions;
 using Microsoft.OpenApi.Models;
+using backend.financesApi.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(
+    typeof(BudgetProfile),
+    typeof(TransactionProfile
+));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo

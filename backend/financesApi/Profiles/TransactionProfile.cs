@@ -10,7 +10,6 @@ public class TransactionProfile : Profile
     public TransactionProfile()
     {
         CreateMap<TransactionItem, TransactionResponseDTO>();
-        CreateMap<Transaction, TransactionResponseDTO>();
         CreateMap<AddTransactionWithEnumDTO, TransactionItem>();
     }
 

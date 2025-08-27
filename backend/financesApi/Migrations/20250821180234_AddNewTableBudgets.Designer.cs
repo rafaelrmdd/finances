@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.financesApi.Context;
@@ -11,9 +12,11 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    partial class FinancesContextModelSnapshot : ModelSnapshot
+    [Migration("20250821180234_AddNewTableBudgets")]
+    partial class AddNewTableBudgets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,17 +31,11 @@ namespace financesApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Amount")
+                    b.Property<string>("BudgetValue")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EndDate")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -46,7 +43,7 @@ namespace financesApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("StartDate")
+                    b.Property<string>("Spent")
                         .IsRequired()
                         .HasColumnType("text");
 

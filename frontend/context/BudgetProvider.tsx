@@ -18,45 +18,42 @@ export enum CategoriesEnum {
     OTHER = 'other',
 }
 
-export enum TypesEnum {
-    INCOME = 'income',
-    EXPENSE = 'expense'
-}
-
-interface Transaction {
+interface Budget {
     id: string;
     name: string;
-    type: TypesEnum;
+    description?: string;
+    amount: string;
+    startDate: Date;
+    endDate: Date;
     category: CategoriesEnum;
-    value: string;
     timestamp: string;
 }
 
-interface TransactionsDataProps {
-    transactions: Transaction[] | undefined;
+interface BudgetDataProps {
+    budgets: Budget[] | undefined;
     error: Error | null;
     isPending: boolean;
 }
 
-export const TransactionsContext = createContext({} as TransactionsDataProps);
+export const BudgetContext = createContext({} as BudgetDataProps);
 
-export function TransactionsProvider({children}: ContextProviderProps) {
-    const { isPending, error, 'data': transactions } = useQuery({
-        queryKey: ['transactions'],
-        queryFn: async (): Promise<Transaction[]> => {
-            const response = await fetch('https://localhost:5185/api/transactions');
+export function BudgetProvider({children}: ContextProviderProps) {
+    const { isPending, error, 'data': budgets } = useQuery({
+        queryKey: ['budgets'],
+        queryFn: async (): Promise<Budget[]> => {
+            const response = await fetch('https://localhost:5185/api/budgets');
 
             return await response.json();
         }   
     });
 
     return (
-        <TransactionsContext.Provider value={{ 
-            transactions, 
+        <BudgetContext.Provider value={{ 
+            budgets, 
             error, 
             isPending 
         }}>
             {children}
-        </TransactionsContext.Provider>
+        </BudgetContext.Provider>
     )
 }

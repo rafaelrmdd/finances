@@ -20,7 +20,7 @@ import { TopBar } from "../../components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 import { useContext, useState } from "react";
-import { CategoriesEnum, TransactionsContext, TypesEnum } from "../../../context/TransactionsProvider";
+import { CategoriesEnum, TransactionContext, TypesEnum } from "../../../context/TransactionProvider";
 import Modal from "react-modal";
 import { formatMoney } from "@/utils/formatters";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -28,6 +28,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
 
 export default function Transactions() {
+	Modal.setAppElement('body')
 
 	interface TransactionFormInputs {
 		id: string;
@@ -37,9 +38,7 @@ export default function Transactions() {
 		value: string;
 	}
 
-	Modal.setAppElement('body')
-
-	const { transactions = [] } = useContext(TransactionsContext) || {};
+	const { transactions = [] } = useContext(TransactionContext) || {};
 	
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { 
@@ -71,7 +70,7 @@ export default function Transactions() {
 	const queryClient = useQueryClient();
 	const createTransactionMutation = useMutation({
 		mutationFn: async (data: TransactionFormInputs) => {
-			await fetch('https://localhost:5185/api/transactions', {
+			await fetch('https://localhost:5185/api/transaction', {
 				method: 'POST',
 				body: JSON.stringify(data),
 				headers: {'Content-type': 'application/json'}
@@ -88,15 +87,7 @@ export default function Transactions() {
 		resetCategoryAndType();
 		toggleCategory("");
 
-		const newData: TransactionFormInputs = {
-			id: data.id,
-			name: data.name,
-			category: data.category,
-			type: data.type,
-			value: formatMoney(data.value)
-		}
-
-		createTransactionMutation.mutate(newData);
+		createTransactionMutation.mutate(data);
 	}
 	
 	const [searchKeyword, setSearchKeyword] = useState("");

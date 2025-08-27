@@ -19,16 +19,16 @@ public class TransactionService : ITransactionService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TransactionResponseDTO>> GetTransactionsAsync()
+    public async Task<IEnumerable<TransactionItem>> GetTransactionsAsync()
     {
         var transactions = await _repository.GetTransactionsAsync();
 
-        if (transactions.Count() < 1)
+        if (transactions == null || !transactions.Any())
         {
-            throw new ValidationException("No transaction was found.");
+            return new List<TransactionItem>();
         }
 
-        return _mapper.Map<IEnumerable<TransactionResponseDTO>>(transactions);
+        return transactions;
     }
 
     public async Task<TransactionResponseDTO> GetTransactionByIdAsync(Guid id)

@@ -2,7 +2,8 @@
 
 import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
-import { TransactionsProvider } from "../../context/TransactionsProvider";
+import { TransactionProvider } from "../../context/TransactionProvider";
+import { BudgetProvider } from "../../context/BudgetProvider";
 
 interface ProvidersProps {
     children: ReactNode;
@@ -34,9 +35,11 @@ export function Providers({ children }: ProvidersProps){
 
     return (
         <QueryClientProvider client={queryClient}>
-            <TransactionsProvider>
-                {children}
-            </TransactionsProvider>
+            <TransactionProvider>
+                <BudgetProvider>
+                    {children}
+                </BudgetProvider>
+            </TransactionProvider>
         </QueryClientProvider>
     )
 }

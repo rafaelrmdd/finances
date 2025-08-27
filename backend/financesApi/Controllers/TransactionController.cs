@@ -9,7 +9,7 @@ namespace backend.financesApi.Controllers;
 /// Controller responsible for managing transactions
 /// </summary>
 [Controller]
-[Route("/api/transactions")]
+[Route("/api/transaction")]
 public class FinancesController : ControllerBase
 {
     private readonly ITransactionService _service;
@@ -24,22 +24,20 @@ public class FinancesController : ControllerBase
     /// </summary>
     /// <returns>A list of all transactions</returns>
     /// <response code="200">Returns the list of transactions successfully</response>
-    /// <response code="404">When a validation error occurs</response>
+    /// <response code="204">Returns NoContent when the list of transactions is empty</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetTransactionsAsync()
     {
-        try
-        {
-            var transactionsResponseDTO = await _service.GetTransactionsAsync();
+        var transactions = await _service.GetTransactionsAsync();
 
-            return Ok(transactionsResponseDTO);
-        }
-        catch (ValidationException e)
+        if (transactions == null || !transactions.Any())
         {
-            return NotFound(e);
+            return NoContent();
         }
+
+        return Ok(transactions);
     }
 
     /// <summary>
@@ -48,7 +46,7 @@ public class FinancesController : ControllerBase
     /// <param name="id">The unique identifier of the transaction</param>
     /// <returns>The requested transaction data</returns>
     /// <response code="200">Returns the found transaction</response>
-    /// <response code="404">When the transaction is not found or validation error occurs</response>
+    /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -79,8 +77,8 @@ public class FinancesController : ControllerBase
     /// </param>
     /// <returns>The created transaction data</returns>
     /// <response code="201">Transaction created successfully</response>
-    /// <response code="400">When the provided data is invalid</response>
-    /// <response code="404">When a validation error occurs</response>
+    /// <response code="400">Returns BadRequest when the provided data is invalid</response>
+    /// <response code="404">Returns NotFound when a validation error occurs</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -113,8 +111,8 @@ public class FinancesController : ControllerBase
     /// </param>
     /// <returns>The updated transaction data</returns>
     /// <response code="200">Transaction updated successfully</response>
-    /// <response code="400">When the provided data is invalid</response>
-    /// <response code="404">When the transaction is not found or validation error occurs</response>
+    /// <response code="400">Returns BadRequest when the provided data is invalid</response>
+    /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -142,8 +140,8 @@ public class FinancesController : ControllerBase
     /// </summary>
     /// <param name="id">The unique identifier of the transaction to be removed</param>
     /// <returns>Confirmation of successful deletion</returns>
-    /// <response code="200">Transaction removed successfully</response>
-    /// <response code="404">When the transaction is not found or validation error occurs</response>
+    /// <response code="200">Returns Ok when the transaction is removed successfully</response>
+    /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -1,4 +1,4 @@
-import { CategoriesEnum } from "../../../../context/TransactionsProvider";
+import { CategoriesEnum } from "../../../../context/TransactionProvider";
 import { formatMoney, formatWord } from "@/utils/formatters";
 import { IconType } from "react-icons";
 import { 

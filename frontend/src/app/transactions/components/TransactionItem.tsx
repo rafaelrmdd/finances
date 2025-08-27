@@ -9,7 +9,7 @@ import {
   MdHome,
   MdSchool
 } from "react-icons/md";
-import { CategoriesEnum, TypesEnum } from "../../../../context/TransactionsProvider";
+import { CategoriesEnum, TypesEnum } from "../../../../context/TransactionProvider";
 
 interface TransactionItemProps {
     name: string;

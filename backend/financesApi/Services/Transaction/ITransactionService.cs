@@ -6,7 +6,7 @@ namespace backend.financesApi.Services;
 
 public interface ITransactionService
 {
-    public Task<IEnumerable<TransactionResponseDTO>> GetTransactionsAsync();
+    public Task<IEnumerable<TransactionItem>> GetTransactionsAsync();
     public Task<TransactionResponseDTO> GetTransactionByIdAsync(Guid transactionId);
     public Task<TransactionResponseDTO> AddTransactionAsync(AddTransactionDTO addTransactionDTO);
     public Task<TransactionResponseDTO> EditTransactionAsync(EditTransactionDTO editTransactionDTO);
