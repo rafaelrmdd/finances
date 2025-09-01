@@ -1,11 +1,19 @@
 import { MdDelete, MdEdit } from "react-icons/md";
+import { Saving } from "../../../../context/SavingProvider";
 
-export function SavingsCard() {
+export function SavingCard({
+    name,
+    description,
+    category,
+    targetAmount,
+    targetDate,
+    timestamp
+}: Saving) {
     //temp variable
     const valueSpentPercentage = 50;
 
     return (
-        <div className="p-6 rounded-lg bg-gray-700">
+        <div className="p-6 rounded-lg bg-gray-800">
             <div className="flex mb-4">
                 <div className="bg-red-400 flex items-center rounded-lg mr-4 p-2">
                     <h3>Icon</h3>
@@ -13,13 +21,13 @@ export function SavingsCard() {
 
                 <div className="w-full">
                     <div className="flex justify-between">
-                        <h2 className="text-white font-semibold text-xl">Emergency Fund</h2>
+                        <h2 className="text-white font-semibold text-xl">{name}</h2>
                         <div className="flex gap-x-4 text-gray-400 text-[1.1rem]">
                             <MdEdit />
                             <MdDelete/>
                         </div>
                     </div>
-                    <h3 className="text-gray-400 text-[0.9rem]">Category</h3>
+                    <h3 className="text-gray-400 text-[0.9rem]">{category}</h3>
                 </div>
             </div>
 
@@ -47,7 +55,7 @@ export function SavingsCard() {
 
                     <div className="w-1/12">
                         <h3 className="text-gray-400 text-[0.9rem]">Target</h3>
-                        <span className="text-white font-semibold">$10.000.00</span>
+                        <span className="text-white font-semibold">{targetAmount}</span>
                     </div>
                 </div>
 
@@ -66,7 +74,7 @@ export function SavingsCard() {
                 <div className="flex justify-between">
                     <div>
                         <h3 className="text-gray-400 text-[0.9rem]">Target Date</h3>
-                        <span className="text-white">30/12/2025</span>
+                        <span className="text-white">{targetDate}</span>
                     </div>
 
                     <button

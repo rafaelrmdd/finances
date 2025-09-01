@@ -32,4 +32,5 @@ public class FinancesContext : DbContext
 
     public DbSet<TransactionItem> Transactions { get; set; }
     public DbSet<Budget> Budgets { get; set; }
+    public DbSet<Saving> Savings { get; set; }
 }

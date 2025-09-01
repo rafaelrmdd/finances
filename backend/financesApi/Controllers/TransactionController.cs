@@ -10,11 +10,11 @@ namespace backend.financesApi.Controllers;
 /// </summary>
 [Controller]
 [Route("/api/transaction")]
-public class FinancesController : ControllerBase
+public class TransactionController : ControllerBase
 {
     private readonly ITransactionService _service;
 
-    public FinancesController(ITransactionService service)
+    public TransactionController(ITransactionService service)
     {
         _service = service;
     }

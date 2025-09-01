@@ -1,3 +1,5 @@
+import { TypesEnum } from "../../context/TransactionProvider";
+
 export function formatMoney(value: number | string){
     const intlFormatMoney = (display: 'code' | 'symbol') => new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -18,7 +20,7 @@ export function formatMoney(value: number | string){
     return moneyFormatted;
 }
 
-export function formatWord(word: string ){ 
+export function formatWord(word: string){ 
     const cleanWords = word.replaceAll('_', " ");
     
     const words = cleanWords.split(" ");

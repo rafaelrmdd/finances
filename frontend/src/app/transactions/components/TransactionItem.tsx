@@ -79,7 +79,7 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
         }
     }
 
-    const typeFormatted = formatWord(type);
+    const typeFormatted = formatWord(type.toString());
     const dateFormatted = formatDate(new Date(timestamp));
     const valueFormatted = formatMoney(Number(value));
 

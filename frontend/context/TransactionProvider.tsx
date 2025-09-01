@@ -44,7 +44,7 @@ export function TransactionProvider({children}: ContextProviderProps) {
     const { isPending, error, 'data': transactions } = useQuery({
         queryKey: ['transactions'],
         queryFn: async (): Promise<Transaction[]> => {
-            const response = await fetch('https://localhost:5185/api/transactions');
+            const response = await fetch('https://localhost:5185/api/transaction');
 
             return await response.json();
         }   

@@ -63,12 +63,75 @@
             <response code="200">Returns Ok when the budget is removed successfully</response>
             <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
         </member>
-        <member name="T:backend.financesApi.Controllers.FinancesController">
+        <member name="T:backend.financesApi.Controllers.SavingController">
+            <summary>
+            Controller responsible for managing savings
+            </summary>
+        </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.GetSavingsAsync">
+            <summary>
+            Gets all available savings
+            </summary>
+            <returns>A list of all savings</returns>
+            <response code="200">Returns the list of savings successfully</response>
+            <response code="204">Returns NoContent when the list of savings is empty</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.GetSavingsByIdAsync(System.Guid)">
+            <summary>
+            Gets a specific saving by ID
+            </summary>
+            <param name="id">The unique identifier of the saving</param>
+            <returns>The requested saving data</returns>
+            <response code="200">Returns the found saving</response>
+            <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.AddsavingAsync(backend.financesApi.DTOs.AddSavingDTO)">
+            <summary>
+            Adds a new saving
+            </summary>
+            <param name="addsavingDTO">
+            Data for the saving to be created
+            <para> Parameter 'category' must be one of these: </para>
+            <para>
+            'emergency', 'vacation', 'housing', 'car', 'wedding', 'retirement', 'education',
+            'business', 'investment', 'health', 'technology', 'other'
+            </para>
+            </param>
+            public enum SavingsCategoriesEnum
+            <returns>The created saving data</returns>
+            <response code="201">saving created successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when a validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.EditsavingAsync(backend.financesApi.DTOs.EditSavingDTO)">
+            <summary>
+            Updates an existing saving
+            </summary>
+            <param name="editsavingDTO">
+            Updated saving data
+            <para> Parameter 'category' must be one of these: </para>
+            <para>'entertainment', 'transportation', 'housing', 'food', 'education', 'shopping', 'other' </para>
+            </param>
+            <returns>The updated saving data</returns>
+            <response code="200">saving updated successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.RemovesavingAsync(System.Guid)">
+            <summary>
+            Removes a saving by ID
+            </summary>
+            <param name="id">The unique identifier of the saving to be removed</param>
+            <returns>Confirmation of successful deletion</returns>
+            <response code="200">Returns Ok when the saving is removed successfully</response>
+            <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
+        </member>
+        <member name="T:backend.financesApi.Controllers.TransactionController">
             <summary>
             Controller responsible for managing transactions
             </summary>
         </member>
-        <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsAsync">
+        <member name="M:backend.financesApi.Controllers.TransactionController.GetTransactionsAsync">
             <summary>
             Gets all available transactions
             </summary>
@@ -76,7 +139,7 @@
             <response code="200">Returns the list of transactions successfully</response>
             <response code="204">Returns NoContent when the list of transactions is empty</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.FinancesController.GetTransactionsByIdAsync(System.Guid)">
+        <member name="M:backend.financesApi.Controllers.TransactionController.GetTransactionsByIdAsync(System.Guid)">
             <summary>
             Gets a specific transaction by ID
             </summary>
@@ -85,7 +148,7 @@
             <response code="200">Returns the found transaction</response>
             <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.FinancesController.AddTransactionAsync(backend.financesApi.DTOs.AddTransactionDTO)">
+        <member name="M:backend.financesApi.Controllers.TransactionController.AddTransactionAsync(backend.financesApi.DTOs.AddTransactionDTO)">
             <summary>
             Adds a new transaction
             </summary>
@@ -101,7 +164,7 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when a validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.FinancesController.EditTransactionAsync(backend.financesApi.DTOs.EditTransactionDTO)">
+        <member name="M:backend.financesApi.Controllers.TransactionController.EditTransactionAsync(backend.financesApi.DTOs.EditTransactionDTO)">
             <summary>
             Updates an existing transaction
             </summary>
@@ -115,7 +178,7 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.FinancesController.RemoveTransactionAsync(System.Guid)">
+        <member name="M:backend.financesApi.Controllers.TransactionController.RemoveTransactionAsync(System.Guid)">
             <summary>
             Removes a transaction by ID
             </summary>
@@ -218,6 +281,30 @@
             <inheritdoc />
         </member>
         <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewTableSavings">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableSavings.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableSavings.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableSavings.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

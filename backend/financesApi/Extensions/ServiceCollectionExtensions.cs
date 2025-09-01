@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<ITransactionService, TransactionService>();
         services.AddScoped<IBudgetService, BudgetService>();
+        services.AddScoped<ISavingService, SavingService>();
 
         return services;
     }
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<ISavingRepository, SavingRepository>();
 
         return services;
     }

@@ -149,7 +149,7 @@ export default function Budgets() {
                             <button
                                 onClick={openModal}
                                 className="flex items-center px-3 py-2 gap-x-4 bg-blue-500 rounded-lg
-                                text-white"
+                                text-white hover:cursor-pointer"
                             >
                                 <MdAdd className="text-xl"/>
                                 Create Budget
@@ -196,8 +196,6 @@ export default function Budgets() {
                                         onSubmit={handleSubmit(onSubmit)}
                                         className="space-y-6"
                                     >
-                                        
-                                        {/* Budget Name and Amount Row */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -367,7 +365,10 @@ export default function Budgets() {
 
                             <tbody>
                                 {budgets?.map((b) => (
-                                    <tr className="bg-gray-800 text-white">
+                                    <tr 
+                                        key={b.id}
+                                        className="bg-gray-800 text-white"
+                                    >
                                         <td className="px-6 py-4">
                                             <h3 className=" font-semibold">{b.name}</h3>
                                             <span className="text-gray-400 text-[0.9rem]">{b.description}</span>

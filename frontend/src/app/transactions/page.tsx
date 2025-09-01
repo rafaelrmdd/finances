@@ -28,7 +28,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
 
 export default function Transactions() {
-	Modal.setAppElement('body')
+	Modal.setAppElement('body');
 
 	interface TransactionFormInputs {
 		id: string;
@@ -38,7 +38,7 @@ export default function Transactions() {
 		value: string;
 	}
 
-	const { transactions = [] } = useContext(TransactionContext) || {};
+	const { transactions = [] } = useContext(TransactionContext);
 	
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { 
@@ -113,6 +113,9 @@ export default function Transactions() {
 
 	const balance = totalIncome - totalExpense;
 	const balanceFormated = formatMoney(balance);
+
+	console.log("transactions: ", transactions);
+	console.log("filtered transactions: ", filteredTransactions);
 
 	return (
 		<div className="w-full">
@@ -247,7 +250,7 @@ export default function Transactions() {
 								>
 									<div>
 										<label className="block text-white font-semibold mb-2">
-											Transaction Name
+											Transaction Name <span className="text-red-400">*</span>
 										</label>
 										<input
 											{...register("name")}
@@ -261,7 +264,7 @@ export default function Transactions() {
 
 									<div>
 										<label className="block text-white font-semibold mb-2">
-											Transaction Type
+											Transaction Type <span className="text-red-400">*</span>
 										</label>
 
 										<div className="flex gap-x-2">
@@ -296,7 +299,7 @@ export default function Transactions() {
 
 									<div>
 										<label className="block text-white font-semibold mb-2">
-											Category
+											Category <span className="text-red-400">*</span>
 										</label>
 
 										<div className="grid grid-cols-2 gap-y-2 gap-x-2">
@@ -388,7 +391,7 @@ export default function Transactions() {
 
 									<div className="mb-4">
 										<label className="block text-white font-semibold mb-2">
-											Value ($)
+											Value ($) <span className="text-red-400">*</span>
 										</label>
 
 										<div className="relative text-white bg-gray-700 rounded-lg ">

@@ -17,11 +17,13 @@ export enum SavingsCategoriesEnum {
     OTHER = 'other'
 }
 
-interface Saving {
-    id: string;
+export interface Saving {
+    id?: string;
     name: string;
+    description?: string;
     category: SavingsCategoriesEnum;
-    value: string;
+    targetAmount: number;
+    targetDate: string;
     timestamp: string;
 }
 
@@ -35,7 +37,7 @@ export function SavingsProvider({ children }: { children: ReactNode }) {
     const { isPending, error, 'data': savings } = useQuery({
         queryKey: ['savings'],
         queryFn: async (): Promise<Saving[]> => {
-            const response = await fetch('https://localhost:5185/api/savings');
+            const response = await fetch('https://localhost:5185/api/saving');
 
             return await response.json();
         }   

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.financesApi.Context;
@@ -11,9 +12,11 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    partial class FinancesContextModelSnapshot : ModelSnapshot
+    [Migration("20250901183945_AddNewTableSavings")]
+    partial class AddNewTableSavings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,6 +70,10 @@ namespace financesApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Category")
                         .HasColumnType("integer");
 
@@ -75,10 +82,6 @@ namespace financesApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TargetAmount")
                         .IsRequired()
                         .HasColumnType("text");
 

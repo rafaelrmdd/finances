@@ -36,12 +36,12 @@ interface BudgetDataProps {
 }
 
 export const BudgetContext = createContext({} as BudgetDataProps);
-
+    
 export function BudgetProvider({children}: ContextProviderProps) {
     const { isPending, error, 'data': budgets } = useQuery({
         queryKey: ['budgets'],
         queryFn: async (): Promise<Budget[]> => {
-            const response = await fetch('https://localhost:5185/api/budgets');
+            const response = await fetch('https://localhost:5185/api/budget');
 
             return await response.json();
         }   
