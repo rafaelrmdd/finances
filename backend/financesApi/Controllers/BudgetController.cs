@@ -141,9 +141,10 @@ public class BudgetController : ControllerBase
     /// <response code="200">Returns Ok when the budget is removed successfully</response>
     /// <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
     [HttpDelete]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> RemoveBudgetAsync([FromBody] Guid id)
+    public async Task<ActionResult> RemoveBudgetAsync([FromRoute] Guid id)
     {
         try
         {

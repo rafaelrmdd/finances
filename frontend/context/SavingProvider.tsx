@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { createContext } from "react";
 
-export enum SavingsCategoriesEnum {
+export enum SavingCategoriesEnum {
     EMERGENCY = 'emergency',
     VACATION = 'vacation', 
     HOUSING = 'housing',
@@ -18,34 +18,67 @@ export enum SavingsCategoriesEnum {
 }
 
 export interface Saving {
-    id?: string;
+    id: string;
     name: string;
     description?: string;
-    category: SavingsCategoriesEnum;
+    category: SavingCategoriesEnum;
+    currentAmount: number;
     targetAmount: number;
     targetDate: string;
-    timestamp: string;
+    timestamp?: string;
 }
 
-interface SavingsDataProps {
+interface SavingDataProps {
     savings: Saving[] | undefined; 
+    addSaving: UseMutateFunction<void, Error, Saving, unknown>;
+    removeSaving: UseMutateFunction<void, Error, string, unknown>
 }
 
-export const SavingsContext = createContext<SavingsDataProps>({} as SavingsDataProps);
+export const SavingContext = createContext<SavingDataProps>({} as SavingDataProps);
 
-export function SavingsProvider({ children }: { children: ReactNode }) {
+
+export function SavingProvider({ children }: { children: ReactNode }) {
+    const queryClient = useQueryClient();
+
     const { isPending, error, 'data': savings } = useQuery({
         queryKey: ['savings'],
         queryFn: async (): Promise<Saving[]> => {
+            console.log('fetching...')
             const response = await fetch('https://localhost:5185/api/saving');
 
             return await response.json();
         }   
     });
 
+    const createSavingMutation = useMutation({
+        mutationFn: async (data: Saving) => {
+            await fetch('https://localhost:5185/api/saving', {
+                method: 'POST',
+				body: JSON.stringify(data),
+				headers: {'Content-type': 'application/json'}
+			})
+		},
+		onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['savings'] });
+		},
+	})
+
+    const removeSavingMutation = useMutation({
+        mutationFn: async (id: string) => {
+            await fetch(`https://localhost:5185/api/saving/${id}`, {
+                method: 'DELETE',
+                headers: {'Content-type': 'application/json'}
+            })
+        }
+    })
+
     return (
-        <SavingsContext.Provider value={{ savings }}>
+        <SavingContext.Provider value={{ 
+            savings, 
+            addSaving: createSavingMutation.mutate,
+            removeSaving: removeSavingMutation.mutate,
+        }}>
             {children}
-        </SavingsContext.Provider>
+        </SavingContext.Provider>
     )
 }

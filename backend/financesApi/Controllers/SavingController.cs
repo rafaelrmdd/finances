@@ -85,7 +85,7 @@ public class SavingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> AddsavingAsync([FromBody] AddSavingDTO addsavingDTO)
+    public async Task<ActionResult> AddSavingAsync([FromBody] AddSavingDTO addsavingDTO)
     {
         try
         {
@@ -119,7 +119,7 @@ public class SavingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> EditsavingAsync([FromBody] EditSavingDTO editsavingDTO)
+    public async Task<ActionResult> EditSavingAsync([FromBody] EditSavingDTO editsavingDTO)
     {
         try
         {
@@ -145,9 +145,10 @@ public class SavingController : ControllerBase
     /// <response code="200">Returns Ok when the saving is removed successfully</response>
     /// <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
     [HttpDelete]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> RemovesavingAsync([FromBody] Guid id)
+    public async Task<ActionResult> RemoveSavingAsync([FromRoute] Guid id)
     {
         try
         {

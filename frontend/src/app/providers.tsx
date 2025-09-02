@@ -4,6 +4,7 @@ import { ReactNode } from "react"
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
 import { TransactionProvider } from "../../context/TransactionProvider";
 import { BudgetProvider } from "../../context/BudgetProvider";
+import { SavingProvider } from "../../context/SavingProvider";
 
 interface ProvidersProps {
     children: ReactNode;
@@ -13,7 +14,7 @@ function createQueryClient() {
     return new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 60 * 1000
+                staleTime: 0
             }
         }
     })
@@ -37,7 +38,9 @@ export function Providers({ children }: ProvidersProps){
         <QueryClientProvider client={queryClient}>
             <TransactionProvider>
                 <BudgetProvider>
-                    {children}
+                    <SavingProvider>
+                        {children}
+                    </SavingProvider>
                 </BudgetProvider>
             </TransactionProvider>
         </QueryClientProvider>

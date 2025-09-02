@@ -1,16 +1,26 @@
 import { MdDelete, MdEdit } from "react-icons/md";
-import { Saving } from "../../../../context/SavingProvider";
+import { Saving, SavingContext } from "../../../../context/SavingProvider";
+import { formatDate } from "@/utils/formatters";
+import { useContext } from "react";
+import { AddFundsButton } from "./AddFundsButton";
 
 export function SavingCard({
+    id,
     name,
     description,
     category,
+    currentAmount,
     targetAmount,
     targetDate,
     timestamp
 }: Saving) {
+    const { removeSaving } = useContext(SavingContext);
+
     //temp variable
     const valueSpentPercentage = 50;
+    // const formattedDate = formatDate(timestamp);
+    console.log('current amount: ', currentAmount);
+    const percentage = (currentAmount / targetAmount) * 100
 
     return (
         <div className="p-6 rounded-lg bg-gray-800">
@@ -24,18 +34,22 @@ export function SavingCard({
                         <h2 className="text-white font-semibold text-xl">{name}</h2>
                         <div className="flex gap-x-4 text-gray-400 text-[1.1rem]">
                             <MdEdit />
-                            <MdDelete/>
+                            <MdDelete
+                                onClick={() => removeSaving(id)}
+                            />
                         </div>
                     </div>
                     <h3 className="text-gray-400 text-[0.9rem]">{category}</h3>
                 </div>
             </div>
+            
+            <h2 className="text-gray-300 mb-4">{description}</h2>
 
             <div>
                 <div className="flex justify-between mb-2">
                     <h3 className="text-[0.9rem] text-gray-400">Progress</h3>
 
-                    <span className="text-white">65.5%</span>
+                    <span className="text-white">{percentage}%</span>
                 </div>
 
                 {/* Progress Bar */}
@@ -74,14 +88,14 @@ export function SavingCard({
                 <div className="flex justify-between">
                     <div>
                         <h3 className="text-gray-400 text-[0.9rem]">Target Date</h3>
-                        <span className="text-white">{targetDate}</span>
+                        <span className="text-white">{targetDate.toString()}</span>
                     </div>
 
-                    <button
-                        className="px-4 py-3 text-white bg-blue-500 rounded-lg"
-                    >
-                        Add Funds
-                    </button>
+                    <AddFundsButton
+                        currentAmount={currentAmount} 
+                        targetAmount={targetAmount}
+                        percentage={percentage}
+                    />
                 </div>
             </div>
         </div>

@@ -85,7 +85,7 @@
             <response code="200">Returns the found saving</response>
             <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.SavingController.AddsavingAsync(backend.financesApi.DTOs.AddSavingDTO)">
+        <member name="M:backend.financesApi.Controllers.SavingController.AddSavingAsync(backend.financesApi.DTOs.AddSavingDTO)">
             <summary>
             Adds a new saving
             </summary>
@@ -103,7 +103,7 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when a validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.SavingController.EditsavingAsync(backend.financesApi.DTOs.EditSavingDTO)">
+        <member name="M:backend.financesApi.Controllers.SavingController.EditSavingAsync(backend.financesApi.DTOs.EditSavingDTO)">
             <summary>
             Updates an existing saving
             </summary>
@@ -117,7 +117,7 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.SavingController.RemovesavingAsync(System.Guid)">
+        <member name="M:backend.financesApi.Controllers.SavingController.RemoveSavingAsync(System.Guid)">
             <summary>
             Removes a saving by ID
             </summary>
@@ -305,6 +305,18 @@
             <inheritdoc />
         </member>
         <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

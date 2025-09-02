@@ -43,6 +43,7 @@ public class SavingRepository : ISavingRepository
 
         entity.Name = saving.Name;
         entity.Description = saving.Description;
+        entity.CurrentAmount = saving.CurrentAmount;
         entity.TargetAmount = saving.TargetAmount;
         entity.UpdatedAt = DateTimeOffset.UtcNow;
         entity.TargetDate = saving.TargetDate;

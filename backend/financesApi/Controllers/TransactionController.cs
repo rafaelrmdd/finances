@@ -143,9 +143,10 @@ public class TransactionController : ControllerBase
     /// <response code="200">Returns Ok when the transaction is removed successfully</response>
     /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpDelete]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> RemoveTransactionAsync([FromBody] Guid id)
+    public async Task<ActionResult> RemoveTransactionAsync([FromRoute] Guid id)
     {
         try
         {
