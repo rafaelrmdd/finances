@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AddSavingModal } from "./AddSavingModal";
+import { AddSavingModal } from "../Modals/AddSavingModal";
 import { MdAdd } from "react-icons/md";
 
 export function AddSavingButton() {

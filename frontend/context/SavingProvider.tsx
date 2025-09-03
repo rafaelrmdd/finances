@@ -1,3 +1,4 @@
+import { AddFunds } from "@/app/savings/components/Modals/AddFundsModal";
 import { QueryClient, UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { createContext } from "react";
@@ -24,18 +25,18 @@ export interface Saving {
     category: SavingCategoriesEnum;
     currentAmount: number;
     targetAmount: number;
-    targetDate: string;
-    timestamp?: string;
+    targetDate: Date;
+    timestamp: Date;
 }
 
 interface SavingDataProps {
     savings: Saving[] | undefined; 
     addSaving: UseMutateFunction<void, Error, Saving, unknown>;
     removeSaving: UseMutateFunction<void, Error, string, unknown>
+    updateSaving: UseMutateFunction<void, Error, { id: string; updateData: Saving; }, unknown>
 }
 
 export const SavingContext = createContext<SavingDataProps>({} as SavingDataProps);
-
 
 export function SavingProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient();
@@ -47,7 +48,8 @@ export function SavingProvider({ children }: { children: ReactNode }) {
             const response = await fetch('https://localhost:5185/api/saving');
 
             return await response.json();
-        }   
+        },   
+        
     });
 
     const createSavingMutation = useMutation({
@@ -61,6 +63,25 @@ export function SavingProvider({ children }: { children: ReactNode }) {
 		onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['savings'] });
 		},
+        onError: (error, variables, context) => {
+            console.log("Error creating new 'Saving':", error.message);
+        }
+	})
+
+    const updateSavingMutation = useMutation({
+        mutationFn: async ({ id, updateData }: {id: string, updateData: Saving}) => {
+            const response = await fetch(`https://localhost:5185/api/${id}`, {
+                method: 'UPDATE',
+				body: JSON.stringify(updateData),
+				headers: {'Content-type': 'application/json'}
+			})
+		},
+		onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['savings'] });
+		},
+        onError: (error, variables, context) => {
+            console.log("Error updating 'Saving':", error.message);
+        }
 	})
 
     const removeSavingMutation = useMutation({
@@ -77,6 +98,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
             savings, 
             addSaving: createSavingMutation.mutate,
             removeSaving: removeSavingMutation.mutate,
+            updateSaving: updateSavingMutation.mutate,
         }}>
             {children}
         </SavingContext.Provider>

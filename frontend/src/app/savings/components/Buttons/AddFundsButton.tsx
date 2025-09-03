@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { AddFundsModal } from "./AddFundsModal";
+import { AddFundsModal } from "../Modals/AddFundsModal";
+import { Saving } from "../../../../../context/SavingProvider";
 
 interface AddFundsButton {
     currentAmount: number;
     targetAmount: number;
     percentage: number;
+    id: string;
+    saving: Saving;
 }
 
-export function AddFundsButton({ currentAmount, targetAmount, percentage }: AddFundsButton) {
+export function AddFundsButton({ currentAmount, targetAmount, percentage, id, saving }: AddFundsButton) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
         
@@ -36,6 +39,8 @@ export function AddFundsButton({ currentAmount, targetAmount, percentage }: AddF
                 currentAmount={currentAmount}
                 targetAmount={targetAmount}
                 percentage={percentage}
+                id={id}
+                saving={saving}
             />
         </>
     )

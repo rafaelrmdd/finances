@@ -26,8 +26,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Saving, SavingCategoriesEnum, SavingContext } from "../../../context/SavingProvider";
 import { formatDate } from "@/utils/formatters";
-import { AddSavingButton } from "./components/AddSavingButton";
-import { AddSavingModal } from "./components/AddSavingModal";
+import { AddSavingButton } from "./components/Buttons/AddSavingButton";
+import { AddSavingModal } from "./components/Modals/AddSavingModal";
 
 export default function Savings() {
     Modal.setAppElement('body')
@@ -160,14 +160,7 @@ export default function Savings() {
                         {savings?.map((s) => (
                             <SavingCard
                                 key={s.id}
-                                id={s.id}
-                                name={s.name}
-                                description={s.description}
-                                currentAmount={s.currentAmount}
-                                targetAmount={s.targetAmount}
-                                timestamp={s.timestamp}
-                                category={s.category}
-                                targetDate={s.targetDate}
+                                saving={s}
                             />
                         ))}
 

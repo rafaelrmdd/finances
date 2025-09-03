@@ -1,19 +1,32 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Saving, SavingCategoriesEnum, SavingContext } from "../../../../context/SavingProvider";
 import Modal from "react-modal";
+import { Saving, SavingCategoriesEnum, SavingContext } from "../../../../../context/SavingProvider";
 import { useContext } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { MdAccountBalance, MdBusiness, MdCardGiftcard, MdClose, MdDirectionsCar, MdFavorite, MdHealthAndSafety, MdSavings, MdSchool } from "react-icons/md";
 import { GoGoal } from "react-icons/go";
 
-interface AddSavingModalProps {
+type EditSaving = Omit<Saving, 'id'>
+
+interface EditSavingModalProps {
+    saving: EditSaving
     isModalOpen: boolean;
     closeModal: () => void;
 }
 
-export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps) {
+interface EditSavingModalFormProps {
+    name: string;
+    description: string;
+    category: string;
+    targetAmount: number;
+    targetDate: string;
+    currentAmount: number;
+    timestamp: Date
+}
+
+export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSavingModalProps) {
     Modal.setAppElement('body')
 
-    const { addSaving } = useContext(SavingContext);
+    const { updateSaving } = useContext(SavingContext);
 
     const { 
         register,
@@ -21,9 +34,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
         handleSubmit, 
         setValue, 
         formState: { errors } 
-    } = useForm<Saving>({
+    } = useForm<EditSavingModalFormProps>({
         defaultValues: {
-            category: SavingCategoriesEnum.OTHER
+            name: saving.name,
+            description: saving.description,
+            category: saving.category,
+            targetAmount: saving.targetAmount,
+            targetDate: saving.targetDate ? new Date(saving.targetDate).toISOString().split('T')[0] : '',
+            currentAmount: saving.currentAmount,
+            timestamp: saving.timestamp
         }
     });
 
@@ -33,15 +52,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
 
         const dateTimeOffset = new Date(data.targetDate).toISOString();
 
-        const correctData = {
-            name: data.name,
-            description: data.description,
-            category: data.category,
-            targetAmount: data.targetAmount,
-            targetDate: dateTimeOffset,
-        }
-
-        addSaving(correctData as Saving);
+        // updateSaving(data);
     }
 
     return (
@@ -54,7 +65,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
         >
             <div className="bg-gray-800 rounded-lg p-6 w-full max-w-lg mx-4 relative max-h-screen overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-white text-2xl font-semibold">Add New Saving Goal</h2>
+                    <h2 className="text-white text-2xl font-semibold">Edit Saving Goal</h2>
 
                     <button 
                         onClick={closeModal}
@@ -261,7 +272,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             rounded-lg hover:bg-blue-600 transition duration-150 
                             hover:cursor-pointer"
                         >
-                            Add Goal
+                            Edit Saving
                         </button>
                     </div>
                 </form>

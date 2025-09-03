@@ -1,10 +1,11 @@
 'use client'
 
 import Modal from "react-modal"
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdClose, MdAttachMoney } from 'react-icons/md';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { formatMoney } from "@/utils/formatters";
+import { Saving, SavingContext } from "../../../../../context/SavingProvider";
 
 interface AddFundsModalProps {
     isModalOpen: boolean;
@@ -12,9 +13,11 @@ interface AddFundsModalProps {
     currentAmount: number;
     targetAmount: number;
     percentage: number;
+    id: string;
+    saving: Saving;
 }
 
-interface AddFunds {
+export interface AddFunds {
     amount: number
 }
 
@@ -23,12 +26,15 @@ export function AddFundsModal({
     closeModal, 
     currentAmount,
     targetAmount,
-    percentage
+    percentage,
+    id,
+    saving,
 
 }: AddFundsModalProps) {
     Modal.setAppElement('body');
 
     const [amountInputValue, setAmountInputValue] = useState(0);
+    const realTimePercentage = Math.min(((currentAmount + amountInputValue) / targetAmount) * 100, 100);
 
     const { 
         register,
@@ -42,6 +48,8 @@ export function AddFundsModal({
         }
     });
 
+    const { updateSaving } = useContext(SavingContext); 
+
     useEffect(() => {
         setValue('amount', Number(amountInputValue));
     })
@@ -49,6 +57,22 @@ export function AddFundsModal({
     const onSubmit: SubmitHandler<AddFunds> = (data) => {
         console.log(data);
         reset()
+
+        const updateData: Saving = {
+            id: saving.id,
+            name: saving.name,
+            category: saving.category,
+            currentAmount: saving.currentAmount + currentAmount,
+            targetAmount: saving.targetAmount,
+            targetDate: saving.targetDate,
+            timestamp: saving.timestamp,
+            description: saving.description
+        }
+
+        updateSaving({
+            id,
+            updateData
+        });
     }
 
     return (
@@ -154,10 +178,20 @@ export function AddFundsModal({
                             <span className="text-gray-300 text-sm">
                                 ${formatMoney(currentAmount)} of ${formatMoney(targetAmount)}
                             </span>
-                            <span className="text-blue-400 font-semibold">{percentage}%</span>
+                            <span className="text-blue-400 font-semibold">
+                                {realTimePercentage ?? percentage}%
+                            </span>
                         </div>
                         <div className="w-full bg-gray-600 rounded-lg h-2">
-                            <div className="bg-blue-400 h-full rounded-lg w-[43%]"></div>
+                            <div 
+                                className="w-full h-2 rounded-lg bg-gray-600"
+                            >
+                                <div 
+                                    className={`bg-blue-500 p-1 rounded-lg h-full transition-all duration-150`} 
+                                    style={{ width: `${realTimePercentage ?? percentage}%` }}
+                                >
+                                </div>
+                            </div>
                         </div>
                     </div>
 
