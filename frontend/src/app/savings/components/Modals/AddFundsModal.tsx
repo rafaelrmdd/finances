@@ -5,36 +5,40 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MdClose, MdAttachMoney } from 'react-icons/md';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { formatMoney } from "@/utils/formatters";
-import { Saving, SavingContext } from "../../../../../context/SavingProvider";
+import { Saving, SavingContext, UpdateSaving } from "../../../../../context/SavingProvider";
 
 interface AddFundsModalProps {
     isModalOpen: boolean;
     closeModal: () => void;
-    currentAmount: number;
-    targetAmount: number;
+    currentAmount: string;
+    targetAmount: string;
     percentage: number;
     id: string;
     saving: Saving;
 }
 
 export interface AddFunds {
-    amount: number
+    targetAmount: number
 }
 
 export function AddFundsModal({ 
     isModalOpen, 
     closeModal, 
-    currentAmount,
-    targetAmount,
     percentage,
-    id,
     saving,
 
 }: AddFundsModalProps) {
     Modal.setAppElement('body');
 
+    const {
+        id,
+        currentAmount,
+        targetAmount,
+    } = saving;
+
     const [amountInputValue, setAmountInputValue] = useState(0);
-    const realTimePercentage = Math.min(((currentAmount + amountInputValue) / targetAmount) * 100, 100);
+    const realTimePercentage = Math.min(((Number(currentAmount) + amountInputValue) / Number(targetAmount)) * 100, 100);
+    const realTimeCurrentAmount = saving.currentAmount + amountInputValue;
 
     const { 
         register,
@@ -44,28 +48,28 @@ export function AddFundsModal({
         formState: { errors } 
     } = useForm<AddFunds>({
         defaultValues: {
-            amount: 0
+            targetAmount: 0
         }
     });
 
     const { updateSaving } = useContext(SavingContext); 
 
     useEffect(() => {
-        setValue('amount', Number(amountInputValue));
+        setValue('targetAmount', Number(amountInputValue));
     })
 
     const onSubmit: SubmitHandler<AddFunds> = (data) => {
         console.log(data);
-        reset()
+        reset();
+        setAmountInputValue(0);
+        const total = Number(saving.currentAmount) + Number(amountInputValue)
 
-        const updateData: Saving = {
-            id: saving.id,
+        const updateData: UpdateSaving = {
             name: saving.name,
             category: saving.category,
-            currentAmount: saving.currentAmount + currentAmount,
+            currentAmount: String(total),
             targetAmount: saving.targetAmount,
             targetDate: saving.targetDate,
-            timestamp: saving.timestamp,
             description: saving.description
         }
 
@@ -134,8 +138,8 @@ export function AddFundsModal({
                                 $
                             </span>
                             <input
-                                {...register("amount")}
-                                name="amount"
+                                {...register("targetAmount")}
+                                name="targetAmount"
                                 type="number"
                                 value={amountInputValue}
                                 onChange={(e) => setAmountInputValue(Number(e.target.value))}
@@ -176,7 +180,7 @@ export function AddFundsModal({
                         <h4 className="text-gray-400 text-sm mb-3">Current Progress</h4>
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-gray-300 text-sm">
-                                ${formatMoney(currentAmount)} of ${formatMoney(targetAmount)}
+                                ${formatMoney(realTimeCurrentAmount)} of ${formatMoney(targetAmount)}
                             </span>
                             <span className="text-blue-400 font-semibold">
                                 {realTimePercentage ?? percentage}%
@@ -187,7 +191,7 @@ export function AddFundsModal({
                                 className="w-full h-2 rounded-lg bg-gray-600"
                             >
                                 <div 
-                                    className={`bg-blue-500 p-1 rounded-lg h-full transition-all duration-150`} 
+                                    className={`bg-blue-400 p-1 rounded-lg h-full transition-all duration-150`} 
                                     style={{ width: `${realTimePercentage ?? percentage}%` }}
                                 >
                                 </div>

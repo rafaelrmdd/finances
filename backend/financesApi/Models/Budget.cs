@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using backend.financesApi.Enums;
 
 namespace backend.financesApi.Models;

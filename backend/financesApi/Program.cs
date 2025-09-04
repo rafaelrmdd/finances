@@ -4,10 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using backend.financesApi.Extensions;
 using Microsoft.OpenApi.Models;
 using backend.financesApi.Profiles;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(
+            JsonNamingPolicy.CamelCase
+        ));
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(
     typeof(BudgetProfile),

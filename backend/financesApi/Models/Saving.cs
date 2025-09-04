@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace backend.financesApi.Models;
 
 public class Saving

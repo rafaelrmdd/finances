@@ -3,8 +3,8 @@ import { AddFundsModal } from "../Modals/AddFundsModal";
 import { Saving } from "../../../../../context/SavingProvider";
 
 interface AddFundsButton {
-    currentAmount: number;
-    targetAmount: number;
+    currentAmount: string;
+    targetAmount: string;
     percentage: number;
     id: string;
     saving: Saving;

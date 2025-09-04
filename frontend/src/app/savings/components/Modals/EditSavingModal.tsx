@@ -8,18 +8,19 @@ import { GoGoal } from "react-icons/go";
 type EditSaving = Omit<Saving, 'id'>
 
 interface EditSavingModalProps {
-    saving: EditSaving
+    saving: Saving
     isModalOpen: boolean;
     closeModal: () => void;
 }
 
 interface EditSavingModalFormProps {
+    id: string;
     name: string;
     description: string;
-    category: string;
-    targetAmount: number;
+    category: SavingCategoriesEnum;
+    targetAmount: string;
     targetDate: string;
-    currentAmount: number;
+    currentAmount: string;
     timestamp: Date
 }
 
@@ -27,6 +28,7 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
     Modal.setAppElement('body')
 
     const { updateSaving } = useContext(SavingContext);
+    console.log('enum: ', SavingCategoriesEnum.BUSINESS);
 
     const { 
         register,
@@ -36,6 +38,7 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
         formState: { errors } 
     } = useForm<EditSavingModalFormProps>({
         defaultValues: {
+            id: saving.id,
             name: saving.name,
             description: saving.description,
             category: saving.category,
@@ -46,13 +49,26 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
         }
     });
 
-    const onSubmit: SubmitHandler<Saving> = (data) => {
+    const onSubmit: SubmitHandler<EditSavingModalFormProps> = (data) => {
         closeModal();
         reset();
 
         const dateTimeOffset = new Date(data.targetDate).toISOString();
 
-        // updateSaving(data);
+        const updateData = {
+            name: data.name,
+            category: data.category,
+            currentAmount: data.currentAmount,
+            targetAmount: data.targetAmount,
+            timestamp: data.timestamp,
+            targetDate: new Date(data.targetDate),
+            description: data.description
+        }
+
+        updateSaving({
+            id: saving.id, 
+            updateData
+        });
     }
 
     return (
@@ -216,7 +232,7 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
                         </div>
                     </div>
         
-                    <div>
+                    {/* <div>
                         <label className="block text-white text-sm font-medium mb-2">
                             Goal Amount ($) <span className="text-red-400">*</span>
                         </label>
@@ -228,7 +244,7 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
                             className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 
                             focus:border-blue-500 focus:outline-none transition-colors"
                         />
-                    </div>
+                    </div> */}
         
                     <div>
                         <label className="block text-white text-sm font-medium mb-2">

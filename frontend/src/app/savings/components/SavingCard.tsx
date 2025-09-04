@@ -29,12 +29,12 @@ export function SavingCard({
     const timestamp = new Date(timestampString);
 
     const formattedTargetDate = formatDate(targetDate, "yyyy/mm/dd");
+    const formattedDateOfCreation = formatDate(timestamp, "yyyy/mm/dd")
     const formattedCurrentAmount = formatMoney(currentAmount);
     const formattedTargetAmount = formatMoney(targetAmount);
-    const formattedRemaining = formatMoney(targetAmount - currentAmount); 
+    const formattedRemaining = formatMoney(Number(targetAmount) - Number(currentAmount)); 
 
-    console.log('current amount: ', currentAmount);
-    const goalPercentage = (currentAmount / targetAmount) * 100
+    const goalProgressPercentage = (Number(currentAmount) / Number(targetAmount)) * 100
 
     return (
         <div className="p-6 rounded-lg bg-gray-800">
@@ -66,14 +66,18 @@ export function SavingCard({
                 <div className="flex justify-between mb-2">
                     <h3 className="text-[0.9rem] text-gray-400">Progress</h3>
 
-                    <span className="text-white">{goalPercentage}%</span>
+                    <span className="text-white">{goalProgressPercentage}%</span>
                 </div>
 
                 {/* Progress Bar */}
                 <div 
                     className="w-full rounded-lg mb-4 bg-gray-600"
                 >
-                    <div className={`bg-blue-400 w-[${goalPercentage}%] p-1 rounded-lg`}></div>
+                    <div 
+                        className={`bg-blue-400 p-1 rounded-lg h-full transition-all duration-150`} 
+                        style={{ width: `${goalProgressPercentage}%` }}
+                    >
+                    </div>
                 </div>
             </div>
 
@@ -104,6 +108,11 @@ export function SavingCard({
 
                 <div className="flex justify-between">
                     <div>
+                        <h3 className="text-gray-400 text-[0.9rem]">Date of Creation</h3>
+                        <span className="text-white">{formattedDateOfCreation}</span>
+                    </div>
+
+                    <div>
                         <h3 className="text-gray-400 text-[0.9rem]">Target Date</h3>
                         <span className="text-white">{formattedTargetDate}</span>
                     </div>
@@ -111,7 +120,7 @@ export function SavingCard({
                     <AddFundsButton
                         currentAmount={currentAmount} 
                         targetAmount={targetAmount}
-                        percentage={goalPercentage}
+                        percentage={goalProgressPercentage}
                         id={id}
                         saving={saving}
                     />

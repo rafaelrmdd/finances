@@ -32,9 +32,9 @@ public class SavingRepository : ISavingRepository
         return entityEntry.Entity;
     }
 
-    public async Task<Saving> EditSavingAsync(Saving saving)
+    public async Task<Saving> EditSavingAsync(Guid id, Saving saving)
     {
-        var entity = await _context.Savings.FirstOrDefaultAsync(t => t.Id == saving.Id);
+        var entity = await _context.Savings.FindAsync(id);
 
         if (entity == null)
         {

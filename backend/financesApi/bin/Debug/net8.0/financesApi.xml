@@ -103,7 +103,7 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when a validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.SavingController.EditSavingAsync(backend.financesApi.DTOs.EditSavingDTO)">
+        <member name="M:backend.financesApi.Controllers.SavingController.EditSavingAsync(System.Guid,backend.financesApi.DTOs.EditSavingDTO)">
             <summary>
             Updates an existing saving
             </summary>

@@ -62,7 +62,7 @@ public class SavingService : ISavingService
         return _mapper.Map<SavingResponseDTO>(SavingEntity);
     }
 
-    public async Task<SavingResponseDTO> EditSavingAsync(EditSavingDTO editSavingDTO)
+    public async Task<SavingResponseDTO> EditSavingAsync(Guid id, EditSavingDTO editSavingDTO)
     {
         if (string.IsNullOrEmpty(editSavingDTO.Name))
         {
@@ -86,7 +86,7 @@ public class SavingService : ISavingService
 
         Saving saving = _mapper.Map<Saving>(editSavingDTO);
 
-        var entity = await _repository.EditSavingAsync(saving);
+        var entity = await _repository.EditSavingAsync(id, saving);
 
         return _mapper.Map<SavingResponseDTO>(entity);
     }

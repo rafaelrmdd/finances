@@ -10,6 +10,7 @@ public class SavingProfile : Profile
     {
         CreateMap<Saving, SavingResponseDTO>();
         CreateMap<AddSavingDTO, Saving>();
+        CreateMap<EditSavingDTO, Saving>();
     }
 
 }

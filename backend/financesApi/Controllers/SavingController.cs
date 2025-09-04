@@ -116,14 +116,15 @@ public class SavingController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
     [HttpPut]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> EditSavingAsync([FromBody] EditSavingDTO editsavingDTO)
+    public async Task<ActionResult> EditSavingAsync([FromRoute] Guid id, [FromBody] EditSavingDTO editsavingDTO)
     {
         try
         {
-            var savingResponseDTO = await _service.EditSavingAsync(editsavingDTO);
+            var savingResponseDTO = await _service.EditSavingAsync(id, editsavingDTO);
 
             return Ok(savingResponseDTO);
         }
