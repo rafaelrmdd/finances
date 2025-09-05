@@ -25,8 +25,8 @@ export interface Saving {
     category: SavingCategoriesEnum;
     currentAmount: string;
     targetAmount: string;
-    targetDate: Date;
-    timestamp: Date;
+    targetDate: string;
+    timestamp: string;
 }
 
 export type UpdateSaving = Omit<Saving, 'id' | 'timestamp'>
@@ -37,8 +37,6 @@ interface SavingDataProps {
     removeSaving: UseMutateFunction<void, Error, string, unknown>
     updateSaving: UseMutateFunction<void, Error, { id: string; updateData: UpdateSaving; }, unknown>
 }
-
-
 
 export const SavingContext = createContext<SavingDataProps>({} as SavingDataProps);
 

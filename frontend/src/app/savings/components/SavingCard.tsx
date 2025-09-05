@@ -33,6 +33,7 @@ export function SavingCard({
     const formattedCurrentAmount = formatMoney(currentAmount);
     const formattedTargetAmount = formatMoney(targetAmount);
     const formattedRemaining = formatMoney(Number(targetAmount) - Number(currentAmount)); 
+    console.log('formattedCurrentAmount: ', formattedCurrentAmount);
 
     const goalProgressPercentage = (Number(currentAmount) / Number(targetAmount)) * 100
 
@@ -74,7 +75,7 @@ export function SavingCard({
                     className="w-full rounded-lg mb-4 bg-gray-600"
                 >
                     <div 
-                        className={`bg-blue-400 p-1 rounded-lg h-full transition-all duration-150`} 
+                        className={`bg-blue-400 p-1 rounded-lg h-full transition-all duration-150 max-w-full`} 
                         style={{ width: `${goalProgressPercentage}%` }}
                     >
                     </div>

@@ -36,10 +36,7 @@ export function AddFundsButton({ currentAmount, targetAmount, percentage, id, sa
             <AddFundsModal 
                 isModalOpen={isModalOpen}
                 closeModal={closeModal}
-                currentAmount={currentAmount}
-                targetAmount={targetAmount}
                 percentage={percentage}
-                id={id}
                 saving={saving}
             />
         </>

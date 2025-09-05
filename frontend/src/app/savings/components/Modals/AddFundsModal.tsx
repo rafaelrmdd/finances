@@ -10,10 +10,7 @@ import { Saving, SavingContext, UpdateSaving } from "../../../../../context/Savi
 interface AddFundsModalProps {
     isModalOpen: boolean;
     closeModal: () => void;
-    currentAmount: string;
-    targetAmount: string;
     percentage: number;
-    id: string;
     saving: Saving;
 }
 
@@ -37,8 +34,16 @@ export function AddFundsModal({
     } = saving;
 
     const [amountInputValue, setAmountInputValue] = useState(0);
-    const realTimePercentage = Math.min(((Number(currentAmount) + amountInputValue) / Number(targetAmount)) * 100, 100);
-    const realTimeCurrentAmount = saving.currentAmount + amountInputValue;
+
+    const currentAmountNumber = Number(saving.currentAmount);
+    const targetAmountNumber = Number(targetAmount);
+    const amountInputNumber = Number(amountInputValue);
+    const remainingAmount = targetAmountNumber - currentAmountNumber;
+
+    const realTimePercentage = Math
+        .min(((currentAmountNumber+ amountInputValue) / targetAmountNumber) * 100, 100)
+        .toFixed();
+    const realTimeCurrentAmount = currentAmountNumber + amountInputValue;
 
     const { 
         register,
@@ -55,15 +60,15 @@ export function AddFundsModal({
     const { updateSaving } = useContext(SavingContext); 
 
     useEffect(() => {
-        setValue('targetAmount', Number(amountInputValue));
+        setValue('targetAmount', amountInputNumber);
     })
 
     const onSubmit: SubmitHandler<AddFunds> = (data) => {
-        console.log(data);
+        closeModal();
         reset();
         setAmountInputValue(0);
-        const total = Number(saving.currentAmount) + Number(amountInputValue)
 
+        const total = currentAmountNumber + amountInputNumber
         const updateData: UpdateSaving = {
             name: saving.name,
             category: saving.category,
@@ -119,11 +124,11 @@ export function AddFundsModal({
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <h4 className="text-gray-400 text-xs mb-1">Available Balance</h4>
-                            <p className="text-green-400 font-semibold">$2,500.00</p>
+                            <p className="text-green-400 font-semibold">{formatMoney(currentAmountNumber)}</p>
                         </div>
                         <div>
                             <h4 className="text-gray-400 text-xs mb-1">Remaining to Target</h4>
-                            <p className="text-blue-400 font-semibold">$8,500.00</p>
+                            <p className="text-blue-400 font-semibold">{formatMoney(remainingAmount)}</p>
                         </div>
                     </div>
                 </div>
@@ -180,7 +185,7 @@ export function AddFundsModal({
                         <h4 className="text-gray-400 text-sm mb-3">Current Progress</h4>
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-gray-300 text-sm">
-                                ${formatMoney(realTimeCurrentAmount)} of ${formatMoney(targetAmount)}
+                                {formatMoney(realTimeCurrentAmount)} of {formatMoney(Number(targetAmount))}
                             </span>
                             <span className="text-blue-400 font-semibold">
                                 {realTimePercentage ?? percentage}%

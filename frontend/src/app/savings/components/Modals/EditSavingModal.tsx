@@ -14,14 +14,13 @@ interface EditSavingModalProps {
 }
 
 interface EditSavingModalFormProps {
-    id: string;
     name: string;
     description: string;
     category: SavingCategoriesEnum;
     targetAmount: string;
     targetDate: string;
     currentAmount: string;
-    timestamp: Date
+    timestamp: string
 }
 
 export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSavingModalProps) {
@@ -37,8 +36,8 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
         setValue, 
         formState: { errors } 
     } = useForm<EditSavingModalFormProps>({
+        //When Modal is opened, current item's values will be displayed at the inputs
         defaultValues: {
-            id: saving.id,
             name: saving.name,
             description: saving.description,
             category: saving.category,
@@ -61,7 +60,7 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
             currentAmount: data.currentAmount,
             targetAmount: data.targetAmount,
             timestamp: data.timestamp,
-            targetDate: new Date(data.targetDate),
+            targetDate: dateTimeOffset,
             description: data.description
         }
 

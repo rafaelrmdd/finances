@@ -31,6 +31,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
         closeModal();
         reset();
 
+        //Save as DateTimeOffSet. Value setted at C# Saving Model
         const dateTimeOffset = new Date(data.targetDate).toISOString();
 
         const correctData = {
@@ -38,7 +39,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
             description: data.description,
             category: data.category,
             targetAmount: data.targetAmount,
-            targetDate: new Date(dateTimeOffset),
+            targetDate: dateTimeOffset,
         }
 
         addSaving(correctData as Saving);

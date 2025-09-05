@@ -1,13 +1,13 @@
 'use client'
 
-import { useQuery } from "@tanstack/react-query";
+import { UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode } from "react";
 
 interface ContextProviderProps {
     children: ReactNode; 
 }
 
-export enum CategoriesEnum {
+export enum BudgetCategoriesEnum {
     INCOME = 'income',
     FOOD = 'food',
     TRANSPORTATION = 'transportation',
@@ -18,19 +18,24 @@ export enum CategoriesEnum {
     OTHER = 'other',
 }
 
-interface Budget {
+export interface Budget {
     id: string;
     name: string;
     description?: string;
     amount: string;
-    startDate: Date;
-    endDate: Date;
-    category: CategoriesEnum;
+    startDate: string;
+    endDate: string;
+    category: BudgetCategoriesEnum;
     timestamp: string;
 }
 
+export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
+
 interface BudgetDataProps {
     budgets: Budget[] | undefined;
+    createBudget: UseMutateFunction<void, Error, Budget, unknown>;
+    updateBudget: UseMutateFunction<void, Error, { id: string; updateData: UpdateBudget; }, unknown>
+    removeBudget: UseMutateFunction<void, Error, string, unknown>
     error: Error | null;
     isPending: boolean;
 }
@@ -38,6 +43,8 @@ interface BudgetDataProps {
 export const BudgetContext = createContext({} as BudgetDataProps);
     
 export function BudgetProvider({children}: ContextProviderProps) {
+    const queryClient = useQueryClient();
+
     const { isPending, error, 'data': budgets } = useQuery({
         queryKey: ['budgets'],
         queryFn: async (): Promise<Budget[]> => {
@@ -47,9 +54,50 @@ export function BudgetProvider({children}: ContextProviderProps) {
         }   
     });
 
+    const createBudgetMutation = useMutation({
+        mutationFn: async (data: Budget) => {
+            await fetch('https://localhost:5185/api/budget', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {'Content-type': 'application/json'}
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['budgets'] })
+        },
+    })
+
+    const updateSavingMutation = useMutation({
+        mutationFn: async ({ id, updateData }: { id: string; updateData: UpdateBudget }) => {
+            const response = await fetch(`https://localhost:5185/api/budget/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(updateData),
+                headers: {'Content-type': 'application/json'}
+            })
+        },
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['savings'] });
+        },
+        onError: (error, variables, context) => {
+            console.log("Error updating 'Saving':", error.message);
+        }
+    })
+    
+    const removeSavingMutation = useMutation({
+        mutationFn: async (id: string) => {
+            await fetch(`https://localhost:5185/api/budget/${id}`, {
+                method: 'DELETE',
+                headers: {'Content-type': 'application/json'}
+            })
+        }
+    })
+
     return (
         <BudgetContext.Provider value={{ 
-            budgets, 
+            budgets,
+            createBudget: createBudgetMutation.mutate, 
+            updateBudget: updateSavingMutation.mutate,
+            removeBudget: removeSavingMutation.mutate,
             error, 
             isPending 
         }}>
