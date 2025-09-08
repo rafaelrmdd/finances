@@ -104,6 +104,9 @@ public class TransactionController : ControllerBase
     /// <summary>
     /// Updates an existing transaction
     /// </summary>
+    /// <param name="id"> 
+    /// Id of the 'transaction' to be updated
+    /// </param>
     /// <param name="editTransactionDTO">
     /// Updated transaction data
     /// <para> Parameter 'category' must be one of these: </para>
@@ -114,14 +117,15 @@ public class TransactionController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpPut]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> EditTransactionAsync([FromBody] EditTransactionDTO editTransactionDTO)
+    public async Task<ActionResult> EditTransactionAsync([FromRoute] Guid id, [FromBody] EditTransactionDTO editTransactionDTO)
     {
         try
         {
-            var transactionResponseDTO = await _service.EditTransactionAsync(editTransactionDTO);
+            var transactionResponseDTO = await _service.EditTransactionAsync(id, editTransactionDTO);
 
             return Ok(transactionResponseDTO);
         }

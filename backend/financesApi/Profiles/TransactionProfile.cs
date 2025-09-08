@@ -1,4 +1,3 @@
-using System.Transactions;
 using AutoMapper;
 using backend.financesApi.DTOs;
 using backend.financesApi.Models;
@@ -11,6 +10,8 @@ public class TransactionProfile : Profile
     {
         CreateMap<TransactionItem, TransactionResponseDTO>();
         CreateMap<AddTransactionWithEnumDTO, TransactionItem>();
+        CreateMap<EditTransactionDTO, TransactionItem>();
+        CreateMap<EditTransactionWithUpdatedAtDTO, TransactionItem>();
     }
 
 }

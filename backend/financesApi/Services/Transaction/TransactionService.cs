@@ -91,7 +91,7 @@ public class TransactionService : ITransactionService
         return _mapper.Map<TransactionResponseDTO>(transactionEntity);
     }
 
-    public async Task<TransactionResponseDTO> EditTransactionAsync(EditTransactionDTO editTransactionDTO)
+    public async Task<TransactionResponseDTO> EditTransactionAsync(Guid id, EditTransactionDTO editTransactionDTO)
     {
         if (string.IsNullOrEmpty(editTransactionDTO.Name))
         {
@@ -113,9 +113,17 @@ public class TransactionService : ITransactionService
             throw new InvalidDataException("Field 'type' cannot be empty.");
         }
 
-        TransactionItem transaction = _mapper.Map<TransactionItem>(editTransactionDTO);
+        EditTransactionWithUpdatedAtDTO editTransactionWithUpdatedAtDTO = new EditTransactionWithUpdatedAtDTO(
+            editTransactionDTO.Name,
+            editTransactionDTO.Value,
+            editTransactionDTO.Category,
+            editTransactionDTO.Type,
+            DateTimeOffset.UtcNow
+        );
 
-        var transactionEntity = await _repository.EditTransactionAsync(transaction);
+        TransactionItem transaction = _mapper.Map<TransactionItem>(editTransactionWithUpdatedAtDTO);
+
+        var transactionEntity = await _repository.EditTransactionAsync(id, transaction);
 
         return _mapper.Map<TransactionResponseDTO>(transactionEntity);
     }

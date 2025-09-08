@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Saving, SavingCategoriesEnum, SavingContext } from "../../../../../context/SavingProvider";
+import { CreateSaving, Saving, SavingCategoriesEnum, SavingContext } from "../../../../../context/SavingProvider";
 import Modal from "react-modal";
 import { useContext } from "react";
 import { MdAccountBalance, MdBusiness, MdCardGiftcard, MdClose, MdDirectionsCar, MdFavorite, MdHealthAndSafety, MdSavings, MdSchool } from "react-icons/md";
@@ -13,7 +13,7 @@ interface AddSavingModalProps {
 export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps) {
     Modal.setAppElement('body')
 
-    const { addSaving } = useContext(SavingContext);
+    const { createSaving } = useContext(SavingContext);
 
     const { 
         register,
@@ -21,13 +21,13 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
         handleSubmit, 
         setValue, 
         formState: { errors } 
-    } = useForm<Saving>({
+    } = useForm<CreateSaving>({
         defaultValues: {
             category: SavingCategoriesEnum.OTHER
         }
     });
 
-    const onSubmit: SubmitHandler<Saving> = (data) => {
+    const onSubmit: SubmitHandler<CreateSaving> = (data) => {
         closeModal();
         reset();
 
@@ -42,7 +42,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
             targetDate: dateTimeOffset,
         }
 
-        addSaving(correctData as Saving);
+        createSaving(correctData);
     }
 
     return (

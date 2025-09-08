@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Budget, BudgetContext } from "../../../../../context/BudgetProvider";
+import { Budget, BudgetContext, CreateBudget } from "../../../../../context/BudgetProvider";
 import { useContext } from "react";
 import { 
     MdAttachMoney, 
@@ -31,14 +31,14 @@ export function AddBudgetModal({
         formState: { errors }, 
         setValue,
         reset
-    } = useForm<Budget>();
+    } = useForm<CreateBudget>();
 
-    const onSubmit: SubmitHandler<Budget> = (data) => {
+    const onSubmit: SubmitHandler<CreateBudget> = (data) => {
         console.log('category: ', data.category);
         closeModal();
         reset();
 
-        // createBudget(data);
+        createBudget(data);
     }
 
     return (

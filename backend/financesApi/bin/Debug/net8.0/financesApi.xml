@@ -40,10 +40,13 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound When a validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.BudgetController.EditBudgetAsync(backend.financesApi.DTOs.EditBudgetDTO)">
+        <member name="M:backend.financesApi.Controllers.BudgetController.EditBudgetAsync(System.Guid,backend.financesApi.DTOs.EditBudgetDTO)">
             <summary>
             Updates an existing budget
             </summary>
+            <param name="id"> 
+            Id of the 'budget' to be updated
+            </param>
             <param name="editBudgetDTO">
             Updated budget data
             <para> Parameter 'category' must be one of these: </para>
@@ -107,6 +110,9 @@
             <summary>
             Updates an existing saving
             </summary>
+            <param name="id"> 
+            Id of the 'saving' to be updated
+            </param>
             <param name="editsavingDTO">
             Updated saving data
             <para> Parameter 'category' must be one of these: </para>
@@ -164,10 +170,13 @@
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when a validation error occurs</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.TransactionController.EditTransactionAsync(backend.financesApi.DTOs.EditTransactionDTO)">
+        <member name="M:backend.financesApi.Controllers.TransactionController.EditTransactionAsync(System.Guid,backend.financesApi.DTOs.EditTransactionDTO)">
             <summary>
             Updates an existing transaction
             </summary>
+            <param name="id"> 
+            Id of the 'transaction' to be updated
+            </param>
             <param name="editTransactionDTO">
             Updated transaction data
             <para> Parameter 'category' must be one of these: </para>

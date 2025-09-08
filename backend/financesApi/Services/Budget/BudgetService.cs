@@ -62,7 +62,7 @@ public class BudgetService : IBudgetService
         return _mapper.Map<BudgetResponseDTO>(BudgetEntity);
     }
 
-    public async Task<BudgetResponseDTO> EditBudgetAsync(EditBudgetDTO editBudgetDTO)
+    public async Task<BudgetResponseDTO> EditBudgetAsync(Guid id, EditBudgetDTO editBudgetDTO)
     {
         if (string.IsNullOrEmpty(editBudgetDTO.Name))
         {
@@ -81,7 +81,7 @@ public class BudgetService : IBudgetService
 
         Budget Budget = _mapper.Map<Budget>(editBudgetDTO);
 
-        var BudgetEntity = await _repository.EditBudgetAsync(Budget);
+        var BudgetEntity = await _repository.EditBudgetAsync(id, Budget);
 
         return _mapper.Map<BudgetResponseDTO>(BudgetEntity);
     }

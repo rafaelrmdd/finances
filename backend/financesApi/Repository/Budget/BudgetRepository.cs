@@ -32,9 +32,9 @@ public class BudgetRepository : IBudgetRepository
         return entityEntry.Entity;
     }
 
-    public async Task<Budget> EditBudgetAsync(Budget budget)
+    public async Task<Budget> EditBudgetAsync(Guid id, Budget budget)
     {
-        var entityBudget = await _context.Budgets.FirstOrDefaultAsync(t => t.Id == budget.Id);
+        var entityBudget = await _context.Budgets.FindAsync(id);
 
         if (entityBudget == null)
         {

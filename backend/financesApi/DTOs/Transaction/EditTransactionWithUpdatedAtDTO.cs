@@ -1,9 +1,9 @@
 namespace backend.financesApi.DTOs;
 
-public record EditTransactionDTO(
+public record EditTransactionWithUpdatedAtDTO(
     string Name,
     string Type,
     string Category,
     string Value,
-    DateTimeOffset? UpdatedAt
+    DateTimeOffset UpdatedAt
 );

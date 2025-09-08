@@ -9,6 +9,6 @@ public interface ITransactionService
     public Task<IEnumerable<TransactionItem>> GetTransactionsAsync();
     public Task<TransactionResponseDTO> GetTransactionByIdAsync(Guid transactionId);
     public Task<TransactionResponseDTO> AddTransactionAsync(AddTransactionDTO addTransactionDTO);
-    public Task<TransactionResponseDTO> EditTransactionAsync(EditTransactionDTO editTransactionDTO);
+    public Task<TransactionResponseDTO> EditTransactionAsync(Guid id, EditTransactionDTO editTransactionDTO);
     public Task RemoveTransactionAsync(Guid id);
 }

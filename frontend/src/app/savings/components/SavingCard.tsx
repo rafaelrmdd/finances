@@ -33,7 +33,6 @@ export function SavingCard({
     const formattedCurrentAmount = formatMoney(currentAmount);
     const formattedTargetAmount = formatMoney(targetAmount);
     const formattedRemaining = formatMoney(Number(targetAmount) - Number(currentAmount)); 
-    console.log('formattedCurrentAmount: ', formattedCurrentAmount);
 
     const goalProgressPercentage = (Number(currentAmount) / Number(targetAmount)) * 100
 

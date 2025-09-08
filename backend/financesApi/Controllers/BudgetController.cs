@@ -102,6 +102,9 @@ public class BudgetController : ControllerBase
     /// <summary>
     /// Updates an existing budget
     /// </summary>
+    /// <param name="id"> 
+    /// Id of the 'budget' to be updated
+    /// </param>
     /// <param name="editBudgetDTO">
     /// Updated budget data
     /// <para> Parameter 'category' must be one of these: </para>
@@ -112,14 +115,15 @@ public class BudgetController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
     [HttpPut]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> EditBudgetAsync([FromBody] EditBudgetDTO editBudgetDTO)
+    public async Task<ActionResult> EditBudgetAsync([FromRoute] Guid id, [FromBody] EditBudgetDTO editBudgetDTO)
     {
         try
         {
-            var budgetResponseDTO = await _service.EditBudgetAsync(editBudgetDTO);
+            var budgetResponseDTO = await _service.EditBudgetAsync(id, editBudgetDTO);
 
             return Ok(budgetResponseDTO);
         }

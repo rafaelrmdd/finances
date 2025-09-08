@@ -29,11 +29,13 @@ export interface Saving {
     timestamp: string;
 }
 
-export type UpdateSaving = Omit<Saving, 'id' | 'timestamp'>
+
+export type UpdateSaving = Omit<Saving, 'id' | 'timestamp'>;
+export type CreateSaving = Omit<Saving, 'id' | 'timestamp' | 'currentAmount'>;
 
 interface SavingDataProps {
     savings: Saving[] | undefined; 
-    addSaving: UseMutateFunction<void, Error, Saving, unknown>;
+    createSaving: UseMutateFunction<void, Error, CreateSaving, unknown>;
     removeSaving: UseMutateFunction<void, Error, string, unknown>
     updateSaving: UseMutateFunction<void, Error, { id: string; updateData: UpdateSaving; }, unknown>
 }
@@ -55,7 +57,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
     });
 
     const createSavingMutation = useMutation({
-        mutationFn: async (data: Saving) => {
+        mutationFn: async (data: CreateSaving) => {
             await fetch('https://localhost:5185/api/saving', {
                 method: 'POST',
 				body: JSON.stringify(data),
@@ -98,7 +100,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
     return (
         <SavingContext.Provider value={{ 
             savings, 
-            addSaving: createSavingMutation.mutate,
+            createSaving: createSavingMutation.mutate,
             removeSaving: removeSavingMutation.mutate,
             updateSaving: updateSavingMutation.mutate,
         }}>

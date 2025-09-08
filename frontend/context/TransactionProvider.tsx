@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from "@tanstack/react-query";
+import { UseMutateFunction, useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode } from "react";
 
 interface ContextProviderProps {
@@ -23,7 +23,7 @@ export enum TypesEnum {
     EXPENSE = 'expense'
 }
 
-interface Transaction {
+export interface Transaction {
     id: string;
     name: string;
     type: TypesEnum;
@@ -32,15 +32,24 @@ interface Transaction {
     timestamp: string;
 }
 
+export type UpdateTransaction = Omit<Transaction, 'id' | 'timestamp'>
+export type CreateTransaction = Omit<Transaction, 'id' | 'timestamp'>
+
 interface TransactionDataProps {
     transactions: Transaction[] | undefined;
+    createTransaction: UseMutateFunction<void, Error, CreateTransaction, unknown>;
+    updateTransaction: UseMutateFunction<void, Error, { id: string; updateData: UpdateTransaction; }, unknown>
+    removeTransaction: UseMutateFunction<void, Error, string, unknown>
     error: Error | null;
     isPending: boolean;
 }
 
+
 export const TransactionContext = createContext({} as TransactionDataProps);
 
 export function TransactionProvider({children}: ContextProviderProps) {
+    const queryClient = useQueryClient();
+
     const { isPending, error, 'data': transactions } = useQuery({
         queryKey: ['transactions'],
         queryFn: async (): Promise<Transaction[]> => {
@@ -50,9 +59,53 @@ export function TransactionProvider({children}: ContextProviderProps) {
         }   
     });
 
+    const createTransactionMutation = useMutation({
+        mutationFn: async (data: CreateTransaction) => {
+            await fetch('https://localhost:5185/api/transaction', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {'Content-type': 'application/json'}
+            })
+        },
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['transactions'] });
+        },
+        onError: (error, variables, context) => {
+            console.log("Error creating new 'Transaction':", error.message);
+        }
+    })
+
+    const updateTransactionMutation = useMutation({
+        mutationFn: async ({ id, updateData }: { id: string; updateData: UpdateTransaction }) => {
+            const response = await fetch(`https://localhost:5185/api/transaction/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(updateData),
+                headers: {'Content-type': 'application/json'}
+            })
+        },
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['transactions'] });
+        },
+        onError: (error, variables, context) => {
+            console.log("Error updating 'Transaction':", error.message);
+        }
+    })
+    
+    const removeTransactionMutation = useMutation({
+        mutationFn: async (id: string) => {
+            await fetch(`https://localhost:5185/api/transaction/${id}`, {
+                method: 'DELETE',
+                headers: {'Content-type': 'application/json'}
+            })
+        }
+    })
+
     return (
         <TransactionContext.Provider value={{ 
-            transactions, 
+            transactions,
+            createTransaction: createTransactionMutation.mutate,
+            updateTransaction: updateTransactionMutation.mutate,
+            removeTransaction: removeTransactionMutation.mutate,  
             error, 
             isPending 
         }}>

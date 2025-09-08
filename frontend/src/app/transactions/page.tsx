@@ -7,89 +7,31 @@ import {
 	MdKeyboardDoubleArrowDown,
 	MdFilterList,
 	MdSearch,
-	MdAdd,
-	MdShoppingCart,
-	MdRestaurant,
-	MdLocalGasStation,
-	MdMovie,
-	MdHome,
-	MdSchool,
-	MdAttachMoney
 } from "react-icons/md";
 import { TopBar } from "../../components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 import { useContext, useState } from "react";
-import { CategoriesEnum, TransactionContext, TypesEnum } from "../../../context/TransactionProvider";
+import { TransactionContext } from "../../../context/TransactionProvider";
 import Modal from "react-modal";
 import { formatMoney } from "@/utils/formatters";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
+import { AddTransactionButton } from "./components/Buttons/AddTransactionButton";
 
 export default function Transactions() {
 	Modal.setAppElement('body');
 
-	interface TransactionFormInputs {
-		id: string;
-		name: string;
-		type: TypesEnum;
-		category: CategoriesEnum;
-		value: string;
-	}
-
 	const { transactions = [] } = useContext(TransactionContext);
-	
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { 
-		register, 
-		handleSubmit, 
-		formState: { errors }, 
-		setValue,
-		reset
-	} = useForm<TransactionFormInputs>();
 
-	const {
-		isIncomeActive,
-		isExpenseActive,
-		isCategoryActive,
-		toggleCategory,
-		selectIncome,
-		selectExpense,
-		resetCategoryAndType
-	} = useTransactionsButtonManagement();
+	// const {
+	// 	isIncomeActive,
+	// 	isExpenseActive,
+	// 	isCategoryActive,
+	// 	toggleCategory,
+	// 	selectIncome,
+	// 	selectExpense,
+	// 	resetCategoryAndType
+	// } = useTransactionsButtonManagement();
 
-	const openModal = () => {
-        setIsModalOpen(true);
-    }
-
-	const closeModal = () => {
-        setIsModalOpen(false);
-    }
-
-	const queryClient = useQueryClient();
-	const createTransactionMutation = useMutation({
-		mutationFn: async (data: TransactionFormInputs) => {
-			await fetch('https://localhost:5185/api/transaction', {
-				method: 'POST',
-				body: JSON.stringify(data),
-				headers: {'Content-type': 'application/json'}
-			})
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['transactions'] })
-		},
-	})
-
-	const onSubmit: SubmitHandler<TransactionFormInputs> = (data) => {
-		closeModal();
-		reset();
-		resetCategoryAndType();
-		toggleCategory("");
-
-		createTransactionMutation.mutate(data);
-	}
-	
 	const [searchKeyword, setSearchKeyword] = useState("");
 
 	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword)) || [];
@@ -114,14 +56,11 @@ export default function Transactions() {
 	const balance = totalIncome - totalExpense;
 	const balanceFormated = formatMoney(balance);
 
-	console.log("transactions: ", transactions);
-	console.log("filtered transactions: ", filteredTransactions);
-
 	return (
 		<div className="w-full">
 			<TopBar />	
 
-			<div className="p-4 min-h-screen h-full bg-gray-800">
+			<div className="p-4 min-h-screen h-full bg-gray-900">
 				<section className="grid grid-cols-4 gap-x-4 mb-8">
 					<Card
 						icon={{
@@ -172,15 +111,7 @@ export default function Transactions() {
 					<div className="bg-gray-800 rounded-lg p-4 mb-8">
 						<div className="flex justify-between mb-6">
 							<h2 className="text-white text-2xl font-semibold">All Transactions</h2>
-							<button
-								onClick={openModal}
-								className="flex items-center gap-x-2 px-3 py-2 rounded-lg
-								bg-blue-500 text-white hover:cursor-pointer hover:bg-blue-600
-								transition duration-150"
-							>
-								<MdAdd className="text-xl" />
-								Add Transaction
-							</button>
+							<AddTransactionButton />
 						</div>
 
 						<div className="flex gap-x-3 items-start">
@@ -231,212 +162,13 @@ export default function Transactions() {
 								</select>
 							</div>
 						</div>
-
-						<Modal
-							isOpen={isModalOpen}
-							onRequestClose={closeModal}
-							//background style
-							overlayClassName={"fixed inset-0 backdrop-blur-sm bg-black/35 flex items-center justify-center z-50"}
-							className={"flex items-center justify-center"}
-						>
-							<div 
-								className="bg-gray-800 p-6 rounded-lg w-[474px]"
-							>
-								<h1 className="text-white font-bold text-2xl mb-6">Add Transaction</h1>
-
-								<form
-									onSubmit={handleSubmit(onSubmit)}
-									className="flex flex-col gap-y-4"
-								>
-									<div>
-										<label className="block text-white font-semibold mb-2">
-											Transaction Name <span className="text-red-400">*</span>
-										</label>
-										<input
-											{...register("name")}
-											className="w-full bg-gray-700 rounded-lg px-4 py-3 outline-0 
-											placeholder:text-gray-400 text-white"
-											name="name" 
-											type="text" 
-											placeholder="Enter transaction name..."
-										/>
-									</div>
-
-									<div>
-										<label className="block text-white font-semibold mb-2">
-											Transaction Type <span className="text-red-400">*</span>
-										</label>
-
-										<div className="flex gap-x-2">
-											<button
-												onClick={() => {													
-													selectIncome();
-													setValue("type", TypesEnum.INCOME);
-												}} 
-												className={`flex w-1/2 items-center gap-x-2 bg-gray-700 
-												rounded-lg px-4 py-3 text-white hover:bg-green-400
-												transition duration-150 font-semibold
-												${isIncomeActive ? "bg-green-400" : null}`}
-												type="button"
-											>
-												<MdKeyboardDoubleArrowUp/> Income
-											</button>
-											<button 
-												onClick={() => {
-													selectExpense();
-													setValue("type", TypesEnum.EXPENSE);
-												}}
-												className={`flex w-1/2 items-center gap-x-2 bg-gray-700 
-												rounded-lg px-4 py-3 text-white hover:bg-red-400
-												transition duration-150 font-semibold
-												${isExpenseActive ? "bg-red-400" : null}`}
-												type="button"
-											>
-												<MdKeyboardDoubleArrowUp/> Expense
-											</button>
-										</div>
-									</div>
-
-									<div>
-										<label className="block text-white font-semibold mb-2">
-											Category <span className="text-red-400">*</span>
-										</label>
-
-										<div className="grid grid-cols-2 gap-y-2 gap-x-2">
-											<button
-												onClick={() => {
-													toggleCategory("food");
-													setValue("category", CategoriesEnum.FOOD);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("food") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdRestaurant /> Food & Dining
-											</button>	
-
-											<button
-												onClick={() => {
-													toggleCategory("transportation");
-													setValue("category", CategoriesEnum.TRANSPORTATION);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("transportation") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdLocalGasStation /> Transportation
-											</button>
-
-											<button
-												onClick={() => {
-													toggleCategory("entertainment");
-													setValue("category", CategoriesEnum.ENTERTAINMENT);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("entertainment") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdMovie /> Entertainment
-											</button>
-
-											<button
-												onClick={() => {
-													toggleCategory("housing");
-													setValue("category", CategoriesEnum.HOUSING);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("housing") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdHome /> Housing
-											</button>
-
-											<button
-												onClick={() => {
-													toggleCategory("education");
-													setValue("category", CategoriesEnum.EDUCATION);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("education") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdSchool /> Education
-											</button>
-
-											<button
-												onClick={() => {
-													toggleCategory("shopping");
-													setValue("category", CategoriesEnum.SHOPPING);
-												}}
-												className={`flex w-full items-center gap-x-2 rounded-lg px-3 py-2 
-												text-white text-[0.9rem] hover:bg-blue-600
-												${isCategoryActive("shopping") ? "bg-blue-600" : "bg-gray-700"}
-												transition duration-150`}
-												type="button"
-											>
-												<MdShoppingCart /> Shopping
-											</button>
-										</div>
-									</div>
-
-									<div className="mb-4">
-										<label className="block text-white font-semibold mb-2">
-											Value ($) <span className="text-red-400">*</span>
-										</label>
-
-										<div className="relative text-white bg-gray-700 rounded-lg ">
-											<MdAttachMoney className="absolute top-[15px] left-3 text-lg"/>
-											<input
-												{...register("value")}
-												className="pl-10 pr-4 py-3 rounded-lg outline-0"  
-												type="number" 
-												placeholder="Enter value"
-											/>
-										</div>
-									</div>
-
-									<div className="flex gap-x-2">
-										<button
-											onClick={closeModal} 
-											className="flex w-1/2 justify-center gap-x-2 bg-gray-700 
-											rounded-lg px-4 py-3 text-white hover:cursor-pointer"
-											type="button"
-										>
-											Cancel
-										</button>
-
-										<button 
-											className="flex w-1/2 items-center justify-center gap-x-2 
-											bg-blue-500 hover:bg-blue-600 rounded-lg px-4 py-3 text-white
-											transiction duration-150 hover:cursor-pointer"
-										>
-											<MdAdd /> Add Transaction
-										</button>
-									</div>
-								</form>
-							</div>
-						</Modal>
 					</div>
 
 					<TransactionContainer>
 						{filteredTransactions ? filteredTransactions.map((t) => (
 							<TransactionItem
 								key={t.id}
-								name={t.name}
-								category={t.category}
-								value={t.value}
-								type={t.type}
-								timestamp={t.timestamp}
+								transaction={t}
 							/>
 						)).slice(sliceBeginning, sliceLimit) : 'Loading...'}
 

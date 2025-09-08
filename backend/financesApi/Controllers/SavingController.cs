@@ -106,6 +106,9 @@ public class SavingController : ControllerBase
     /// <summary>
     /// Updates an existing saving
     /// </summary>
+    /// <param name="id"> 
+    /// Id of the 'saving' to be updated
+    /// </param>
     /// <param name="editsavingDTO">
     /// Updated saving data
     /// <para> Parameter 'category' must be one of these: </para>

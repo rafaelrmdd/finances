@@ -32,9 +32,9 @@ public class TransactionRepository : ITransactionRepository
         return entityEntry.Entity;
     }
 
-    public async Task<TransactionItem> EditTransactionAsync(TransactionItem transaction)
+    public async Task<TransactionItem> EditTransactionAsync(Guid id, TransactionItem transaction)
     {
-        var entityTransaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id);
+        var entityTransaction = await _context.Transactions.FindAsync(id);
 
         if (entityTransaction == null)
         {
@@ -45,7 +45,6 @@ public class TransactionRepository : ITransactionRepository
         entityTransaction.Value = transaction.Value;
         entityTransaction.Timestamp = transaction.Timestamp;
         entityTransaction.Type = transaction.Type;
-        entityTransaction.Timestamp = DateTimeOffset.UtcNow;
         entityTransaction.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _context.SaveChangesAsync();

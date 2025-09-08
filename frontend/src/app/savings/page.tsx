@@ -32,7 +32,7 @@ import { AddSavingModal } from "./components/Modals/AddSavingModal";
 export default function Savings() {
     Modal.setAppElement('body')
 
-    const { savings, addSaving } = useContext(SavingContext);
+    const { savings, createSaving } = useContext(SavingContext);
 
     // const [currentPage, setCurrentPage] = useState(1);
     // const [sliceBeginning, setSliceBeginning] = useState(0);

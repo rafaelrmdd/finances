@@ -7,19 +7,33 @@ import {
   MdLocalGasStation,
   MdMovie,
   MdHome,
-  MdSchool
+  MdSchool,
+  MdDelete,
+  MdEdit
 } from "react-icons/md";
-import { CategoriesEnum, TypesEnum } from "../../../../context/TransactionProvider";
+import { CategoriesEnum, Transaction, TransactionContext, TypesEnum } from "../../../../context/TransactionProvider";
+import { EditTransactionButton } from "./Buttons/EditTransactionButton";
+import { useContext } from "react";
 
 interface TransactionItemProps {
-    name: string;
-    value: string;
-    type: TypesEnum;
-    category: CategoriesEnum;
-    timestamp: string;
+    transaction: Transaction
 }
 
-export function TransactionItem({name, value, type, category, timestamp} : TransactionItemProps) {
+export function TransactionItem({
+    transaction
+} : TransactionItemProps) {
+
+    const { removeTransaction } = useContext(TransactionContext);
+
+    const {
+        id,
+        name,
+        category,
+        value,
+        type,
+        timestamp
+    } = transaction;
+
     const handleIcon = (category: CategoriesEnum) => {
         switch(category) {
             case CategoriesEnum.INCOME:
@@ -103,6 +117,17 @@ export function TransactionItem({name, value, type, category, timestamp} : Trans
                     {valueFormatted}
                 </h2>
                 <h3 className="text-[0.8rem] text-gray-400">{dateFormatted}</h3>
+            </div>
+
+            <div className="flex gap-x-4 text-gray-400 text-[1.1rem] items-center">
+                <EditTransactionButton 
+                    transaction={transaction}
+                />
+                
+                <MdDelete
+                    onClick={() => removeTransaction(id)}
+                    className="hover:text-red-400"
+                />
             </div>
         </div>
     )

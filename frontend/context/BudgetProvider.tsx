@@ -30,10 +30,11 @@ export interface Budget {
 }
 
 export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
+export type CreateBudget = Omit<Budget, 'id' | 'timestamp'>
 
 interface BudgetDataProps {
     budgets: Budget[] | undefined;
-    createBudget: UseMutateFunction<void, Error, Budget, unknown>;
+    createBudget: UseMutateFunction<void, Error, CreateBudget, unknown>;
     updateBudget: UseMutateFunction<void, Error, { id: string; updateData: UpdateBudget; }, unknown>
     removeBudget: UseMutateFunction<void, Error, string, unknown>
     error: Error | null;
@@ -55,7 +56,7 @@ export function BudgetProvider({children}: ContextProviderProps) {
     });
 
     const createBudgetMutation = useMutation({
-        mutationFn: async (data: Budget) => {
+        mutationFn: async (data: CreateBudget) => {
             await fetch('https://localhost:5185/api/budget', {
                 method: 'POST',
                 body: JSON.stringify(data),
