@@ -70,7 +70,7 @@ export function TransactionProvider({children}: ContextProviderProps) {
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['transactions'] });
         },
-        onError: (error, variables, context) => {
+        onError: (error) => {
             console.log("Error creating new 'Transaction':", error.message);
         }
     })

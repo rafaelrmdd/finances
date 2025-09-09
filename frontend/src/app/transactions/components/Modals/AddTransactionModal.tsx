@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import Modal from "react-modal";
 import { CategoriesEnum, CreateTransaction, TransactionContext, TypesEnum } from "../../../../../context/TransactionProvider";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
+import { useTransactionsButtonManagement } from "@/hooks/transaction/useTransactionsButtonManagement";
 import { MdAdd, MdAttachMoney, MdHome, MdKeyboardDoubleArrowUp, MdLocalGasStation, MdMovie, MdRestaurant, MdSchool, MdShoppingCart } from "react-icons/md";
 
 interface AddTransactionModalProps {

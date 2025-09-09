@@ -107,7 +107,7 @@ export function TransactionItem({
                 </div>
             </div>
 
-            <div className="text-end">
+            <div className="text-end w-66">
                 <h2 
                     className={`${
                         type === "income" 

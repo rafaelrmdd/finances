@@ -66,6 +66,9 @@ export function BudgetProvider({children}: ContextProviderProps) {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['budgets'] })
         },
+        onError: (error) => {
+            console.log("Error creating new 'Budget':", error.message);
+        }
     })
 
     const updateSavingMutation = useMutation({

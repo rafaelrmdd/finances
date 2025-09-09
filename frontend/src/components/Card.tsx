@@ -7,13 +7,12 @@ interface IconProps {
 
 interface CardProps {
     icon: IconProps;
-    percentage: string;
     balance: string;
     cardName: string;
     cardBgColor: string;
 }
 
-export function Card({ icon, percentage, balance, cardName, cardBgColor } : CardProps) {
+export function Card({ icon, balance, cardName, cardBgColor } : CardProps) {
     const { icon: Icon, color } = icon;
 
     return (
@@ -23,14 +22,11 @@ export function Card({ icon, percentage, balance, cardName, cardBgColor } : Card
                     <Icon className={`${color}`}/>
                 </div>
 
-                <div className="p-1 rounded-3xl">
-                    <span className="">{percentage}</span>
-                </div>
             </div>
 
             <div>
                 <span className="text-white font-bold text-2xl">{balance}</span>
-                <h3 className="text-gray-400 text-xs">{cardName}</h3>
+                <h3 className="text-gray-200 text-xs font-semibold">{cardName}</h3>
             </div>
         </div>
     )

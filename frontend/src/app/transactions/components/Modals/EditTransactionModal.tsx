@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import { CategoriesEnum, CreateTransaction, Transaction, TransactionContext, TypesEnum, UpdateTransaction } from "../../../../../context/TransactionProvider";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useContext, useEffect } from "react";
-import { useTransactionsButtonManagement } from "@/hooks/useTransactionsButtonManagement";
+import { useTransactionsButtonManagement } from "@/hooks/transaction/useTransactionsButtonManagement";
 import { MdAdd, MdAttachMoney, MdHome, MdKeyboardDoubleArrowUp, MdLocalGasStation, MdMovie, MdRestaurant, MdSchool, MdShoppingCart } from "react-icons/md";
 
 interface AddTransactionModalProps {
@@ -47,7 +47,12 @@ export function EditTransactionModal({
 
     useEffect(() => {
         toggleCategory(transaction.category);
-        console.log('setou categoria')
+        reset({
+            name: transaction.name,
+            category: transaction.category,
+            type: transaction.type,
+            value: transaction.value,
+        });
 
         if (transaction.type === "income") selectIncome();
         if (transaction.type === "expense") selectExpense();

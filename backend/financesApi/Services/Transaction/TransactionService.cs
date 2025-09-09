@@ -114,11 +114,11 @@ public class TransactionService : ITransactionService
         }
 
         EditTransactionWithUpdatedAtDTO editTransactionWithUpdatedAtDTO = new EditTransactionWithUpdatedAtDTO(
-            editTransactionDTO.Name,
-            editTransactionDTO.Value,
-            editTransactionDTO.Category,
-            editTransactionDTO.Type,
-            DateTimeOffset.UtcNow
+            Name: editTransactionDTO.Name,
+            Type: editTransactionDTO.Type,
+            Category: editTransactionDTO.Category,
+            Value: editTransactionDTO.Value,
+            UpdatedAt: DateTimeOffset.UtcNow
         );
 
         TransactionItem transaction = _mapper.Map<TransactionItem>(editTransactionWithUpdatedAtDTO);

@@ -11,30 +11,28 @@ import {
 import { TopBar } from "../../components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { TransactionContext } from "../../../context/TransactionProvider";
 import Modal from "react-modal";
 import { formatMoney } from "@/utils/formatters";
 import { AddTransactionButton } from "./components/Buttons/AddTransactionButton";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useTransactionsFilters } from "@/hooks/transaction/useTransactionsFilters";
 
 export default function Transactions() {
 	Modal.setAppElement('body');
 
 	const { transactions = [] } = useContext(TransactionContext);
 
-	// const {
-	// 	isIncomeActive,
-	// 	isExpenseActive,
-	// 	isCategoryActive,
-	// 	toggleCategory,
-	// 	selectIncome,
-	// 	selectExpense,
-	// 	resetCategoryAndType
-	// } = useTransactionsButtonManagement();
+	const {
+		filteredTransactions,
+		createQueryString
+	} = useTransactionsFilters();
 
-	const [searchKeyword, setSearchKeyword] = useState("");
+	const router = useRouter();
+    const pathname = usePathname();
 
-	const filteredTransactions = transactions.filter((t) => t.name.includes(searchKeyword)) || [];
 	const lengthOfFilteredTransactions = filteredTransactions.length;
 	
 	const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +54,31 @@ export default function Transactions() {
 	const balance = totalIncome - totalExpense;
 	const balanceFormated = formatMoney(balance);
 
+	const currentMonth = new Date().getMonth();
+	const currentYear = new Date().getFullYear();
+
+	const currentMonthTransactions = transactions
+		.filter((t) => 
+			new Date(t.timestamp).getMonth() === currentMonth && 
+			new Date(t.timestamp).getFullYear() ===  currentYear
+		)
+
+	const currentMonthTotalIncome = currentMonthTransactions
+		.filter((t) => t.type === 'income')
+		.reduce((sum, t) => sum + Number(t.value), 0);
+
+	const currentMonthTotalExpense = currentMonthTransactions
+		.filter((t) => t.type === 'expense')
+		.reduce((sum, t) => sum + Number(t.value), 0);
+
+	const currentMonthNetIncome = currentMonthTotalIncome - currentMonthTotalExpense;
+
+	const currentMonthTotalIncomeFormatted = formatMoney(currentMonthTotalIncome);
+	const currentMonthTotalExpenseFormatted = formatMoney(currentMonthTotalExpense);
+	const currentMonthNetIncomeFormatted = formatMoney(currentMonthNetIncome);
+
+
+	
 	return (
 		<div className="w-full">
 			<TopBar />	
@@ -67,7 +90,6 @@ export default function Transactions() {
 							icon: MdAccountBalanceWallet,
 							color: 'bg-green-200'
 						}}
-						percentage="12.5%"
 						balance={balanceFormated}
 						cardName="Total Balance"
 						cardBgColor="bg-green-400"
@@ -78,8 +100,7 @@ export default function Transactions() {
 							icon: MdKeyboardDoubleArrowUp,
 							color: 'bg-blue-200',
 						}}
-						percentage="12.5%"
-						balance="50.000.00"
+						balance={currentMonthTotalIncomeFormatted}
 						cardName="Month's Income"
 						cardBgColor="bg-blue-400"
 					/>
@@ -89,20 +110,18 @@ export default function Transactions() {
 							icon: MdKeyboardDoubleArrowDown,
 							color: 'bg-red-200'
 						}}
-						percentage="12.5%"
-						balance="50.000.00"
+						balance={currentMonthTotalExpenseFormatted}
 						cardName="Month's Expenses"
 						cardBgColor="bg-red-400"
 					/>
 
 					<Card
 						icon={{
-							icon: MdKeyboardDoubleArrowDown,
+							icon: MdKeyboardDoubleArrowUp,
 							color: 'bg-yellow-200'
 						}}
-						percentage="12.5%"
-						balance="50.000.00"
-						cardName="Month's Expenses"
+						balance={currentMonthNetIncomeFormatted}
+						cardName="Net Income (Month)"
 						cardBgColor="bg-yellow-400"
 					/>
 				</section>
@@ -119,7 +138,9 @@ export default function Transactions() {
 							placeholder:text-gray-600 border-white ">
 								<MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
 								<input
-									onChange={(e) => setSearchKeyword(e.target.value)}
+									onChange={(e) => {
+										router.push(pathname + '?' + createQueryString('keyword', e.target.value))
+									}}
 									className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
 									rounded-lg"
 									type="text"
@@ -134,6 +155,9 @@ export default function Transactions() {
 
 							<div className="bg-gray-700 rounded-lg">
 								<select
+									onChange={(e) => {
+										router.push(pathname + '?' + createQueryString('category', e.target.value))
+									}}
 									className="text-white bg-gray-700 w-36 border border-transparent
 									focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
 									name="categories"
@@ -150,6 +174,9 @@ export default function Transactions() {
 
 							<div className="bg-gray-700 rounded-lg">
 								<select
+									onChange={(e) => {
+										router.push(pathname + '?' + createQueryString('sortByDate', e.target.value))
+									}}
 									className="text-white px-3 py-2 bg-gray-700 border border-transparent 
 									focus:border-blue-500 rounded-lg outline-0"
 									name="time"
