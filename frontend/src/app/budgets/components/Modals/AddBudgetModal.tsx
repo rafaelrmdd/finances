@@ -109,7 +109,6 @@ export function AddBudgetModal({
                         </div>
                     </div>
 
-                    {/* Category and Period Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -129,8 +128,6 @@ export function AddBudgetModal({
                                     <option value="entertainment">🎬 Entertainment</option>
                                     <option value="housing">🏠 Housing</option>
                                     <option value="shopping">🛍️ Shopping</option>
-                                    <option value="healthcare">🏥 Healthcare</option>
-                                    <option value="utilities">⚡ Utilities</option>
                                     <option value="education">📚 Education</option>
                                     <option value="other">📦 Other</option>
                                 </select>

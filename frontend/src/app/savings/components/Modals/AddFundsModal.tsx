@@ -41,7 +41,7 @@ export function AddFundsModal({
     const remainingAmount = targetAmountNumber - currentAmountNumber;
 
     const realTimePercentage = Math
-        .min(((currentAmountNumber+ amountInputValue) / targetAmountNumber) * 100, 100)
+        .min(((currentAmountNumber + amountInputValue) / targetAmountNumber) * 100, 100)
         .toFixed();
     const realTimeCurrentAmount = currentAmountNumber + amountInputValue;
 

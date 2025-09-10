@@ -19,6 +19,8 @@ import { AddTransactionButton } from "./components/Buttons/AddTransactionButton"
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useTransactionsFilters } from "@/hooks/transaction/useTransactionsFilters";
+import { useTransactionsPagement } from "@/hooks/transaction/useTransactionsPagement";
+import { useTransactionsMoneyManagement } from "@/hooks/transaction/useTransactionsMoneyManagement";
 
 export default function Transactions() {
 	Modal.setAppElement('body');
@@ -31,54 +33,28 @@ export default function Transactions() {
 	} = useTransactionsFilters();
 
 	const router = useRouter();
-    const pathname = usePathname();
+	const pathname = usePathname();
 
-	const lengthOfFilteredTransactions = filteredTransactions.length;
-	
-	const [currentPage, setCurrentPage] = useState(1);
-	const [sliceBeginning, setSliceBeginning] = useState(0);
-	const [sliceLimit, setSliceLimit] = useState(10);
-	const transactionsPerPage = 10;
-	const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
-	const canGoNextPage = currentPage < totalPages;
-	const canGoPreviousPage = sliceBeginning != 0;
+	const {
+		canGoNextPage,
+        canGoPreviousPage,
+        transactionsPerPage,
+        sliceLimit,
+        sliceBeginning,
+        lengthOfFilteredTransactions,
+		currentPage,
+		setCurrentPage,
+		setSliceLimit,
+		setSliceBeginning,
+	} = useTransactionsPagement(filteredTransactions);
 
-	const totalIncome = transactions
-		.filter((t) => t.type === 'income')
-		.reduce((sum, t) => sum + Number(t.value), 0);
+	const {
+		balance,
+		currentMonthNetIncome,
+		currentMonthTotalExpense,
+		currentMonthTotalIncome
+	} = useTransactionsMoneyManagement();
 
-	const totalExpense = transactions
-		.filter((t) => t.type === 'expense')
-		.reduce((sum, t) => sum + Number(t.value), 0);
-
-	const balance = totalIncome - totalExpense;
-	const balanceFormated = formatMoney(balance);
-
-	const currentMonth = new Date().getMonth();
-	const currentYear = new Date().getFullYear();
-
-	const currentMonthTransactions = transactions
-		.filter((t) => 
-			new Date(t.timestamp).getMonth() === currentMonth && 
-			new Date(t.timestamp).getFullYear() ===  currentYear
-		)
-
-	const currentMonthTotalIncome = currentMonthTransactions
-		.filter((t) => t.type === 'income')
-		.reduce((sum, t) => sum + Number(t.value), 0);
-
-	const currentMonthTotalExpense = currentMonthTransactions
-		.filter((t) => t.type === 'expense')
-		.reduce((sum, t) => sum + Number(t.value), 0);
-
-	const currentMonthNetIncome = currentMonthTotalIncome - currentMonthTotalExpense;
-
-	const currentMonthTotalIncomeFormatted = formatMoney(currentMonthTotalIncome);
-	const currentMonthTotalExpenseFormatted = formatMoney(currentMonthTotalExpense);
-	const currentMonthNetIncomeFormatted = formatMoney(currentMonthNetIncome);
-
-
-	
 	return (
 		<div className="w-full">
 			<TopBar />	
@@ -90,7 +66,7 @@ export default function Transactions() {
 							icon: MdAccountBalanceWallet,
 							color: 'bg-green-200'
 						}}
-						balance={balanceFormated}
+						balance={balance}
 						cardName="Total Balance"
 						cardBgColor="bg-green-400"
 					/>
@@ -100,7 +76,7 @@ export default function Transactions() {
 							icon: MdKeyboardDoubleArrowUp,
 							color: 'bg-blue-200',
 						}}
-						balance={currentMonthTotalIncomeFormatted}
+						balance={currentMonthTotalIncome}
 						cardName="Month's Income"
 						cardBgColor="bg-blue-400"
 					/>
@@ -110,7 +86,7 @@ export default function Transactions() {
 							icon: MdKeyboardDoubleArrowDown,
 							color: 'bg-red-200'
 						}}
-						balance={currentMonthTotalExpenseFormatted}
+						balance={currentMonthTotalExpense}
 						cardName="Month's Expenses"
 						cardBgColor="bg-red-400"
 					/>
@@ -120,7 +96,7 @@ export default function Transactions() {
 							icon: MdKeyboardDoubleArrowUp,
 							color: 'bg-yellow-200'
 						}}
-						balance={currentMonthNetIncomeFormatted}
+						balance={currentMonthNetIncome}
 						cardName="Net Income (Month)"
 						cardBgColor="bg-yellow-400"
 					/>
@@ -162,20 +138,21 @@ export default function Transactions() {
 									focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
 									name="categories"
 								>
-									<option value="all_categories">All Categories</option>
-									<option value="income">Income</option>
-									<option value="food_and_drinking">Food & Drinking</option>
+									<option value="all">All Categories</option>
+									<option value="food">Food & Drinking</option>
 									<option value="transportation">Transportation</option>
 									<option value="entertainment">Entertainment</option>
 									<option value="housing">Housing</option>
 									<option value="education">Education</option>
+									<option value="shopping">Shopping</option>
+									<option value="other">Other</option>
 								</select>
 							</div>
 
 							<div className="bg-gray-700 rounded-lg">
 								<select
 									onChange={(e) => {
-										router.push(pathname + '?' + createQueryString('sortByDate', e.target.value))
+										router.push(pathname + '?' + createQueryString('sortbydate', e.target.value))
 									}}
 									className="text-white px-3 py-2 bg-gray-700 border border-transparent 
 									focus:border-blue-500 rounded-lg outline-0"

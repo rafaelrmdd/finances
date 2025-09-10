@@ -53,7 +53,6 @@ export default function Savings() {
                             icon: MdSavings,
                             color: 'bg-blue-200'
                         }}
-                        percentage="12.5%"
                         balance="1"
                         cardName="Total Saved"
                         cardBgColor="bg-blue-400"
@@ -64,7 +63,6 @@ export default function Savings() {
                             icon: GoGoal,
                             color: 'bg-green-200'
                         }}
-                        percentage="12.5%"
                         balance="1"
                         cardName="Total Goals"
                         cardBgColor="bg-green-400"
@@ -75,7 +73,6 @@ export default function Savings() {
                             icon: MdTrendingUp,
                             color: 'bg-purple-200'
                         }}
-                        percentage="12.5%"
                         balance="1"
                         cardName="Monthly Contributions"
                         cardBgColor="bg-purple-400"
@@ -86,7 +83,6 @@ export default function Savings() {
                             icon: MdAccountBalance,
                             color: 'bg-yellow-200'
                         }}
-                        percentage="12.5%"
                         balance="1"
                         cardName="Remaining to Save"
                         cardBgColor="bg-yellow-400"

@@ -1,8 +1,9 @@
 import { useCallback, useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { Budget, BudgetCategoriesEnum, BudgetContext, UpdateBudget } from "../../../../../context/BudgetProvider";
+import { Budget, BudgetContext, UpdateBudget } from "../../../../../context/BudgetProvider";
 import { MdAttachMoney, MdCalendarToday, MdCategory, MdClose, MdDescription, MdKeyboardArrowDown, MdPieChart } from "react-icons/md";
+import { CategoriesEnum } from "../../../../../context/TransactionProvider";
 
 interface EditBudgetModalProps {
     isModalOpen: boolean;
@@ -12,7 +13,7 @@ interface EditBudgetModalProps {
 
 interface EditBudgetModalFormProps {
     name: string,
-    category: BudgetCategoriesEnum,
+    category: CategoriesEnum,
     amount: string,
     description: string,
     startDate: string,
@@ -32,10 +33,6 @@ export function EditBudgetModal({
     const isCategoryActive = (category: string) => {
         return category === budget.category
     }
-
-    const ac = isCategoryActive(budget.category)
-
-    console.log(`iscategoryactive: ${budget.category}`, ac);
 
     const { 
         register, 
@@ -299,7 +296,7 @@ export function EditBudgetModal({
                             className="px-4 py-3 rounded-lg bg-blue-500 hover:bg-blue-600
                             transition duration-150 hover:cursor-pointer text-white"
                         >
-                            Add Budget
+                            Edit Budget
                         </button>
                     </div>  
                 </form>

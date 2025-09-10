@@ -12,16 +12,46 @@ import {
     MdDelete,
     MdMoreVert,
     MdWarning,
+    MdPlayCircleOutline,
+    MdRadioButtonChecked,
 } from "react-icons/md";
 import { BudgetContext } from "../../../context/BudgetProvider";
 import { formatMoney } from "@/utils/formatters";
 import { AddBudgetButton } from "./components/Buttons/AddBudgetButton";
 import { EditBudgetButton } from "./components/Buttons/EditBudgetButton";
 import { BudgetRow } from "./components/BudgetRow";
+import { TransactionContext } from "../../../context/TransactionProvider";
 
 export default function Budgets() {
     
-    const { budgets, removeBudget } = useContext(BudgetContext); 
+    const { budgets = [] } = useContext(BudgetContext); 
+    const { transactions = [] } = useContext(TransactionContext);
+
+    const currentMonth = new Date().getMonth();
+    const totalSpentCurrentMonth = transactions
+        .filter((t) => new Date(t.timestamp).getMonth() === currentMonth)
+        .reduce((acc, t) => acc + Number(t.value), 0);
+    const totalBudgetCurrentMonth = budgets
+        .filter((b) => new Date(b.timestamp).getMonth() === currentMonth)
+        .reduce((acc, b) => acc + Number(b.amount), 0);
+
+    const percentage = Number(((totalSpentCurrentMonth / totalBudgetCurrentMonth) * 100).toFixed())
+    const remainingCurrentMonth = totalBudgetCurrentMonth - totalSpentCurrentMonth;
+    
+    const totalSpentCurrentMonthFormatted = formatMoney(totalSpentCurrentMonth);
+    const totalBudgetCurrentMonthFormatted = formatMoney(totalBudgetCurrentMonth);
+
+    const remainingCurrentMonthFormatted = formatMoney(remainingCurrentMonth);
+
+    const totalSpent = transactions.reduce((acc, t) => acc + Number(t.value), 0);
+    const totalBudget = budgets.reduce((acc, b) => acc + Number(b.amount), 0);
+    const remaining = totalBudget - totalSpent;
+
+    const totalSpentFormatted = formatMoney(totalSpent);
+    const totalBudgetFormatted = formatMoney(totalBudget);
+    const remainingFormatted = formatMoney(remaining);
+
+    const activeBudgets = String(budgets.length);
 
     return (
         <div className="w-full">
@@ -34,9 +64,8 @@ export default function Budgets() {
                             icon: MdAccountBalanceWallet,
                             color: 'bg-blue-200'
                         }}
-                        percentage="0%"
-                        balance="3.800.00"
-                        cardName="Total Budgeted"
+                        balance={totalBudgetFormatted}
+                        cardName="Total Budgeted (all time)"
                         cardBgColor="bg-blue-400"
                     />
 
@@ -45,9 +74,8 @@ export default function Budgets() {
                             icon: MdKeyboardDoubleArrowUp,
                             color: 'bg-red-200',
                         }}
-                        percentage="0%"
-                        balance="3.061.20"
-                        cardName="Total Spent"
+                        balance={totalSpentFormatted}
+                        cardName="Total Spent (all time)"
                         cardBgColor="bg-red-400"
                     />
 
@@ -56,20 +84,18 @@ export default function Budgets() {
                             icon: MdKeyboardDoubleArrowDown,
                             color: 'bg-green-200'
                         }}
-                        percentage="0%"
-                        balance="738.00"
-                        cardName="Remaining Budget"
+                        balance={remainingFormatted}
+                        cardName="Remaining Budget (all time)"
                         cardBgColor="bg-green-400"
                     />
 
                     <Card
                         icon={{
-                            icon: MdTrendingUp,
+                            icon: MdRadioButtonChecked,
                             color: 'bg-purple-200'
                         }}
-                        percentage="0%"
-                        balance="1.00"
-                        cardName="Active Budgets"
+                        balance={activeBudgets}
+                        cardName="Active Budgets (all time)"
                         cardBgColor="bg-purple-400"
                     />
                 </section>
@@ -89,8 +115,8 @@ export default function Budgets() {
 
                             <div>
                                 <div className="flex justify-between mb-1">
-                                    <h3 className="text-gray-400 text-[0.9rem]">Spent: $3250</h3>
-                                    <h3 className="text-gray-400 text-[0.9rem]">Budget: $5000</h3>
+                                    <h3 className="text-gray-400 text-[0.9rem]">Spent: {totalSpentCurrentMonthFormatted}</h3>
+                                    <h3 className="text-gray-400 text-[0.9rem]">Budget: {totalBudgetCurrentMonthFormatted}</h3>
                                 </div>
 
                                 <div 
@@ -104,8 +130,8 @@ export default function Budgets() {
                                 </div>
 
                                 <div className="flex justify-between">
-                                    <h3 className="text-green-400 text-[0.9rem] font-semibold">65% spent</h3>
-                                    <h3 className="text-white text-[0.9rem]">$1750 remaining</h3>
+                                    <h3 className="text-green-400 text-[0.9rem] font-semibold">{percentage}% spent</h3>
+                                    <h3 className="text-white text-[0.9rem]">{remainingCurrentMonthFormatted} remaining</h3>
                                 </div>
                             </div>
                         </div>

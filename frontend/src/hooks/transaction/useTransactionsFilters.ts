@@ -1,6 +1,5 @@
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { TransactionContext } from "../../../context/TransactionProvider";
 
 export function useTransactionsFilters() {
@@ -16,9 +15,21 @@ export function useTransactionsFilters() {
 
     const [filters, setFilters] = useState({
         keyword: searchParams.get('keyword') || '',
-        sortByDate: searchParams.get('sortByDate') || '',
+        sortByDate: searchParams.get('sortbydate') || '',
         category: searchParams.get('category') || '',
     })
+
+    useEffect(() => {
+        setFilters({
+            keyword: searchParams.get('keyword') || '',
+            sortByDate: searchParams.get('sortbydate') || '',
+            category: searchParams.get('category') || '',
+        })
+    }, [searchParams])
+
+    console.log('keyword: ', filters.keyword);
+    console.log('sortByDate: ', filters.sortByDate);
+    console.log('category: ', filters.category);
 
     const filteredTransactions = useMemo(() => {
         let result = [...transactions];
@@ -40,22 +51,29 @@ export function useTransactionsFilters() {
 
             switch(sortByDate) {
                 case '30_days': 
-                    result = result.filter((t) => new Date(t.timestamp) <= prior30Days);
+                    result = result.filter((t) => new Date(t.timestamp) >= prior30Days);
+                    break;
                 case '7_days':
-                    result = result.filter((t) => new Date(t.timestamp) <= prior7Days)
+                    result = result.filter((t) => new Date(t.timestamp) >= prior7Days);
+                    break;
                 case 'this_month':
-                    result = result.filter((t) => new Date(t.timestamp).getMonth() === currentMonth)
+                    result = result.filter((t) => new Date(t.timestamp).getMonth() === currentMonth);
+                    break;
                 case 'last_month':
-                    result = result.filter((t) => new Date(t.timestamp).getMonth() === currentMonth - 1)
+                    result = result.filter((t) => new Date(t.timestamp).getMonth() === currentMonth - 1);
+                    break;
                 case 'this_year':
                     result = result.filter((t) => new Date(t.timestamp).getFullYear() === currentYear)
+                    break;
             }
         }
 
         if (filters.category) {
             const category = filters.category;
-
-            result = result.filter((t) => t.category === category);
+            
+            if(category != "all"){
+                result = result.filter((t) => t.category === category);
+            }
         }
 
         return result;

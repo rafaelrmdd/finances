@@ -11,14 +11,7 @@ public class BudgetProfile : Profile
     {
         CreateMap<AddBudgetDTO, Budget>();
         CreateMap<Budget, BudgetResponseDTO>();
+        CreateMap<EditBudgetDTO, Budget>();
     }
 
 }
-
-// {
-//   "name": "testename",
-//   "description": "testedescription",
-//   "amount": "testeamount",
-//   "startDate": "testestartDate",
-//   "endDate": "testeendDate"
-// }

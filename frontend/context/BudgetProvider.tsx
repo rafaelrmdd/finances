@@ -2,20 +2,10 @@
 
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, ReactNode } from "react";
+import { CategoriesEnum } from "./TransactionProvider";
 
 interface ContextProviderProps {
     children: ReactNode; 
-}
-
-export enum BudgetCategoriesEnum {
-    INCOME = 'income',
-    FOOD = 'food',
-    TRANSPORTATION = 'transportation',
-    ENTERTAINMENT = 'entertainment',
-    HOUSING = 'housing',
-    EDUCATION = 'education',
-    SHOPPING = 'shopping',
-    OTHER = 'other',
 }
 
 export interface Budget {
@@ -25,9 +15,17 @@ export interface Budget {
     amount: string;
     startDate: string;
     endDate: string;
-    category: BudgetCategoriesEnum;
+    category: CategoriesEnum;
     timestamp: string;
 }
+
+const BUDGET_STATUS = {
+    UNDER_BUDGET: "under-budget",
+    ON_TRACK: "on-track", 
+    WARNING: "warning",
+    OVER_BUDGET: "over-budget",
+    CRITICAL: "critical"
+};
 
 export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
 export type CreateBudget = Omit<Budget, 'id' | 'timestamp'>
