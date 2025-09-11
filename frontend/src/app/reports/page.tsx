@@ -1,4 +1,4 @@
-import { Card } from "@/components/Card";
+import { Card } from "@/components/TransactionCard";
 import { TopBar } from "@/components/TopBar";
 import { formatMoney } from "@/utils/formatters";
 import {

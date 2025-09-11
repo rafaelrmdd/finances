@@ -11,10 +11,9 @@ import {
 import { TopBar } from "../../components/TopBar";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
-import { useCallback, useContext, useState } from "react";
+import { ChangeEvent, useContext } from "react";
 import { TransactionContext } from "../../../context/TransactionProvider";
 import Modal from "react-modal";
-import { formatMoney } from "@/utils/formatters";
 import { AddTransactionButton } from "./components/Buttons/AddTransactionButton";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -29,11 +28,15 @@ export default function Transactions() {
 
 	const {
 		filteredTransactions,
-		createQueryString
+		createQueryString,
 	} = useTransactionsFilters();
 
 	const router = useRouter();
 	const pathname = usePathname();
+
+	const setSearchKeyword = (keyword: string, e: ChangeEvent<any>) => {
+		router.push(pathname + '?' + createQueryString(keyword, e.target.value))
+	}
 
 	const {
 		canGoNextPage,
@@ -54,7 +57,7 @@ export default function Transactions() {
 		currentMonthTotalExpense,
 		currentMonthTotalIncome
 	} = useTransactionsMoneyManagement();
-
+	
 	return (
 		<div className="w-full">
 			<TopBar />	
@@ -115,7 +118,7 @@ export default function Transactions() {
 								<MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
 								<input
 									onChange={(e) => {
-										router.push(pathname + '?' + createQueryString('keyword', e.target.value))
+										setSearchKeyword("keyword", e);
 									}}
 									className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
 									rounded-lg"
@@ -132,7 +135,7 @@ export default function Transactions() {
 							<div className="bg-gray-700 rounded-lg">
 								<select
 									onChange={(e) => {
-										router.push(pathname + '?' + createQueryString('category', e.target.value))
+										setSearchKeyword("category", e);
 									}}
 									className="text-white bg-gray-700 w-36 border border-transparent
 									focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
@@ -152,7 +155,7 @@ export default function Transactions() {
 							<div className="bg-gray-700 rounded-lg">
 								<select
 									onChange={(e) => {
-										router.push(pathname + '?' + createQueryString('sortbydate', e.target.value))
+										setSearchKeyword("sortbydate", e);
 									}}
 									className="text-white px-3 py-2 bg-gray-700 border border-transparent 
 									focus:border-blue-500 rounded-lg outline-0"

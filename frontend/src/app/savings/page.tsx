@@ -4,44 +4,35 @@ import { Card } from "@/components/Card";
 import { TopBar } from "@/components/TopBar";
 import {
     MdAccountBalance,
-    MdAdd,
     MdFilterList,
     MdSavings,
     MdSearch,
     MdTrendingUp,
-    MdClose, 
-    MdDirectionsCar, 
-    MdHome, MdSchool, 
-    MdBusiness, 
-    MdHealthAndSafety, 
-    MdComputer, 
-    MdFavorite, 
-    MdCardGiftcard
 } from "react-icons/md";
 import { SavingCard } from "./components/SavingCard";
 import { GoGoal } from "react-icons/go";
-import { useContext, useState } from "react";
 import Modal from "react-modal"
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Saving, SavingCategoriesEnum, SavingContext } from "../../../context/SavingProvider";
-import { formatDate } from "@/utils/formatters";
-import { AddSavingButton } from "./components/Buttons/AddSavingButton";
-import { AddSavingModal } from "./components/Modals/AddSavingModal";
+import { AddSavingButton } from "./components/Buttons/AddSavingButton"
+import { useSavingsFilters } from "@/hooks/savings/useSavingsFilters";
+import { usePathname, useRouter } from "next/navigation";
+import { ChangeEvent } from "react";
 
 export default function Savings() {
     Modal.setAppElement('body')
 
-    const { savings, createSaving } = useContext(SavingContext);
+    const router = useRouter();
+    const pathname = usePathname();
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [sliceBeginning, setSliceBeginning] = useState(0);
-    // const [sliceLimit, setSliceLimit] = useState(10);
-    // const transactionsPerPage = 10;
-    // const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
-    // const canGoNextPage = currentPage < totalPages;
-    // const canGoPreviousPage = sliceBeginning != 0;
-    
+    const {
+        filteredSavings,
+        clearFilters,
+        createQueryString,
+    } = useSavingsFilters();
+
+    const setSearchKeyword = (keyword: string, e: ChangeEvent<any>) => {
+        router.push(pathname + '?' + createQueryString(keyword, e.target.value))
+    }
+
     return (
         <div className="w-full bg-gray-900">
             <TopBar />
@@ -102,7 +93,9 @@ export default function Savings() {
                             placeholder:text-gray-600 border-white ">
                                 <MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
                                 <input
-                                    // onChange={(e) => setSearchKeyword(e.target.value)}
+                                    onChange={(e) => {
+                                        setSearchKeyword("keyword", e)
+                                    }}
                                     className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
                                     rounded-lg"
                                     type="text"
@@ -110,34 +103,43 @@ export default function Savings() {
                                 />
                             </div>
 
-                            <div className="flex items-center gap-x-2 bg-gray-700 rounded-lg px-3 py-2">
+                            <div 
+                                className="flex items-center gap-x-2 bg-gray-700 rounded-lg 
+                                px-3 py-2"
+                            >
                                 <MdFilterList className="text-white" />
-                                <h3 className="text-white">Filter</h3>
+                                <h3 className="text-white">Filters</h3>
                             </div>
 
                             <div className="bg-gray-700 rounded-lg">
                                 <select
+                                    onChange={(e) => {
+                                        setSearchKeyword("category", e)
+                                    }}
                                     className="text-white bg-gray-700 w-36 border border-transparent
                                     focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
                                     name="categories"
                                 >
-                                    <option value="all_categories">All Categories</option>
-                                    <option value="income">Emergency</option>
-                                    <option value="transportation">Vacation</option>
-                                    <option value="food_and_drinking">Car</option>
-                                    <option value="entertainment">Wedding</option>
-                                    <option value="housing">Retirement</option>
+                                    <option value="all">All Categories</option>
+                                    <option value="emergency">Emergency</option>
+                                    <option value="vacation">Vacation</option>
+                                    <option value="car">Car</option>
+                                    <option value="wedding">Wedding</option>
+                                    <option value="retirement">Retirement</option>
                                     <option value="education">Education</option>
-                                    <option value="education">Business</option>
-                                    <option value="education">Investment</option>
-                                    <option value="education">Health</option>
-                                    <option value="education">Technology</option>
-                                    <option value="education">Other</option>
+                                    <option value="business">Business</option>
+                                    <option value="investment">Investment</option>
+                                    <option value="health">Health</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
 
-                            <div className="bg-gray-700 rounded-lg">
+                            {/* <div className="bg-gray-700 rounded-lg">
                                 <select
+                                    onChange={(e) => {
+                                        setSearchKeyword("status", e)
+                                    }}
                                     className="text-white px-3 py-2 bg-gray-700 border border-transparent 
                                     focus:border-blue-500 rounded-lg outline-0"
                                     name="time"
@@ -147,29 +149,18 @@ export default function Savings() {
                                     <option value="this_month">Behind Schedule</option>
                                     <option value="last_month">Completed</option>
                                 </select>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
                     {/* Items */}
                     <div className="grid grid-cols-2 gap-4 items-start">
-                        {savings?.map((s) => (
+                        {filteredSavings.map((s) => (
                             <SavingCard
                                 key={s.id}
                                 saving={s}
                             />
                         ))}
-
-                        {/* <SavingCard
-                            id={""}
-                            name="teste"
-                            description="teste"
-                            targetAmount={1}
-                            timestamp="123"
-                            category={SavingCategoriesEnum.OTHER}
-                            targetDate="123"
-                        /> */}
-
                     </div>
 
                     <div className="mt-4">

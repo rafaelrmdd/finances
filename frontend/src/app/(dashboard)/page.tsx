@@ -14,7 +14,6 @@ export default function Home() {
                         icon: MdAccountBalanceWallet,
                         color: 'bg-green-200'
                     }}
-                    percentage="12.5%"
                     balance="50.000.00"
                     cardName="Total Balance"
                     cardBgColor="bg-green-400"
@@ -25,7 +24,6 @@ export default function Home() {
                         icon: MdKeyboardDoubleArrowUp,
                         color: 'bg-blue-200',
                     }}
-                    percentage="12.5%"
                     balance="50.000.00"
                     cardName="Month's Income"
                     cardBgColor="bg-blue-400"
@@ -36,7 +34,6 @@ export default function Home() {
                         icon: MdKeyboardDoubleArrowDown,
                         color: 'bg-red-200'
                     }}
-                    percentage="12.5%"
                     balance="50.000.00"
                     cardName="Month's Expenses"
                     cardBgColor="bg-red-400"
@@ -47,7 +44,6 @@ export default function Home() {
                         icon: MdKeyboardDoubleArrowDown,
                         color: 'bg-yellow-200'
                     }}
-                    percentage="12.5%"
                     balance="50.000.00"
                     cardName="Month's Expenses"
                     cardBgColor="bg-yellow-400"

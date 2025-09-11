@@ -1,24 +1,17 @@
 'use client'
 
-import { useContext, useState } from "react";
-import { Card } from "../../components/Card";
+import { useContext } from "react";
+import { Card } from "@/components/Card";
 import { TopBar } from "../../components/TopBar";
 import { 
     MdAccountBalanceWallet, 
     MdKeyboardDoubleArrowUp, 
     MdKeyboardDoubleArrowDown,
-    MdTrendingUp,
-    MdEdit,
-    MdDelete,
-    MdMoreVert,
-    MdWarning,
-    MdPlayCircleOutline,
     MdRadioButtonChecked,
 } from "react-icons/md";
 import { BudgetContext } from "../../../context/BudgetProvider";
 import { formatMoney } from "@/utils/formatters";
 import { AddBudgetButton } from "./components/Buttons/AddBudgetButton";
-import { EditBudgetButton } from "./components/Buttons/EditBudgetButton";
 import { BudgetRow } from "./components/BudgetRow";
 import { TransactionContext } from "../../../context/TransactionProvider";
 

@@ -27,11 +27,7 @@ export function useTransactionsFilters() {
         })
     }, [searchParams])
 
-    console.log('keyword: ', filters.keyword);
-    console.log('sortByDate: ', filters.sortByDate);
-    console.log('category: ', filters.category);
-
-    const filteredTransactions = useMemo(() => {
+    const filterTransactions = () => {
         let result = [...transactions];
 
         if (filters.keyword) {
@@ -76,8 +72,11 @@ export function useTransactionsFilters() {
             }
         }
 
+        console.log("retornou");
         return result;
-    }, [filters])
+    }
+
+    const filteredTransactions = filterTransactions();
 
     const clearFilters = () => {
         setFilters({

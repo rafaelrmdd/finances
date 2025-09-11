@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { useContext } from "react";
 import { MdAccountBalance, MdBusiness, MdCardGiftcard, MdClose, MdDirectionsCar, MdFavorite, MdHealthAndSafety, MdSavings, MdSchool } from "react-icons/md";
 import { GoGoal } from "react-icons/go";
+import { useSavingsButtonManagement } from "@/hooks/savings/useSavingsButtonManagement";
 
 interface AddSavingModalProps {
     isModalOpen: boolean;
@@ -26,6 +27,13 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
             category: SavingCategoriesEnum.OTHER
         }
     });
+
+    const {
+        isCategoryActive,
+        toggleCategory,
+        resetCategory,
+        categories
+    } = useSavingsButtonManagement();
 
     const onSubmit: SubmitHandler<CreateSaving> = (data) => {
         closeModal();
@@ -90,10 +98,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                         </label>
                         <div className="grid grid-cols-4 gap-3">
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.EMERGENCY)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.EMERGENCY);
+                                    toggleCategory("emergency");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-blue-500 
-                                bg-gray-700 transition-all flex flex-col items-center gap-2"
+                                className={`p-3 rounded-lg border-2 
+                                bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
+                                items-center gap-2
+                                ${isCategoryActive("emergency") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-red-200">
                                     <MdSavings className="text-black" size={20} />
@@ -102,10 +115,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.VACATION)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.VACATION);
+                                    toggleCategory("vacation");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
-                                bg-gray-700 hover:border-gray-500 transition-all flex flex-col items-center gap-2"
+                                className={`p-3 rounded-lg border-2 
+                                bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
+                                items-center gap-2
+                                ${isCategoryActive("vacation") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-purple-200">
                                     <MdCardGiftcard className="text-black" size={20} />
@@ -114,11 +132,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.CAR)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.CAR);
+                                    toggleCategory("car")
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
-                                bg-gray-700 hover:border-gray-500 transition-all 
-                                flex flex-col items-center gap-2"
+                                className={`p-3 rounded-lg border-2 
+                                bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
+                                items-center gap-2
+                                ${isCategoryActive("car") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-blue-200">
                                     <MdDirectionsCar className="text-black" size={20} />
@@ -127,11 +149,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.WEDDING)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.WEDDING);
+                                    toggleCategory("wedding");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
-                                bg-gray-700 hover:border-gray-500 transition-all flex 
-                                flex-col items-center gap-2"
+                                className={`p-3 rounded-lg border-2 
+                                bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
+                                items-center gap-2
+                                ${isCategoryActive("wedding") ? "border-blue-500" : "border-gray-600"}`}
                                 >
                                 <div className="p-2 rounded bg-pink-200">
                                     <MdFavorite className="text-black" size={20} />
@@ -140,11 +166,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.RETIREMENT)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.RETIREMENT);
+                                    toggleCategory("retirement");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
+                                className={`p-3 rounded-lg border-2 
                                 bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
-                                items-center gap-2"
+                                items-center gap-2
+                                ${isCategoryActive("retirement") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-yellow-200">
                                     <MdAccountBalance className="text-black" size={20} />
@@ -153,11 +183,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.EDUCATION)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.EDUCATION);
+                                    toggleCategory("education");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
+                                className={`p-3 rounded-lg border-2 
                                 bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
-                                items-center gap-2"
+                                items-center gap-2
+                                ${isCategoryActive("education") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-green-200">
                                     <MdSchool className="text-black" size={20} />
@@ -166,11 +200,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.BUSINESS)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.BUSINESS);
+                                    toggleCategory("business")
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
+                                className={`p-3 rounded-lg border-2 
                                 bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
-                                items-center gap-2"
+                                items-center gap-2
+                                ${isCategoryActive("business") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-orange-200">
                                     <MdBusiness className="text-black" size={20} />
@@ -179,11 +217,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.INVESTMENT)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.INVESTMENT);
+                                    toggleCategory("investment");
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
+                                className={`p-3 rounded-lg border-2 
                                 bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
-                                items-center gap-2"
+                                items-center gap-2
+                                ${isCategoryActive("investment") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-indigo-200">
                                     <GoGoal className="text-black" size={20} />
@@ -192,11 +234,15 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
                             </button>
                             
                             <button
-                                onClick={() => setValue("category", SavingCategoriesEnum.HEALTH)}
+                                onClick={() => {
+                                    setValue("category", SavingCategoriesEnum.HEALTH);
+                                    toggleCategory("health")
+                                }}
                                 type="button" 
-                                className="p-3 rounded-lg border-2 border-gray-600 
+                                className={`p-3 rounded-lg border-2 
                                 bg-gray-700 hover:border-gray-500 transition-all flex flex-col 
-                                items-center gap-2"
+                                items-center gap-2
+                                ${isCategoryActive("health") ? "border-blue-500" : "border-gray-600"}`}
                             >
                                 <div className="p-2 rounded bg-teal-200">
                                     <MdHealthAndSafety className="text-black" size={20} />

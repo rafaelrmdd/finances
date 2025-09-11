@@ -73,7 +73,7 @@ export function BudgetRow({ budget }: { budget: Budget }) {
                 <span className="text-gray-300 text-[0.9rem] block ">{budget.description}</span>
             </td>
             <td className="px-6 py-4">
-                <h3 className="text-gray-400">{formatMoney(budget.amount)}</h3>
+                <h3 className="text-gray-400">{formatMoney(Number(budget.amount))}</h3>
             </td>
             <td className="px-6 py-4">
                 <span className="">{spentFormatted}</span>

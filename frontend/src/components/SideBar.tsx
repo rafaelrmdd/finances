@@ -17,7 +17,7 @@ export function SideBar() {
                 <Link
                     className="px-3 py-2 rounded-xl hover:text-green-300 hover:bg-green-700
                     transition duration-75"
-                    href={'/transactions?sortbydate=30_days'}
+                    href={'/transactions?sortbydate=30_days&category=all'}
                 >
                     Transactions
                 </Link>
