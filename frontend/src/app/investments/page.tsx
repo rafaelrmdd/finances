@@ -1,6 +1,6 @@
 'use client'
 
-import { Card } from "@/components/TransactionCard";
+import { Card } from "@/components/Card";
 import { TopBar } from "@/components/TopBar";
 import {
 	MdTrendingUp,
@@ -39,7 +39,6 @@ export default function Investments() {
                             icon: MdAccountBalance,
                             color: 'bg-blue-200'
                         }}
-                        percentage="12.5%"
                         balance="50.000.00"
                         cardName="Total Portfolio"
                         cardBgColor="bg-blue-400"
@@ -52,7 +51,6 @@ export default function Investments() {
                             //might be red
                             color: 'bg-green-200'
                         }}
-                        percentage="12.5%"
                         balance="50.000.00"
                         cardName="Total Gain/Loss"
                         //might be red
@@ -64,7 +62,6 @@ export default function Investments() {
                             icon: MdShowChart,
                             color: 'bg-purple-200'
                         }}
-                        percentage="12.5%"
                         balance="50.000.00"
                         cardName="Total Dividends"
                         cardBgColor="bg-purple-400"
@@ -75,7 +72,6 @@ export default function Investments() {
                             icon: MdBusinessCenter,
                             color: 'bg-yellow-200'
                         }}
-                        percentage="12.5%"
                         balance="5 Assets"
                         cardName="Active Investments"
                         cardBgColor="bg-yellow-400"

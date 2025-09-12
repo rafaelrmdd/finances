@@ -1,6 +1,9 @@
-import { Card } from "@/components/TransactionCard";
+'use client'
+
+import { Card } from "@/components/Card";
 import { TopBar } from "@/components/TopBar";
 import { formatMoney } from "@/utils/formatters";
+import { useContext } from "react";
 import {
 	MdAssessment,
 	MdTrendingUp,
@@ -21,8 +24,18 @@ import {
     MdAdd,
     MdSearch
 } from "react-icons/md";
+import { CategoriesEnum, TransactionContext } from "../../../context/TransactionProvider";
+import { useReportsExpenses } from "@/hooks/reports/useReportsExpenses";
 
 export default function Reports() {
+
+    const {
+        expenses,
+        percentages,
+        totalExpensesFormatted,
+    } = useReportsExpenses();
+
+
     return (
         <div className="w-full bg-gray-900">
             <TopBar />
@@ -34,7 +47,6 @@ export default function Reports() {
                             icon: MdAssessment,
                             color: 'bg-blue-200'
                         }}
-                        percentage="+12.5%"
                         balance={formatMoney(10000)}
                         cardName="Net Worth"
                         cardBgColor="bg-blue-400"
@@ -45,7 +57,6 @@ export default function Reports() {
                             icon: MdTrendingUp,
                             color: 'bg-green-200',
                         }}
-                        percentage="+8.2%"
                         balance={formatMoney(17500)}
                         cardName="Avg Monthly Income"
                         cardBgColor="bg-green-400"
@@ -56,7 +67,6 @@ export default function Reports() {
                             icon: MdTrendingDown,
                             color: 'bg-red-200'
                         }}
-                        percentage="+3.1%"
                         balance={formatMoney(10000)}
                         cardName="Avg Monthly Expenses"
                         cardBgColor="bg-red-400"
@@ -67,7 +77,7 @@ export default function Reports() {
                             icon: MdSavings,
                             color: 'bg-purple-200'
                         }}
-                        percentage="+15.7%"
+
                         balance={formatMoney(10000)}
                         cardName="Total Saved (6M)"
                         cardBgColor="bg-purple-400"
@@ -146,7 +156,7 @@ export default function Reports() {
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-x-2">
                                     <MdShowChart className="text-[1.1rem] text-blue-500"/>
-                                    <h2 className="text-xl font-semibold text-white text-lg">Monthly Trend (6 Months)</h2>
+                                    <h2 className="text-xl font-semibold text-white">Monthly Trend (6 Months)</h2>
                                 </div>
 
                                 <div className="flex gap-x-2">
@@ -186,8 +196,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.foodExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.foodPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -198,8 +208,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.transportationExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.transportationPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -210,8 +220,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.entertainmentExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.entertainmentPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -222,8 +232,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.housingExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.housingPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -234,8 +244,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.educationExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.educationPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -246,8 +256,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.shoppingExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.shoppingPercentageParticipation}</span>
                                     </div>
                                 </div>
 
@@ -258,8 +268,8 @@ export default function Reports() {
                                     </div>
 
                                     <div className="flex flex-col">
-                                        <span className="text-white font-semibold">$1,200.00</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">32.4%</span>
+                                        <span className="text-white font-semibold">{expenses.otherExpensesFormatted}</span>
+                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.otherPercentageParticipation}</span>
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +278,7 @@ export default function Reports() {
 
                             <div className="flex justify-between">
                                 <h2 className="text-white font-semibold">Total Expenses</h2>
-                                <span className="text-white font-semibold">$3,700.00</span>
+                                <span className="text-white font-semibold">{totalExpensesFormatted}</span>
                             </div>
                         </div>
 

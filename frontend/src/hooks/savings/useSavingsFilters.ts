@@ -33,7 +33,7 @@ export function useSavingsFilters() {
         if (filters.keyword) {
             const keyword = filters.keyword.toLowerCase();
 
-            result = result.filter((s) => s.name.includes(keyword));
+            result = result.filter((s) => s.name.toLowerCase().includes(keyword));
         }
 
         if (filters.category) {

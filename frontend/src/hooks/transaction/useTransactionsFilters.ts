@@ -17,6 +17,7 @@ export function useTransactionsFilters() {
         keyword: searchParams.get('keyword') || '',
         sortByDate: searchParams.get('sortbydate') || '',
         category: searchParams.get('category') || '',
+        type: searchParams.get('type') || '',
     })
 
     useEffect(() => {
@@ -24,6 +25,7 @@ export function useTransactionsFilters() {
             keyword: searchParams.get('keyword') || '',
             sortByDate: searchParams.get('sortbydate') || '',
             category: searchParams.get('category') || '',
+            type: searchParams.get('type') || '',
         })
     }, [searchParams])
 
@@ -33,7 +35,7 @@ export function useTransactionsFilters() {
         if (filters.keyword) {
             const keyword = filters.keyword.toLowerCase();
 
-            result = result.filter((t) => t.name.includes(keyword));
+            result = result.filter((t) => t.name.toLowerCase().includes(keyword));
         }
 
         if (filters.sortByDate) {
@@ -65,14 +67,21 @@ export function useTransactionsFilters() {
         }
 
         if (filters.category) {
-            const category = filters.category;
+            const category = filters.category.toLowerCase();
             
             if(category != "all"){
-                result = result.filter((t) => t.category === category);
+                result = result.filter((t) => t.category.toLowerCase() === category);
             }
         }
 
-        console.log("retornou");
+        if (filters.type) {
+            const type = filters.type.toLowerCase();
+
+            if (type != "all") {
+                result = result.filter((t) => t.type.toLowerCase() === type);
+            }
+        }
+
         return result;
     }
 
@@ -83,6 +92,7 @@ export function useTransactionsFilters() {
             keyword: '',
             sortByDate: '',
             category: '',
+            type: '',
         })
     }
 

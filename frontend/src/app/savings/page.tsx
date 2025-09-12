@@ -29,7 +29,15 @@ export default function Savings() {
         createQueryString,
     } = useSavingsFilters();
 
-    const setSearchKeyword = (keyword: string, e: ChangeEvent<any>) => {
+    const setInputSearchKeyword = (keyword: string, e: React.KeyboardEvent<HTMLInputElement>) => {
+		const target = e.target as HTMLInputElement;
+
+        if(e.key === "Enter"){
+            router.push(pathname + '?' + createQueryString(keyword, target.value))
+        }
+	}
+
+	const setSelectSearchKeyword = (keyword: string, e: ChangeEvent<any>) => {
         router.push(pathname + '?' + createQueryString(keyword, e.target.value))
     }
 
@@ -93,8 +101,8 @@ export default function Savings() {
                             placeholder:text-gray-600 border-white ">
                                 <MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
                                 <input
-                                    onChange={(e) => {
-                                        setSearchKeyword("keyword", e)
+                                    onKeyDown={(e) => {
+                                        setInputSearchKeyword("keyword", e)
                                     }}
                                     className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
                                     rounded-lg"
@@ -114,7 +122,7 @@ export default function Savings() {
                             <div className="bg-gray-700 rounded-lg">
                                 <select
                                     onChange={(e) => {
-                                        setSearchKeyword("category", e)
+                                        setSelectSearchKeyword("category", e)
                                     }}
                                     className="text-white bg-gray-700 w-36 border border-transparent
                                     focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
