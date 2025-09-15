@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from "@/components/Card";
-import { TopBar } from "@/components/TopBar";
+import { TopBar } from "@/components/Header";
 import {
 	MdTrendingUp,
 	MdTrendingDown,

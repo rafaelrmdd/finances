@@ -1,6 +1,7 @@
 using backend.financesApi.DTOs;
 using backend.financesApi.Exceptions;
 using backend.financesApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.financesApi.Controllers;
@@ -25,6 +26,7 @@ public class BudgetController : ControllerBase
     /// <returns>A list of all budgets</returns>
     /// <response code="200">Returns the list of budgets successfully</response>
     /// <response code="204">Returns NoContent when the list of budgets is empty</response>
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -47,6 +49,7 @@ public class BudgetController : ControllerBase
     /// <returns>The requested budget data</returns>
     /// <response code="200">Returns the found budget</response>
     /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+    [Authorize]
     [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,6 +80,7 @@ public class BudgetController : ControllerBase
     /// <response code="201">Returns Created when the budget is created successfully</response>
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound When a validation error occurs</response>
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -114,6 +118,7 @@ public class BudgetController : ControllerBase
     /// <response code="200">Budget updated successfully</response>
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+    [Authorize]
     [HttpPut]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -144,6 +149,7 @@ public class BudgetController : ControllerBase
     /// <returns>Confirmation of successful deletion</returns>
     /// <response code="200">Returns Ok when the budget is removed successfully</response>
     /// <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
+    [Authorize]
     [HttpDelete]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]

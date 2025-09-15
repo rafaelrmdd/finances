@@ -1,8 +1,12 @@
 'use client'
 
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useEffect } from "react";
 import { CategoriesEnum } from "./TransactionProvider";
+import { getSession, signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import nookies, { parseCookies } from 'nookies'
+import { getToken } from "next-auth/jwt";
 
 interface ContextProviderProps {
     children: ReactNode; 
@@ -19,13 +23,6 @@ export interface Budget {
     timestamp: string;
 }
 
-const BUDGET_STATUS = {
-    UNDER_BUDGET: "under-budget",
-    ON_TRACK: "on-track", 
-    WARNING: "warning",
-    OVER_BUDGET: "over-budget",
-    CRITICAL: "critical"
-};
 
 export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
 export type CreateBudget = Omit<Budget, 'id' | 'timestamp'>
@@ -42,12 +39,28 @@ interface BudgetDataProps {
 export const BudgetContext = createContext({} as BudgetDataProps);
     
 export function BudgetProvider({children}: ContextProviderProps) {
+    const router = useRouter();
+    const { status } = useSession();
+    const { 'next-auth.session-token': jwt } = parseCookies();
+
+    useEffect(() => {
+        if (status === 'unauthenticated') {
+            router.push("/auth/signIn");
+            return;
+        }
+
+    }, [status])
+
     const queryClient = useQueryClient();
 
     const { isPending, error, 'data': budgets } = useQuery({
         queryKey: ['budgets'],
         queryFn: async (): Promise<Budget[]> => {
-            const response = await fetch('https://localhost:5185/api/budget');
+            const response = await fetch('https://localhost:5185/api/budget', {
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
 
             return await response.json();
         }   
@@ -58,7 +71,10 @@ export function BudgetProvider({children}: ContextProviderProps) {
             await fetch('https://localhost:5185/api/budget', {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
         },
         onSuccess: () => {
@@ -69,28 +85,40 @@ export function BudgetProvider({children}: ContextProviderProps) {
         }
     })
 
-    const updateSavingMutation = useMutation({
+    const updateBudgetMutation = useMutation({
         mutationFn: async ({ id, updateData }: { id: string; updateData: UpdateBudget }) => {
             const response = await fetch(`https://localhost:5185/api/budget/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updateData),
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
         },
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['savings'] });
         },
-        onError: (error, variables, context) => {
-            console.log("Error updating 'Saving':", error.message);
+        onError: (error) => {
+            console.log("Error updating 'Budget':", error.message);
         }
     })
     
-    const removeSavingMutation = useMutation({
+    const removeBudgetMutation = useMutation({
         mutationFn: async (id: string) => {
             await fetch(`https://localhost:5185/api/budget/${id}`, {
                 method: 'DELETE',
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
+        },
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['savings'] });
+        },
+        onError: (error) => {
+            console.log("Error removing 'Budget':", error.message);
         }
     })
 
@@ -98,8 +126,8 @@ export function BudgetProvider({children}: ContextProviderProps) {
         <BudgetContext.Provider value={{ 
             budgets,
             createBudget: createBudgetMutation.mutate, 
-            updateBudget: updateSavingMutation.mutate,
-            removeBudget: removeSavingMutation.mutate,
+            updateBudget: updateBudgetMutation.mutate,
+            removeBudget: removeBudgetMutation.mutate,
             error, 
             isPending 
         }}>

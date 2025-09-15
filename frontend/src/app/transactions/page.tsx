@@ -8,7 +8,7 @@ import {
 	MdFilterList,
 	MdSearch,
 } from "react-icons/md";
-import { TopBar } from "../../components/TopBar";
+import { TopBar } from "../../components/Header";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 import { ChangeEvent, useContext } from "react";

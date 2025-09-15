@@ -5,9 +5,12 @@ import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-quer
 import { TransactionProvider } from "../../context/TransactionProvider";
 import { BudgetProvider } from "../../context/BudgetProvider";
 import { SavingProvider } from "../../context/SavingProvider";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
-interface ProvidersProps {
+interface ProviderProps {
     children: ReactNode;
+    session?: any;
 }
 
 function createQueryClient() {
@@ -31,18 +34,23 @@ function getQueryClient() {
   }
 }
 
-export function Providers({ children }: ProvidersProps){
+export function Providers({
+    children,
+    session
+}: ProviderProps){
     const queryClient = getQueryClient();
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <TransactionProvider>
-                <BudgetProvider>
-                    <SavingProvider>
-                        {children}
-                    </SavingProvider>
-                </BudgetProvider>
-            </TransactionProvider>
-        </QueryClientProvider>
+        <SessionProvider session={session}>
+            <QueryClientProvider client={queryClient}>
+                <TransactionProvider>
+                    <BudgetProvider>
+                        <SavingProvider>
+                            {children}
+                        </SavingProvider>
+                    </BudgetProvider>
+                </TransactionProvider>
+            </QueryClientProvider>
+        </SessionProvider>
     )
 }

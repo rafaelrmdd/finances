@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { Card } from "@/components/Card";
-import { TopBar } from "../../components/TopBar";
+import { Header } from "../../components/Header";
 import { 
     MdAccountBalanceWallet, 
     MdKeyboardDoubleArrowUp, 
@@ -48,7 +48,7 @@ export default function Budgets() {
 
     return (
         <div className="w-full">
-            <TopBar />
+            <Header />
 
             <div className="px-4 py-4 min-h-screen bg-gray-900 h-full">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">

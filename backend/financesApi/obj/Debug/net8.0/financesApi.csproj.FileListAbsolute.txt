@@ -136,3 +136,11 @@ C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoai
 C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\financesApi.xml
 C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\obj\Debug\net8.0\financesApi.xml
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\rafar\OneDrive\Área de Trabalho\vscode projects\React\projetos-pessoais\money-management\backend\financesApi\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

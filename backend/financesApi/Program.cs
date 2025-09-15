@@ -6,9 +6,57 @@ using Microsoft.OpenApi.Models;
 using backend.financesApi.Profiles;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var secret = builder.Configuration["NextAuthSecret"];
+Console.WriteLine($"Secret being used: {secret}");
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
+            {
+                KeyId = "nextauth"
+            },
+            ClockSkew = TimeSpan.Zero,
+            RequireExpirationTime = true,
+            ValidateTokenReplay = false
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token validated successfully");
+                var claims = context.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
+                Console.WriteLine($"Claims: {string.Join(", ", claims)}");
+                return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                Console.WriteLine($"OnChallenge: {context.Error}, {context.ErrorDescription}");
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+builder.Services.AddAuthorization();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -49,7 +97,8 @@ builder.Services.AddCors(options =>
             policy
                 .WithOrigins("http://localhost:3000", "https://localhost:3000, https://localhost:5185")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         });
 });
 
@@ -64,9 +113,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowLocalHost");
 app.UseAuthorization();
+app.UseAuthentication();
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

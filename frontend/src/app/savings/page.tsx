@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from "@/components/Card";
-import { TopBar } from "@/components/TopBar";
+import { Header } from "@/components/Header";
 import {
     MdAccountBalance,
     MdFilterList,
@@ -43,7 +43,7 @@ export default function Savings() {
 
     return (
         <div className="w-full bg-gray-900">
-            <TopBar />
+            <Header />
 
             <div className="p-4 min-h-screen h-full bg-gray-900">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">
@@ -96,69 +96,7 @@ export default function Savings() {
                             <AddSavingButton/>
                         </div>
 
-                        <div className="flex gap-x-3 items-start">
-                            <div className="relative bg-gray-700 rounded-lg w-96 text-white
-                            placeholder:text-gray-600 border-white ">
-                                <MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
-                                <input
-                                    onKeyDown={(e) => {
-                                        setInputSearchKeyword("keyword", e)
-                                    }}
-                                    className="w-full h-full p-[8.5px] pl-10 outline-0 border border-transparent focus:border-blue-500
-                                    rounded-lg"
-                                    type="text"
-                                    placeholder="Search goals..."
-                                />
-                            </div>
-
-                            <div 
-                                className="flex items-center gap-x-2 bg-gray-700 rounded-lg 
-                                px-3 py-2"
-                            >
-                                <MdFilterList className="text-white" />
-                                <h3 className="text-white">Filters</h3>
-                            </div>
-
-                            <div className="bg-gray-700 rounded-lg">
-                                <select
-                                    onChange={(e) => {
-                                        setSelectSearchKeyword("category", e)
-                                    }}
-                                    className="text-white bg-gray-700 w-36 border border-transparent
-                                    focus:border-blue-500 rounded-lg pl-3 py-2 outline-0"
-                                    name="categories"
-                                >
-                                    <option value="all">All Categories</option>
-                                    <option value="emergency">Emergency</option>
-                                    <option value="vacation">Vacation</option>
-                                    <option value="car">Car</option>
-                                    <option value="wedding">Wedding</option>
-                                    <option value="retirement">Retirement</option>
-                                    <option value="education">Education</option>
-                                    <option value="business">Business</option>
-                                    <option value="investment">Investment</option>
-                                    <option value="health">Health</option>
-                                    <option value="technology">Technology</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-
-                            {/* <div className="bg-gray-700 rounded-lg">
-                                <select
-                                    onChange={(e) => {
-                                        setSearchKeyword("status", e)
-                                    }}
-                                    className="text-white px-3 py-2 bg-gray-700 border border-transparent 
-                                    focus:border-blue-500 rounded-lg outline-0"
-                                    name="time"
-                                >
-                                    <option value="30_days">All Status</option>
-                                    <option value="7_days">On Track</option>
-                                    <option value="this_month">Behind Schedule</option>
-                                    <option value="last_month">Completed</option>
-                                </select>
-                            </div> */}
-                        </div>
+    
                     </div>
 
                     {/* Items */}
