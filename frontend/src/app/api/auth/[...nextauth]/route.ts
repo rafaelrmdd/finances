@@ -1,63 +1,71 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import jwt from "jsonwebtoken"
+import { setCookie, parseCookies } from "nookies"
+import { JWT } from "next-auth/jwt"
+import { SignJWT, jwtVerify } from "jose"
 
 const handler = NextAuth({
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
-    }),
-  ],
-  session: {
-    strategy: "jwt",
-  },
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
-    encode: async ({ secret, token }) => {
-      const cleanToken = {
-        userId: token?.userId,
-        githubId: token?.githubId,
-        email: token?.email,
-        name: token?.name,
-        accessToken: token?.accessToken,
-        iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60), // 30 days
-      }
-
-      return jwt.sign(cleanToken, secret, {
-        algorithm: "HS256",
-        header: {
-          typ: "JWT",
-          alg: "HS256",
-          kid: "nextauth", // 👈 fixed, safe kid
+    providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_ID!,
+            clientSecret: process.env.GITHUB_SECRET!,
+        }),
+        // ...add more providers here
+    ],
+    pages: {
+        signIn: '/auth/signIn'
+    },
+    session: {
+        strategy: 'jwt',
+    },
+    cookies: {
+        sessionToken: {
+            name: 'next-auth.session-token',
+            options: {
+                httpOnly: false,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 30 * 24 * 60 * 60
+            }
         },
-      })
     },
-    decode: async ({ secret, token }) => {
-      return jwt.verify(token!, secret, {
-        algorithms: ["HS256"],
-      })
+    jwt: {
+        secret: process.env.NEXTAUTH_SECRET,
+        encode: async ({ secret, token }) => {
+            if (!token) return ""
+            return await new SignJWT(token as any)
+                .setProtectedHeader({ alg: "HS256" })
+                .sign(new TextEncoder().encode(secret as string))
+        },
+        decode: async ({ secret, token }) => {
+            if (!token) return null
+            const { payload } = await jwtVerify(token, new TextEncoder().encode(secret as string))
+            return payload as JWT
+        },
     },
-  },
-  callbacks: {
-    async jwt({ token, user, account }) {
-      if (user) {
-        token.userId = user.id
-        token.githubId = user.id
-      }
-      if (account) {
-        token.accessToken = account.access_token!
-      }
-      return token
-    },
-    async session({ session, token }) {
-      session.userId = token.userId
-      session.githubId = token.githubId
-      session.accessToken = token.accessToken
-      return session
-    },
-  },
+    callbacks: {
+        async jwt({ token, user, account }) {
+            if (user) {
+                token.userId = user.id
+                token.githubId = user.id
+
+                if (account) {
+                    token.accessToken = account.access_token!
+                }
+            }
+
+            return token
+        },
+        async session({ session, token }) {
+            session.userId = token.userId;
+            session.githubId = token.githubId
+            session.accessToken = token.accessToken
+
+            return session
+        }
+    }
 })
 
 export { handler as GET, handler as POST }

@@ -97,7 +97,7 @@ export function BudgetProvider({children}: ContextProviderProps) {
             })
         },
         onSuccess: () => {
-            queryClient.refetchQueries({ queryKey: ['savings'] });
+            queryClient.refetchQueries({ queryKey: ['budgets'] });
         },
         onError: (error) => {
             console.log("Error updating 'Budget':", error.message);
@@ -115,7 +115,7 @@ export function BudgetProvider({children}: ContextProviderProps) {
             })
         },
         onSuccess: () => {
-            queryClient.refetchQueries({ queryKey: ['savings'] });
+            queryClient.refetchQueries({ queryKey: ['budgets'] });
         },
         onError: (error) => {
             console.log("Error removing 'Budget':", error.message);

@@ -24,13 +24,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
-            {
-                KeyId = "nextauth"
-            },
+            ValidateLifetime = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
             ClockSkew = TimeSpan.Zero,
-            RequireExpirationTime = true,
+            RequireExpirationTime = false,
             ValidateTokenReplay = false
         };
 
@@ -114,8 +111,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowLocalHost");
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 
