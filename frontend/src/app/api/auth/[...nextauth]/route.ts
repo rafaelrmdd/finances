@@ -1,7 +1,5 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
-import jwt from "jsonwebtoken"
-import { setCookie, parseCookies } from "nookies"
 import { JWT } from "next-auth/jwt"
 import { SignJWT, jwtVerify } from "jose"
 
@@ -13,12 +11,13 @@ const handler = NextAuth({
         }),
         // ...add more providers here
     ],
-    pages: {
-        signIn: '/auth/signIn'
-    },
+    // pages: {
+    //     signIn: '/auth/signIn'
+    // },
     session: {
         strategy: 'jwt',
-    },
+        maxAge: 60 * 60 * 2,
+    },  
     cookies: {
         sessionToken: {
             name: 'next-auth.session-token',
@@ -27,11 +26,12 @@ const handler = NextAuth({
                 sameSite: 'lax',
                 path: '/',
                 secure: process.env.NODE_ENV === 'production',
-                maxAge: 30 * 24 * 60 * 60
+                maxAge: 60 * 60 * 2
             }
         },
     },
     jwt: {
+        maxAge: 60 * 60 * 2,
         secret: process.env.NEXTAUTH_SECRET,
         encode: async ({ secret, token }) => {
             if (!token) return ""

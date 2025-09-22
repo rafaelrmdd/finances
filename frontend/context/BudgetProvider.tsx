@@ -23,7 +23,6 @@ export interface Budget {
     timestamp: string;
 }
 
-
 export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
 export type CreateBudget = Omit<Budget, 'id' | 'timestamp'>
 
@@ -39,17 +38,15 @@ interface BudgetDataProps {
 export const BudgetContext = createContext({} as BudgetDataProps);
     
 export function BudgetProvider({children}: ContextProviderProps) {
-    const router = useRouter();
-    const { status } = useSession();
     const { 'next-auth.session-token': jwt } = parseCookies();
 
-    useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push("/auth/signIn");
-            return;
-        }
+    // useEffect(() => {
+    //     if (status === 'unauthenticated') {
+    //         router.push("/auth/signIn");
+    //         return;
+    //     }
 
-    }, [status])
+    // }, [status])
 
     const queryClient = useQueryClient();
 

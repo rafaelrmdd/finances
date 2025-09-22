@@ -8,7 +8,7 @@ import {
 	MdFilterList,
 	MdSearch,
 } from "react-icons/md";
-import { TopBar } from "../../components/Header";
+import { Header } from "@/components/Header";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionContainer } from "./components/TransactionContainer";
 import { ChangeEvent, useContext } from "react";
@@ -53,7 +53,7 @@ export default function Transactions() {
 	
 	return (
 		<div className="w-full">
-			<TopBar />	
+			<Header />	
 
 			<div className="p-4 min-h-screen h-full bg-gray-900">
 				<section className="grid grid-cols-4 gap-x-4 mb-8">

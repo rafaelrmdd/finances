@@ -1,6 +1,7 @@
 using backend.financesApi.DTOs;
 using backend.financesApi.Exceptions;
 using backend.financesApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.financesApi.Controllers;
@@ -26,6 +27,7 @@ public class TransactionController : ControllerBase
     /// <response code="200">Returns the list of transactions successfully</response>
     /// <response code="204">Returns NoContent when the list of transactions is empty</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetTransactionsAsync()
@@ -48,6 +50,7 @@ public class TransactionController : ControllerBase
     /// <response code="200">Returns the found transaction</response>
     /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpGet]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,6 +83,7 @@ public class TransactionController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when a validation error occurs</response>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,6 +121,7 @@ public class TransactionController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpPut]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -147,6 +152,7 @@ public class TransactionController : ControllerBase
     /// <response code="200">Returns Ok when the transaction is removed successfully</response>
     /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
     [HttpDelete]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

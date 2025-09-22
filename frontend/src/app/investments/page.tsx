@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from "@/components/Card";
-import { TopBar } from "@/components/Header";
+import { Header } from "@/components/Header";
 import {
 	MdTrendingUp,
 	MdTrendingDown,
@@ -30,7 +30,7 @@ export default function Investments() {
 
     return (
         <div className="w-full bg-gray-900">
-            <TopBar />
+            <Header />
 
             <div className="p-4 min-h-screen h-full bg-gray-900">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">

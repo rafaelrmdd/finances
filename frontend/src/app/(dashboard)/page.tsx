@@ -3,12 +3,8 @@
 import { Card } from "@/components/Card";
 import { Header } from "@/components/Header";
 import { MdAccountBalanceWallet, MdKeyboardDoubleArrowUp, MdKeyboardDoubleArrowDown } from "react-icons/md";
-import { useSession, signIn, signOut } from "next-auth/react"
 
 export default function Home() {
-    const { data: session } = useSession();
-
-    console.log("session: ", session);
 
     return (
         <div className="w-full">

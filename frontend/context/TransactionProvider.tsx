@@ -1,6 +1,7 @@
 'use client'
 
 import { UseMutateFunction, useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
+import { parseCookies } from "nookies";
 import { createContext, ReactNode } from "react";
 
 interface ContextProviderProps {
@@ -48,12 +49,18 @@ interface TransactionDataProps {
 export const TransactionContext = createContext({} as TransactionDataProps);
 
 export function TransactionProvider({children}: ContextProviderProps) {
+    const { 'next-auth.session-token': jwt } = parseCookies();
+
     const queryClient = useQueryClient();
 
     const { isPending, error, 'data': transactions } = useQuery({
         queryKey: ['transactions'],
         queryFn: async (): Promise<Transaction[]> => {
-            const response = await fetch('https://localhost:5185/api/transaction');
+            const response = await fetch('https://localhost:5185/api/transaction', {
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
 
             return await response.json();
         }   
@@ -64,7 +71,10 @@ export function TransactionProvider({children}: ContextProviderProps) {
             await fetch('https://localhost:5185/api/transaction', {
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
         },
         onSuccess: () => {
@@ -80,7 +90,10 @@ export function TransactionProvider({children}: ContextProviderProps) {
             const response = await fetch(`https://localhost:5185/api/transaction/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updateData),
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
         },
         onSuccess: () => {
@@ -95,7 +108,10 @@ export function TransactionProvider({children}: ContextProviderProps) {
         mutationFn: async (id: string) => {
             await fetch(`https://localhost:5185/api/transaction/${id}`, {
                 method: 'DELETE',
-                headers: {'Content-type': 'application/json'}
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
             })
         }
     })
