@@ -1,7 +1,7 @@
 'use client'
 
 import { Card } from "@/components/Card";
-import { TopBar } from "@/components/Header";
+import { Header } from "@/components/Header";
 import { formatMoney } from "@/utils/formatters";
 import { useContext } from "react";
 import {
@@ -26,6 +26,7 @@ import {
 } from "react-icons/md";
 import { CategoriesEnum, TransactionContext } from "../../../context/TransactionProvider";
 import { useReportsExpenses } from "@/hooks/reports/useReportsExpenses";
+import { SavingContext } from "../../../context/SavingProvider";
 
 export default function Reports() {
 
@@ -35,10 +36,11 @@ export default function Reports() {
         totalExpensesFormatted,
     } = useReportsExpenses();
 
+    const { savings } = useContext(SavingContext);
 
     return (
         <div className="w-full bg-gray-900">
-            <TopBar />
+            <Header />
 
             <div className="p-4 min-h-screen h-full bg-gray-900">
                 <section className="grid grid-cols-4 gap-x-4 mb-8">
@@ -286,93 +288,40 @@ export default function Reports() {
                             <h2 className="text-white font-semibold text-lg mb-4">Saving Goals Progress</h2>
 
                             <div className="space-y-2">
-                                <div className="">
-                                    <div className="flex justify-between mb-2">
-                                        <h3 className="text-gray-300 text-[0.9rem]">Emergency Fund</h3>
+                                {savings?.map((s) => {
+                                    const percentage = ((Number(s.currentAmount) / Number(s.targetAmount)) * 100).toFixed();
+                                
+                                    return (
+                                        <div
+                                            key={s.id} 
+                                        >
+                                            <div className="flex justify-between mb-2">
+                                                <h3 className="text-gray-300 text-[0.9rem]">{s.name}</h3>
 
-                                        <span className="text-gray-400 text-[0.9rem]">65%</span>
-                                    </div>
-                                    
-                                    {/* Progress Bar */}
-                                    <div 
-                                        className="w-full rounded-lg mb-1 bg-gray-600"
-                                    >
-                                        {/* w-[] must be conditional */}
-                                        <div className={`bg-green-400 w-[65%] p-1 rounded-lg`}></div>
-                                    </div>
+                                                <span className="text-gray-400 text-[0.9rem]">
+                                                    {percentage}%
+                                                </span>
+                                            </div>
+                                            
+                                            {/* Progress Bar */}
+                                            <div 
+                                                className="w-full rounded-lg mb-1 bg-gray-600"
+                                            >
+                                                {/* w-[] must be conditional */}
+                                                <div 
+                                                    className={`bg-green-400 p-1 rounded-lg`}
+                                                    style={{width: `${percentage}%`}}
+                                                ></div>
+                                            </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$6,500.00</span> 
-                                        
-                                        <span className="text-gray-400 text-[0.9rem]">$10,000.00</span>
-                                    </div>
-                                </div>
-
-                                <div className="">
-                                    <div className="flex justify-between mb-2">
-                                        <h3 className="text-gray-300 text-[0.9rem]">Emergency Fund</h3>
-
-                                        <span className="text-gray-400 text-[0.9rem]">65%</span>
-                                    </div>
-                                    
-                                    {/* Progress Bar */}
-                                    <div 
-                                        className="w-full rounded-lg mb-1 bg-gray-600"
-                                    >
-                                        {/* w-[] must be conditional */}
-                                        <div className={`bg-green-400 w-[65%] p-1 rounded-lg`}></div>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$6,500.00</span> 
-                                        
-                                        <span className="text-gray-400 text-[0.9rem]">$10,000.00</span>
-                                    </div>
-                                </div> 
-
-                                <div className="">
-                                    <div className="flex justify-between mb-2">
-                                        <h3 className="text-gray-300 text-[0.9rem]">Emergency Fund</h3>
-
-                                        <span className="text-gray-400 text-[0.9rem]">65%</span>
-                                    </div>
-                                    
-                                    {/* Progress Bar */}
-                                    <div 
-                                        className="w-full rounded-lg mb-1 bg-gray-600"
-                                    >
-                                        {/* w-[] must be conditional */}
-                                        <div className={`bg-green-400 w-[65%] p-1 rounded-lg`}></div>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$6,500.00</span> 
-                                        
-                                        <span className="text-gray-400 text-[0.9rem]">$10,000.00</span>
-                                    </div>
-                                </div> 
-
-                                <div className="">
-                                    <div className="flex justify-between mb-2">
-                                        <h3 className="text-gray-300 text-[0.9rem]">Emergency Fund</h3>
-
-                                        <span className="text-gray-400 text-[0.9rem]">65%</span>
-                                    </div>
-                                    
-                                    {/* Progress Bar */}
-                                    <div 
-                                        className="w-full rounded-lg mb-1 bg-gray-600"
-                                    >
-                                        {/* w-[] must be conditional */}
-                                        <div className={`bg-green-400 w-[65%] p-1 rounded-lg`}></div>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$6,500.00</span> 
-                                        
-                                        <span className="text-gray-400 text-[0.9rem]">$10,000.00</span>
-                                    </div>
-                                </div> 
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.currentAmount)}</span> 
+                                                
+                                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.targetAmount)}</span>
+                                            </div>
+                                        </div>
+                                    )
+                                })} 
                             </div> 
                         </div>
 
