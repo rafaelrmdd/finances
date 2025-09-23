@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
 import { MdFilterList, MdSearch } from "react-icons/md"
 
-export function Filters() {
+export function SavingsFilters() {
 
     const router = useRouter();
     const pathname = usePathname();

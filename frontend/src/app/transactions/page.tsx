@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useTransactionsFilters } from "@/hooks/transaction/useTransactionsFilters";
 import { useTransactionsPagement } from "@/hooks/transaction/useTransactionsPagement";
 import { useTransactionsMoneyManagement } from "@/hooks/transaction/useTransactionsMoneyManagement";
-import { Filters } from "./components/Filters";
+import { TransactionsFilters } from "./components/TransactionsFilters";
 
 export default function Transactions() {
 	Modal.setAppElement('body');
@@ -105,7 +105,7 @@ export default function Transactions() {
 							<AddTransactionButton />
 						</div>
 
-						<Filters />
+						<TransactionsFilters />
 					</div>
 
 					<TransactionContainer>

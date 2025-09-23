@@ -16,6 +16,7 @@ import { AddSavingButton } from "./components/Buttons/AddSavingButton"
 import { useSavingsFilters } from "@/hooks/savings/useSavingsFilters";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
+import { SavingsFilters } from "./components/SavingsFilters";
 
 export default function Savings() {
     Modal.setAppElement('body')
@@ -96,7 +97,7 @@ export default function Savings() {
                             <AddSavingButton/>
                         </div>
 
-    
+                        <SavingsFilters />
                     </div>
 
                     {/* Items */}

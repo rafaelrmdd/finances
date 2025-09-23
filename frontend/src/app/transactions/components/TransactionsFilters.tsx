@@ -5,7 +5,7 @@ import { ChangeEvent } from "react";
 import { MdFilterList, MdSearch } from "react-icons/md";
 
 
-export function Filters() {
+export function TransactionsFilters() {
     const {
         createQueryString,
     } = useTransactionsFilters();

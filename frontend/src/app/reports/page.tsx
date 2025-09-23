@@ -22,21 +22,36 @@ import {
 	MdCompareArrows,
 	MdTimeline,
     MdAdd,
-    MdSearch
+    MdSearch,
+    MdAssignmentTurnedIn
 } from "react-icons/md";
-import { CategoriesEnum, TransactionContext } from "../../../context/TransactionProvider";
-import { useReportsExpenses } from "@/hooks/reports/useReportsExpenses";
+import { TransactionContext } from "../../../context/TransactionProvider";
 import { SavingContext } from "../../../context/SavingProvider";
+import { SavingGoalsCard } from "./components/SavingGoalsCard";
+import { ExpensesCard } from "./components/ExpensesCard";
+import { Chart } from "./components/Chart";
+import { InvestmentsCard } from "./components/InvestmentsCard";
+import { BudgetContext } from "../../../context/BudgetProvider";
 
 export default function Reports() {
 
-    const {
-        expenses,
-        percentages,
-        totalExpensesFormatted,
-    } = useReportsExpenses();
+    const { savings = []} = useContext(SavingContext);
+    const { transactions = [] } = useContext(TransactionContext);
+    const { budgets = [] } = useContext(BudgetContext);
 
-    const { savings } = useContext(SavingContext);
+    const totalSaving = savings?.reduce((sum, s) => sum + Number(s.currentAmount), 0)
+    const totalExpense = transactions
+        .filter((t) => t.type === 'expense')
+        .reduce((sum, t) => sum + Number(t.value), 0)
+    const totalIncome = transactions
+        .filter((t) => t.type === 'income')
+        .reduce((sum, t) => sum + Number(t.value), 0);
+    const totalBudgeted = budgets.reduce((sum, b) => sum + Number(b.amount), 0);
+
+    const totalSavingFormatted = formatMoney(totalSaving)
+    const totalExpenseFormatted = formatMoney(totalExpense);
+    const totalIncomeFormatted = formatMoney(totalIncome);
+    const totalBudgetedFormatted = formatMoney(totalBudgeted)
 
     return (
         <div className="w-full bg-gray-900">
@@ -154,240 +169,13 @@ export default function Reports() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-x-6 gap-y-6 mb-8">
-                        <div className="p-6 bg-gray-800 rounded-lg min-h-96">
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-x-2">
-                                    <MdShowChart className="text-[1.1rem] text-blue-500"/>
-                                    <h2 className="text-xl font-semibold text-white">Monthly Trend (6 Months)</h2>
-                                </div>
+                        <Chart />
 
-                                <div className="flex gap-x-2">
-                                    <div className="flex items-center gap-x-1">
-                                        <div className="w-3 h-3 bg-green-500 rounded"></div>
-                                        <h4 className="text-gray-500 text-[0.9rem]">Income</h4>
-                                    </div>
+                        <ExpensesCard />
 
-                                    <div className="flex items-center gap-x-1">
-                                        <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                        <h4 className="text-gray-500 text-[0.9rem]">Expenses</h4>
-                                    </div>
+                        <SavingGoalsCard />
 
-                                    <div className="flex items-center gap-x-1">
-                                        <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                                        <h4 className="text-gray-500 text-[0.9rem]">Savings</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="w-full h-full flex justify-center items-center text-white">
-                                <h1 className="font-bold text-3xl">Chart will be here </h1>
-                            </div>
-                        </div>
-
-                        <div className="p-6 bg-gray-800 rounded-lg min-h-96">
-                            <div className="flex items-center gap-x-2 mb-4">
-                                <MdPieChart className="text-[1.1rem] text-yellow-500"/>
-                                <h2 className="text-white font-semibold text-lg">Expense Breakdown</h2>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Food & Dining</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.foodExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.foodPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Transportation</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.transportationExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.transportationPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Entertainment</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.entertainmentExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.entertainmentPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-green-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Housing</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.housingExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.housingPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-pink-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Education</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.educationExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.educationPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-purple-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Shopping</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.shoppingExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.shoppingPercentageParticipation}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <div className="w-3 h-3 bg-gray-500 rounded"></div>
-                                        <h4 className="text-white text-[0.9rem]">Other</h4>
-                                    </div>
-
-                                    <div className="flex flex-col">
-                                        <span className="text-white font-semibold">{expenses.otherExpensesFormatted}</span>
-                                        <span className="text-gray-400 text-[0.8rem] text-end">{percentages.otherPercentageParticipation}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr className="text-gray-600 mt-4 mb-4"/>
-
-                            <div className="flex justify-between">
-                                <h2 className="text-white font-semibold">Total Expenses</h2>
-                                <span className="text-white font-semibold">{totalExpensesFormatted}</span>
-                            </div>
-                        </div>
-
-                        <div className="bg-gray-800 rounded-lg p-6">
-                            <h2 className="text-white font-semibold text-lg mb-4">Saving Goals Progress</h2>
-
-                            <div className="space-y-2">
-                                {savings?.map((s) => {
-                                    const percentage = ((Number(s.currentAmount) / Number(s.targetAmount)) * 100).toFixed();
-                                
-                                    return (
-                                        <div
-                                            key={s.id} 
-                                        >
-                                            <div className="flex justify-between mb-2">
-                                                <h3 className="text-gray-300 text-[0.9rem]">{s.name}</h3>
-
-                                                <span className="text-gray-400 text-[0.9rem]">
-                                                    {percentage}%
-                                                </span>
-                                            </div>
-                                            
-                                            {/* Progress Bar */}
-                                            <div 
-                                                className="w-full rounded-lg mb-1 bg-gray-600"
-                                            >
-                                                {/* w-[] must be conditional */}
-                                                <div 
-                                                    className={`bg-green-400 p-1 rounded-lg`}
-                                                    style={{width: `${percentage}%`}}
-                                                ></div>
-                                            </div>
-
-                                            <div className="flex justify-between">
-                                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.currentAmount)}</span> 
-                                                
-                                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.targetAmount)}</span>
-                                            </div>
-                                        </div>
-                                    )
-                                })} 
-                            </div> 
-                        </div>
-
-                        <div className="bg-gray-800 p-6 rounded-lg">
-                            <div className="flex gap-x-2 items-center mb-4">
-                                <MdTimeline className="text-purple-500 text-[1.1rem]" />
-                                <h2 className="text-white font-semibold text-lg">Investment Performance</h2>
-                            </div>
-
-                            <div className="space-y-2">
-                                <div>
-                                    <div className="flex justify-between">
-                                        <h3 className="font-semibold text-white">AAPL</h3>
-                                        <span className="text-green-400 font-semibold">+ $1,275.00</span>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$8,775.00</span>
-                                        <span className="text-green-400 text-[0.9rem]">+17.00%</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="flex justify-between">
-                                        <h3 className="font-semibold text-white">AAPL</h3>
-                                        <span className="text-green-400 font-semibold">+ $1,275.00</span>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$8,775.00</span>
-                                        <span className="text-green-400 text-[0.9rem]">+17.00%</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="flex justify-between">
-                                        <h3 className="font-semibold text-white">AAPL</h3>
-                                        <span className="text-green-400 font-semibold">+ $1,275.00</span>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$8,775.00</span>
-                                        <span className="text-green-400 text-[0.9rem]">+17.00%</span>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="flex justify-between">
-                                        <h3 className="font-semibold text-white">AAPL</h3>
-                                        <span className="text-green-400 font-semibold">+ $1,275.00</span>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 text-[0.9rem]">$8,775.00</span>
-                                        <span className="text-green-400 text-[0.9rem]">+17.00%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr className="text-gray-600 mt-4 mb-4"/>
-
-                            <div className="flex justify-between">
-                                <h2 className="text-white font-semibold">Total Portfolio</h2>
-                                <span className="text-white font-semibold">$3,700.00</span>
-                            </div>
-                        </div>
+                        <InvestmentsCard />
                     </div>
 
                     <div className="w-full bg-gray-800 p-6 rounded-lg">
@@ -399,37 +187,47 @@ export default function Reports() {
                                     <MdAccountBalance className="text-white text-[1.2rem]"/>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <h4 className="text-gray-500 text-[0.9rem]">Total Income (6M)</h4>
-                                    <span className="text-white font-semibold">$37,400.00</span>
+                                    <h4 className="text-gray-500 text-[0.9rem]">Total Income</h4>
+                                    <span className="text-white font-semibold">{totalIncomeFormatted}</span>
                                 </div>
                             </div>
 
                             <div className="flex justify-center items-center flex-col gap-y-2">
                                 <div className="bg-red-600 rounded-lg p-4">
-                                    <MdAccountBalance className="text-white text-[1.2rem]"/>
+                                    <MdTrendingDown className="text-white text-[1.2rem]"/>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <h4 className="text-gray-500 text-[0.9rem]">Total Income (6M)</h4>
-                                    <span className="text-white font-semibold">$37,400.00</span>
+                                    <h4 className="text-gray-500 text-[0.9rem]">Total Expenses</h4>
+                                    <span className="text-white font-semibold">{totalExpenseFormatted}</span>
                                 </div>
                             </div>
 
                             <div className="flex justify-center items-center flex-col gap-y-2">
                                 <div className="bg-green-600 rounded-lg p-4">
-                                    <MdAccountBalance className="text-white text-[1.2rem]"/>
+                                    <MdSavings className="text-white text-[1.2rem]"/>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <h4 className="text-gray-500 text-[0.9rem]">Total Income (6M)</h4>
-                                    <span className="text-white font-semibold">$37,400.00</span>
+                                    <h4 className="text-gray-500 text-[0.9rem]">Total Savings</h4>
+                                    <span className="text-white font-semibold">{totalSavingFormatted}</span>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center items-center flex-col gap-y-2">
+                                <div className="bg-orange-600 rounded-lg p-4">
+                                    <MdAssignmentTurnedIn className="text-white text-[1.2rem]"/>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <h4 className="text-gray-500 text-[0.9rem]">Total Budgeted</h4>
+                                    <span className="text-white font-semibold">{totalBudgetedFormatted}</span>
                                 </div>
                             </div>
 
                             <div className="flex justify-center items-center flex-col gap-y-2">
                                 <div className="bg-purple-600 rounded-lg p-4">
-                                    <MdAccountBalance className="text-white text-[1.2rem]"/>
+                                    <MdTrendingUp className="text-white text-[1.2rem]"/>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <h4 className="text-gray-500 text-[0.9rem]">Total Income (6M)</h4>
+                                    <h4 className="text-gray-500 text-[0.9rem]">Portfolio Growth</h4>
                                     <span className="text-white font-semibold">$37,400.00</span>
                                 </div>
                             </div>
