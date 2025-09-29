@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.financesApi.Context;
@@ -11,9 +12,11 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    partial class FinancesContextModelSnapshot : ModelSnapshot
+    [Migration("20250929180446_AddNewTable")]
+    partial class AddNewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace financesApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Budgets", (string)null);
+                    b.ToTable("Budgets");
                 });
 
             modelBuilder.Entity("backend.financesApi.Models.Saving", b =>
@@ -107,7 +110,7 @@ namespace financesApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Savings", (string)null);
+                    b.ToTable("Savings");
                 });
 
             modelBuilder.Entity("backend.financesApi.Models.TransactionItem", b =>
@@ -143,7 +146,7 @@ namespace financesApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("backend.financesApi.Models.User", b =>
@@ -162,7 +165,7 @@ namespace financesApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("backend.financesApi.Models.Budget", b =>

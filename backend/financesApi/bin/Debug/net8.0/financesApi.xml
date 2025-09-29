@@ -328,5 +328,41 @@
         <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:financesApi.Migrations.AddNewTableUsers">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableUsers.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableUsers.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTableUsers.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewTable">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddRelations">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRelations.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRelations.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddRelations.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

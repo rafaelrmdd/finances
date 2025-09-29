@@ -5,5 +5,5 @@ public record EditTransactionDTO(
     string Type,
     string Category,
     string Value,
-    DateTimeOffset? UpdatedAt
+    DateTimeOffset UpdatedAt
 );

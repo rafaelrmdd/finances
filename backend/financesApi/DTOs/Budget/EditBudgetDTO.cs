@@ -4,7 +4,7 @@ public record EditBudgetDTO(
     string Name,
     string Category,
     string Amount,
-    string startDate,
-    string endDate,
+    string StartDate,
+    string EndDate,
     DateTimeOffset UpdatedAt
 );

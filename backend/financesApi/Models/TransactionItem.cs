@@ -6,6 +6,9 @@ namespace backend.financesApi.Models;
 public class TransactionItem
 {
     public Guid Id { get; set; }
+    [JsonIgnore]
+    public virtual User? User { get; set; }
+    public Guid UserId { get; set; }
     public string? Name { get; set; }
     public TypesEnum Type { get; set; }
     public CategoriesEnum Category { get; set; }

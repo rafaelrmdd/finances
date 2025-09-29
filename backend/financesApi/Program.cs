@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 var builder = WebApplication.CreateBuilder(args);
 
 var secret = builder.Configuration["NextAuthSecret"];
-Console.WriteLine($"Secret being used: {secret}");
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
