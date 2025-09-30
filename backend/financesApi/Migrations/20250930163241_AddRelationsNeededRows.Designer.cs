@@ -12,8 +12,8 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    [Migration("20250929180446_AddNewTable")]
-    partial class AddNewTable
+    [Migration("20250930163241_AddRelationsNeededRows")]
+    partial class AddRelationsNeededRows
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

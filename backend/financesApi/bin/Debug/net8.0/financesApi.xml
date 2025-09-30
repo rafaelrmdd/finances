@@ -196,172 +196,28 @@
             <response code="200">Returns Ok when the transaction is removed successfully</response>
             <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
-        <member name="T:financesApi.Migrations.InitialMigration">
+        <member name="T:financesApi.Migrations.AddTablesBack">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:financesApi.Migrations.AddTablesBack.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:financesApi.Migrations.AddTablesBack.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:financesApi.Migrations.AddTablesBack.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:financesApi.Migrations.DbSetFixMigration">
+        <member name="T:financesApi.Migrations.AddRelationsNeededRows">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.DbSetFixMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:financesApi.Migrations.AddRelationsNeededRows.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.DbSetFixMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:financesApi.Migrations.AddRelationsNeededRows.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:financesApi.Migrations.DbSetFixMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddRowUpdatedAtInTableTransactions">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowUpdatedAtInTableTransactions.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangePropsTimestampAndUpdatedAtTypes.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewColumnsTimestampAndUpdatedAtInTableTransactionItems.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewTableBudgets">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableBudgets.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableBudgets.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableBudgets.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowsStartDateEndDateAndChangedRowValueToAmountInBudgetsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddRowCategoryInBudgetsTable">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRowCategoryInBudgetsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewTableSavings">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableSavings.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableSavings.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableSavings.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.ChangeRowNameFromAmountToTargetAmountInSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewRowCurrentAmountAtSavingsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewTableUsers">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableUsers.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableUsers.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTableUsers.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddNewTable">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddNewTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:financesApi.Migrations.AddRelations">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRelations.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRelations.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:financesApi.Migrations.AddRelations.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:financesApi.Migrations.AddRelationsNeededRows.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

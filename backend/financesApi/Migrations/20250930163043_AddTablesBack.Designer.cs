@@ -12,8 +12,8 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    [Migration("20250902174725_AddNewRowCurrentAmountAtSavingsTable")]
-    partial class AddNewRowCurrentAmountAtSavingsTable
+    [Migration("20250930163043_AddTablesBack")]
+    partial class AddTablesBack
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,6 +132,25 @@ namespace financesApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("backend.financesApi.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Jwt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
