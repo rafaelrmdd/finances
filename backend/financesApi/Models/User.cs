@@ -13,4 +13,6 @@ public class User
     public virtual IEnumerable<Saving>? Savings { get; set; }
     [JsonIgnore]
     public virtual IEnumerable<Budget>? Budgets { get; set; }
+    public DateTimeOffset Timestamp { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 }

@@ -196,6 +196,64 @@
             <response code="200">Returns Ok when the transaction is removed successfully</response>
             <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
         </member>
+        <member name="T:backend.financesApi.Controllers.UserController">
+            <summary>
+            Controller responsible for managing users
+            </summary>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.GetUsersAsync">
+            <summary>
+            Gets all available users
+            </summary>
+            <returns>A list of all users</returns>
+            <response code="200">Returns the list of users successfully</response>
+            <response code="204">Returns NoContent when the list of users is empty</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.GetUserByIdAsync(System.Guid)">
+            <summary>
+            Gets a specific user by ID
+            </summary>
+            <param name="id">The unique identifier of the user</param>
+            <returns>The requested user data</returns>
+            <response code="200">Returns the found user</response>
+            <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.AddBudgetAsync(backend.financesApi.DTOs.AddUserDTO)">
+            <summary>
+            Adds a new budget
+            </summary>
+            <param name="addUserDTO">
+            Data for the user to be created
+            </param>
+            <returns>The created user data</returns>
+            <response code="201">Returns Created when the user is created successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound When a validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.EditBudgetAsync(System.Guid,backend.financesApi.DTOs.EditUserDTO)">
+            <summary>
+            Updates an existing budget
+            </summary>
+            <param name="id"> 
+            Id of the 'user' to be updated
+            </param>
+            <param name="editUserDTO">
+            Updated user data
+            </param>
+            <returns>The updated user data</returns>
+            <response code="200">User updated successfully</response>
+            <response code="400">Returns BadRequest when the provided data is invalid</response>
+            <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.RemoveUserAsync(System.Guid)">
+            <summary>
+            Removes a user by ID
+            </summary>
+            <param name="id">The unique identifier of the user to be removed</param>
+            <returns>Confirmation of successful deletion</returns>
+            <response code="200">Returns Ok when the user is removed successfully</response>
+            <response code="404">Returns NotFound When the user is not found or validation error occurs</response>
+        </member>
         <member name="T:financesApi.Migrations.AddTablesBack">
             <inheritdoc />
         </member>
