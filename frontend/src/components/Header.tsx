@@ -3,6 +3,11 @@ import { destroyCookie } from "nookies";
 
 export function Header() {
     const { data: session, status } = useSession();
+    console.log('session: ', session);
+
+    const handleSignIn = () => {
+        signIn('github');
+    }
 
     return (
         <div className="w-full bg-gray-800 flex justify-between px-4 py-3">

@@ -5,6 +5,10 @@ import { CategoriesEnum, CreateTransaction, TransactionContext, TypesEnum } from
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTransactionsButtonManagement } from "@/hooks/transaction/useTransactionsButtonManagement";
 import { MdAdd, MdAttachMoney, MdHome, MdKeyboardDoubleArrowUp, MdLocalGasStation, MdMovie, MdRestaurant, MdSchool, MdShoppingCart } from "react-icons/md";
+import { useSession } from "next-auth/react";
+import { UserContext } from "../../../../../context/UserProvider";
+import { parseCookies } from "nookies";
+import { useUserByEmail } from "@/hooks/users/useUserByEmail";
 
 interface AddTransactionModalProps {
     isModalOpen: boolean;
@@ -17,7 +21,10 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
     Modal.setAppElement('body');
 
+    const { data: session } = useSession();
+
     const { createTransaction } = useContext(TransactionContext);
+    const { getUserByEmail } = useContext(UserContext);
 
     const { 
 		register, 
@@ -43,7 +50,15 @@ export function AddTransactionModal({
         resetCategoryAndType();
         toggleCategory("");
 
-        createTransaction(data);
+        const email = session?.user?.email || "";
+        const user = getUserByEmail(email);
+
+        const dataWithId = {
+            ...data,
+            UserId: user?.id
+        }
+
+        createTransaction(dataWithId);
     }
 
     return (

@@ -2,8 +2,15 @@ import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import { JWT } from "next-auth/jwt"
 import { SignJWT, jwtVerify } from "jose"
+import { useContext } from "react"
+import { UserContext } from "../../../../../context/UserProvider"
+
+if (process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 const handler = NextAuth({
+    
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID!,
@@ -54,6 +61,7 @@ const handler = NextAuth({
                 if (account) {
                     token.accessToken = account.access_token!
                 }
+
             }
 
             return token
@@ -64,6 +72,29 @@ const handler = NextAuth({
             session.accessToken = token.accessToken
 
             return session
+        },
+        async signIn({ user }) {
+            if (!user.email) {
+                console.log('Email is empty!');
+                return false;
+            }
+
+            try {
+                await fetch(`https://localhost:5185/api/user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                    }),
+                });
+
+                return true;
+            } catch (error) {
+                console.error('Error while comunicating with the backend:', error);
+                return false;
+            }
         }
     }
 })
