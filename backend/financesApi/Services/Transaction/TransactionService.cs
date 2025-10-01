@@ -65,6 +65,11 @@ public class TransactionService : ITransactionService
             throw new InvalidDataException("Field 'type' cannot be empty.");
         }
 
+        if (string.IsNullOrEmpty(addTransactionDTO.UserId))
+        {
+            throw new InvalidDataException("Field 'userid' cannot be empty.");
+        }
+
         if (!Enum.TryParse(addTransactionDTO.Type, ignoreCase: true, out TypesEnum type))
         {
             throw new ArgumentException($"Invalid type: {addTransactionDTO.Type}");
@@ -77,11 +82,12 @@ public class TransactionService : ITransactionService
 
         AddTransactionWithEnumDTO addTransactionWithEnumDTO = new AddTransactionWithEnumDTO
         (
-            addTransactionDTO.Name,
-            type,
-            category,
-            addTransactionDTO.Value,
-            DateTimeOffset.UtcNow
+            Name: addTransactionDTO.Name,
+            UserId: Guid.Parse(addTransactionDTO.UserId),
+            Type: type,
+            Category: category,
+            Value: addTransactionDTO.Value,
+            Timestamp: DateTimeOffset.UtcNow
         );
 
         TransactionItem transaction = _mapper.Map<TransactionItem>(addTransactionWithEnumDTO);

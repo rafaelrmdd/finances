@@ -3,7 +3,6 @@ import { destroyCookie } from "nookies";
 
 export function Header() {
     const { data: session, status } = useSession();
-    console.log('session: ', session);
 
     const handleSignIn = () => {
         signIn('github');

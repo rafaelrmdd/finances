@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.financesApi.Context;
@@ -11,9 +12,11 @@ using backend.financesApi.Context;
 namespace financesApi.Migrations
 {
     [DbContext(typeof(FinancesContext))]
-    partial class FinancesContextModelSnapshot : ModelSnapshot
+    [Migration("20251001163510_AddNewRowsTimestampAndUpdatedAt")]
+    partial class AddNewRowsTimestampAndUpdatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,6 +156,10 @@ namespace financesApi.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Jwt")
                         .IsRequired()
                         .HasColumnType("text");
 

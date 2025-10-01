@@ -43,16 +43,30 @@ public class UserService : IUserService
         return _mapper.Map<UserResponseDTO>(user);
     }
 
+    public async Task<UserResponseDTO> GetUserByEmailAsync(string email)
+    {
+        var user = await _repository.GetUserByEmailAsync(email);
+
+        if (user == null)
+        {
+            throw new ValidationException($"User with email: {email} was not found.");
+        }
+
+        return _mapper.Map<UserResponseDTO>(user);
+    }
+
     public async Task<UserResponseDTO> AddUserAsync(AddUserDTO addUserDTO)
     {
+        var userByEmail = await _repository.GetUserByEmailAsync(addUserDTO.Email);
+
+        if (userByEmail is not null)
+        {
+            throw new ValidationException("This email is already registered");
+        }
+
         if (string.IsNullOrEmpty(addUserDTO.Email))
         {
             throw new InvalidDataException("Field 'email' cannot be empty.");
-        }
-
-        if (string.IsNullOrEmpty(addUserDTO.Password))
-        {
-            throw new InvalidDataException("Field 'password' cannot be empty.");
         }
 
         User user = _mapper.Map<User>(addUserDTO);

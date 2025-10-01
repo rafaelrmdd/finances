@@ -30,6 +30,7 @@ export interface Transaction {
     type: TypesEnum;
     category: CategoriesEnum;
     value: string;
+    userId?: string;
     timestamp: string;
 }
 

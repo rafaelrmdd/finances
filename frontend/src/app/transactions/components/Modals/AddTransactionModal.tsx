@@ -1,4 +1,5 @@
-import { formatMoney } from "@/utils/formatters";
+'use client'
+
 import { useContext, useState } from "react";
 import Modal from "react-modal";
 import { CategoriesEnum, CreateTransaction, TransactionContext, TypesEnum } from "../../../../../context/TransactionProvider";
@@ -8,7 +9,6 @@ import { MdAdd, MdAttachMoney, MdHome, MdKeyboardDoubleArrowUp, MdLocalGasStatio
 import { useSession } from "next-auth/react";
 import { UserContext } from "../../../../../context/UserProvider";
 import { parseCookies } from "nookies";
-import { useUserByEmail } from "@/hooks/users/useUserByEmail";
 
 interface AddTransactionModalProps {
     isModalOpen: boolean;
@@ -44,18 +44,28 @@ export function AddTransactionModal({
 		resetCategoryAndType
 	} = useTransactionsButtonManagement();
 
-    const onSubmit: SubmitHandler<CreateTransaction> = (data) => {
+    const { 'next-auth.session-token': jwt } = parseCookies();
+    const onSubmit: SubmitHandler<CreateTransaction> = async (data) => {
         closeModal();
         reset();
         resetCategoryAndType();
         toggleCategory("");
 
         const email = session?.user?.email || "";
-        const user = getUserByEmail(email);
+        const response = await fetch(`https://localhost:5185/api/user/email/${email}`, {
+            headers: {
+                'Authorization': `Bearer ${jwt}`
+            }
+        });
+
+        const user = await response.json();
 
         const dataWithId = {
-            ...data,
-            UserId: user?.id
+            name: data.name,
+            type: data.type,
+            category: data.category,
+            value: data.value,
+            userId: user?.id
         }
 
         createTransaction(dataWithId);

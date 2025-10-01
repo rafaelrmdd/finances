@@ -83,7 +83,6 @@ public class TransactionController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when a validation error occurs</response>
     [HttpPost]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

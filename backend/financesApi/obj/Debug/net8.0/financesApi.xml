@@ -16,6 +16,7 @@
             <returns>A list of all budgets</returns>
             <response code="200">Returns the list of budgets successfully</response>
             <response code="204">Returns NoContent when the list of budgets is empty</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.BudgetController.GetBudgetsByIdAsync(System.Guid)">
             <summary>
@@ -25,6 +26,7 @@
             <returns>The requested budget data</returns>
             <response code="200">Returns the found budget</response>
             <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.BudgetController.AddBudgetAsync(backend.financesApi.DTOs.AddBudgetDTO)">
             <summary>
@@ -39,6 +41,7 @@
             <response code="201">Returns Created when the budget is created successfully</response>
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound When a validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.BudgetController.EditBudgetAsync(System.Guid,backend.financesApi.DTOs.EditBudgetDTO)">
             <summary>
@@ -56,6 +59,7 @@
             <response code="200">Budget updated successfully</response>
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.BudgetController.RemoveBudgetAsync(System.Guid)">
             <summary>
@@ -65,6 +69,7 @@
             <returns>Confirmation of successful deletion</returns>
             <response code="200">Returns Ok when the budget is removed successfully</response>
             <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="T:backend.financesApi.Controllers.SavingController">
             <summary>
@@ -208,6 +213,7 @@
             <returns>A list of all users</returns>
             <response code="200">Returns the list of users successfully</response>
             <response code="204">Returns NoContent when the list of users is empty</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.UserController.GetUserByIdAsync(System.Guid)">
             <summary>
@@ -217,10 +223,21 @@
             <returns>The requested user data</returns>
             <response code="200">Returns the found user</response>
             <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.UserController.AddBudgetAsync(backend.financesApi.DTOs.AddUserDTO)">
+        <member name="M:backend.financesApi.Controllers.UserController.GetUserByIdAsync(System.String)">
             <summary>
-            Adds a new budget
+            Gets a specific user by ID
+            </summary>
+            <param name="email">The unique identifier of the user</param>
+            <returns>The requested user data</returns>
+            <response code="200">Returns the found user</response>
+            <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.UserController.AddUserAsync(backend.financesApi.DTOs.AddUserDTO)">
+            <summary>
+            Adds a new user
             </summary>
             <param name="addUserDTO">
             Data for the user to be created
@@ -229,10 +246,11 @@
             <response code="201">Returns Created when the user is created successfully</response>
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound When a validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
-        <member name="M:backend.financesApi.Controllers.UserController.EditBudgetAsync(System.Guid,backend.financesApi.DTOs.EditUserDTO)">
+        <member name="M:backend.financesApi.Controllers.UserController.EditUserAsync(System.Guid,backend.financesApi.DTOs.EditUserDTO)">
             <summary>
-            Updates an existing budget
+            Updates an existing user
             </summary>
             <param name="id"> 
             Id of the 'user' to be updated
@@ -244,6 +262,7 @@
             <response code="200">User updated successfully</response>
             <response code="400">Returns BadRequest when the provided data is invalid</response>
             <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="M:backend.financesApi.Controllers.UserController.RemoveUserAsync(System.Guid)">
             <summary>
@@ -253,6 +272,7 @@
             <returns>Confirmation of successful deletion</returns>
             <response code="200">Returns Ok when the user is removed successfully</response>
             <response code="404">Returns NotFound When the user is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
         <member name="T:financesApi.Migrations.AddTablesBack">
             <inheritdoc />
@@ -276,6 +296,30 @@
             <inheritdoc />
         </member>
         <member name="M:financesApi.Migrations.AddRelationsNeededRows.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.AddNewRowsTimestampAndUpdatedAt">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsTimestampAndUpdatedAt.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsTimestampAndUpdatedAt.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.AddNewRowsTimestampAndUpdatedAt.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:financesApi.Migrations.RemoveRowJwt">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.RemoveRowJwt.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.RemoveRowJwt.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:financesApi.Migrations.RemoveRowJwt.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

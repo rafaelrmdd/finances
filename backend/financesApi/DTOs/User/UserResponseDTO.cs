@@ -1,3 +1,3 @@
 namespace backend.financesApi.DTOs;
 
-public record UserResponseDTO(string Email);
+public record UserResponseDTO(Guid Id, string Email);

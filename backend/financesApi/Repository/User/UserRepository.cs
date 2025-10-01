@@ -23,10 +23,14 @@ public class UserRepository : IUserRepository
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
     public async Task<User> AddUserAsync(User user)
     {
         var entityEntry = await _context.Users.AddAsync(user);
-
         await _context.SaveChangesAsync();
 
         return entityEntry.Entity;
@@ -42,7 +46,6 @@ public class UserRepository : IUserRepository
         }
 
         entityTransaction.Email = user.Email;
-        entityTransaction.Jwt = user.Jwt;
         entityTransaction.Timestamp = user.Timestamp;
         entityTransaction.UpdatedAt = DateTimeOffset.UtcNow;
 

@@ -26,7 +26,7 @@ public class UserController : ControllerBase
     /// <returns>A list of all users</returns>
     /// <response code="200">Returns the list of users successfully</response>
     /// <response code="204">Returns NoContent when the list of users is empty</response>
-    [Authorize]
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -49,7 +49,7 @@ public class UserController : ControllerBase
     /// <returns>The requested user data</returns>
     /// <response code="200">Returns the found user</response>
     /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
-    [Authorize]
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -69,7 +69,33 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
-    /// Adds a new budget
+    /// Gets a specific user by ID
+    /// </summary>
+    /// <param name="email">The unique identifier of the user</param>
+    /// <returns>The requested user data</returns>
+    /// <response code="200">Returns the found user</response>
+    /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
+    [HttpGet]
+    [Route("email/{email}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetUserByIdAsync([FromRoute] string email)
+    {
+        try
+        {
+            var userResponseDTO = await _service.GetUserByEmailAsync(email);
+
+            return Ok(userResponseDTO);
+        }
+        catch (ValidationException e)
+        {
+            return NotFound(e);
+        }
+    }
+
+    /// <summary>
+    /// Adds a new user
     /// </summary>
     /// <param name="addUserDTO">
     /// Data for the user to be created
@@ -78,12 +104,12 @@ public class UserController : ControllerBase
     /// <response code="201">Returns Created when the user is created successfully</response>
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound When a validation error occurs</response>
-    [Authorize]
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> AddBudgetAsync([FromBody] AddUserDTO addUserDTO)
+    public async Task<ActionResult> AddUserAsync([FromBody] AddUserDTO addUserDTO)
     {
         try
         {
@@ -114,13 +140,13 @@ public class UserController : ControllerBase
     /// <response code="200">User updated successfully</response>
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
-    [Authorize]
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpPut]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> EditBudgetAsync([FromRoute] Guid id, [FromBody] EditUserDTO editUserDTO)
+    public async Task<ActionResult> EditUserAsync([FromRoute] Guid id, [FromBody] EditUserDTO editUserDTO)
     {
         try
         {
@@ -145,7 +171,7 @@ public class UserController : ControllerBase
     /// <returns>Confirmation of successful deletion</returns>
     /// <response code="200">Returns Ok when the user is removed successfully</response>
     /// <response code="404">Returns NotFound When the user is not found or validation error occurs</response>
-    [Authorize]
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpDelete]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
