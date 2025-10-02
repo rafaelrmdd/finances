@@ -5,6 +5,9 @@ import { useContext } from "react";
 import { MdAccountBalance, MdBusiness, MdCardGiftcard, MdClose, MdDirectionsCar, MdFavorite, MdHealthAndSafety, MdSavings, MdSchool } from "react-icons/md";
 import { GoGoal } from "react-icons/go";
 import { useSavingsButtonManagement } from "@/hooks/savings/useSavingsButtonManagement";
+import { parseCookies } from "nookies";
+import { useSession } from "next-auth/react";
+import { UserContext } from "../../../../../context/UserProvider";
 
 interface AddSavingModalProps {
     isModalOpen: boolean;
@@ -15,7 +18,8 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
     Modal.setAppElement('body')
 
     const { createSaving } = useContext(SavingContext);
-
+    const { user } = useContext(UserContext);
+    
     const { 
         register,
         reset, 
@@ -35,17 +39,18 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
         categories
     } = useSavingsButtonManagement();
 
-    const onSubmit: SubmitHandler<CreateSaving> = (data) => {
+    const onSubmit: SubmitHandler<CreateSaving> = async (data) => {
         closeModal();
         reset();
 
         //Save as DateTimeOffSet. Value setted at C# Saving Model
         const dateTimeOffset = new Date(data.targetDate).toISOString();
-
+        
         const correctData = {
             name: data.name,
             description: data.description,
             category: data.category,
+            userId: user?.id,
             targetAmount: data.targetAmount,
             targetDate: dateTimeOffset,
         }

@@ -21,10 +21,8 @@ export function AddTransactionModal({
 }: AddTransactionModalProps) {
     Modal.setAppElement('body');
 
-    const { data: session } = useSession();
-
     const { createTransaction } = useContext(TransactionContext);
-    const { getUserByEmail } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const { 
 		register, 
@@ -44,21 +42,11 @@ export function AddTransactionModal({
 		resetCategoryAndType
 	} = useTransactionsButtonManagement();
 
-    const { 'next-auth.session-token': jwt } = parseCookies();
     const onSubmit: SubmitHandler<CreateTransaction> = async (data) => {
         closeModal();
         reset();
         resetCategoryAndType();
         toggleCategory("");
-
-        const email = session?.user?.email || "";
-        const response = await fetch(`https://localhost:5185/api/user/email/${email}`, {
-            headers: {
-                'Authorization': `Bearer ${jwt}`
-            }
-        });
-
-        const user = await response.json();
 
         const dataWithId = {
             name: data.name,

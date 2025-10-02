@@ -69,7 +69,7 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specific user by ID
+    /// Gets a specific user by email
     /// </summary>
     /// <param name="email">The unique identifier of the user</param>
     /// <returns>The requested user data</returns>
@@ -77,10 +77,11 @@ public class UserController : ControllerBase
     /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
+    [Authorize]
     [Route("email/{email}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetUserByIdAsync([FromRoute] string email)
+    public async Task<ActionResult> GetUserByEmailAsync([FromRoute] string email)
     {
         try
         {

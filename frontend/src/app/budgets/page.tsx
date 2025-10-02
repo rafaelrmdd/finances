@@ -123,7 +123,7 @@ export default function Budgets() {
                                 </div>
 
                                 <div className="flex justify-between">
-                                    <h3 className="text-green-400 text-[0.9rem] font-semibold">{percentage}% spent</h3>
+                                    <h3 className="text-green-400 text-[0.9rem] font-semibold">{percentage && '0'}% spent</h3>
                                     <h3 className="text-white text-[0.9rem]">{remainingCurrentMonthFormatted} remaining</h3>
                                 </div>
                             </div>

@@ -29,26 +29,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateTokenReplay = false
         };
 
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
-                return Task.CompletedTask;
-            },
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine("Token validated successfully");
-                var claims = context.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
-                Console.WriteLine($"Claims: {string.Join(", ", claims)}");
-                return Task.CompletedTask;
-            },
-            OnChallenge = context =>
-            {
-                Console.WriteLine($"OnChallenge: {context.Error}, {context.ErrorDescription}");
-                return Task.CompletedTask;
-            }
-        };
+        // options.Events = new JwtBearerEvents
+        // {
+        //     OnAuthenticationFailed = context =>
+        //     {
+        //         Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+        //         return Task.CompletedTask;
+        //     },
+        //     OnTokenValidated = context =>
+        //     {
+        //         Console.WriteLine("Token validated successfully");
+        //         var claims = context.Principal.Claims.Select(c => $"{c.Type}: {c.Value}");
+        //         Console.WriteLine($"Claims: {string.Join(", ", claims)}");
+        //         return Task.CompletedTask;
+        //     },
+        //     OnChallenge = context =>
+        //     {
+        //         Console.WriteLine($"OnChallenge: {context.Error}, {context.ErrorDescription}");
+        //         return Task.CompletedTask;
+        //     }
+        // };
     });
 
 builder.Services.AddAuthorization();

@@ -9,6 +9,7 @@ import {
     MdPieChart 
 } from "react-icons/md";
 import Modal from "react-modal";
+import { UserContext } from "../../../../../context/UserProvider";
 
 interface AddBudgetModalProps {
     isModalOpen: boolean;
@@ -20,10 +21,9 @@ export function AddBudgetModal({
     closeModal,
 }: AddBudgetModalProps) {
     Modal.setAppElement('body');
-
-    const { 
-        createBudget, 
-    } = useContext(BudgetContext);
+    
+    const { createBudget } = useContext(BudgetContext);
+    const { user } = useContext(UserContext);
 
     const { 
         register, 
@@ -38,7 +38,17 @@ export function AddBudgetModal({
         closeModal();
         reset();
 
-        createBudget(data);
+        const dataWithId = {
+            name: data.name,
+            userId: user?.id,
+            description: data.description,
+            amount: data.amount,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            category: data.category
+        }
+
+        createBudget(dataWithId);
     }
 
     return (

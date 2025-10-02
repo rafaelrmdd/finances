@@ -15,6 +15,7 @@ interface ContextProviderProps {
 export interface Budget {
     id: string;
     name: string;
+    userId?: string;
     description?: string;
     amount: string;
     startDate: string;
@@ -23,7 +24,7 @@ export interface Budget {
     timestamp: string;
 }
 
-export type UpdateBudget = Omit<Budget, 'id' | 'timestamp'>
+export type UpdateBudget = Omit<Budget, 'id' | 'timestamp' | 'userId'>
 export type CreateBudget = Omit<Budget, 'id' | 'timestamp'>
 
 interface BudgetDataProps {
@@ -39,14 +40,6 @@ export const BudgetContext = createContext({} as BudgetDataProps);
     
 export function BudgetProvider({children}: ContextProviderProps) {
     const { 'next-auth.session-token': jwt } = parseCookies();
-
-    // useEffect(() => {
-    //     if (status === 'unauthenticated') {
-    //         router.push("/auth/signIn");
-    //         return;
-    //     }
-
-    // }, [status])
 
     const queryClient = useQueryClient();
 

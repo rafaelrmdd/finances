@@ -27,7 +27,6 @@ public class BudgetController : ControllerBase
     /// <response code="200">Returns the list of budgets successfully</response>
     /// <response code="204">Returns NoContent when the list of budgets is empty</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
-    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -85,7 +84,6 @@ public class BudgetController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound When a validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
-    [Authorize]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

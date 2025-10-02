@@ -27,7 +27,6 @@ public class SavingController : ControllerBase
     /// <response code="200">Returns the list of savings successfully</response>
     /// <response code="204">Returns NoContent when the list of savings is empty</response>
     [HttpGet]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetSavingsAsync()

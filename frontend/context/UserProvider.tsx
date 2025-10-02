@@ -23,10 +23,10 @@ export type CreateUser = Omit<User, 'id' | 'timestamp'>
 
 interface UserDataProps {
     users: User[] | undefined;
+    user : User | undefined;
     createUser: UseMutateFunction<void, Error, string, unknown>;
     updateUser: UseMutateFunction<void, Error, { id: string; updateData: UpdateUser; }, unknown>
     removeUser: UseMutateFunction<void, Error, string, unknown>,
-    getUserByEmail: UseMutateFunction<User, Error, string, unknown>,
     error: Error | null;
     isPending: boolean;
 }
@@ -35,6 +35,7 @@ export const UserContext = createContext({} as UserDataProps);
     
 export function UserProvider({children}: ContextProviderProps) {
     const { 'next-auth.session-token': jwt } = parseCookies();
+    const { data: session } = useSession();
 
     const queryClient = useQueryClient();
 
@@ -50,41 +51,24 @@ export function UserProvider({children}: ContextProviderProps) {
             return await response.json();
         }   
     });
-
-    const getUserByEmail = (email: string, jwt: string) => {
-        return useQuery({
-            queryKey: ['user', email],
-            queryFn: async (): Promise<User> => {
-                const response = await fetch(`https://localhost:5185/api/user/${email}`, {
-                    headers: {
-                        'Authorization': `Bearer ${jwt}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Usuário não encontrado');
-                }
-
-                return await response.json();
-            },
-            enabled: !!email,
-        });
-    }
-
-    const getUserByEmailMutation = useMutation({
-        mutationFn: async (email: string): Promise<User> => {
-            const response = await fetch(`https://localhost:5185/api/user/${email}`, {
+    
+    const email = session?.user?.email || '';
+    const { 'data': user } = useQuery({
+        queryKey: ['user'],
+        queryFn: async (): Promise<User> => {
+            const response = await fetch(`https://localhost:5185/api/user/email/${email}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`
                 }
             });
 
             if (!response.ok) {
-                throw new Error('Usuário não encontrado');
+                throw new Error('User not found');
             }
 
             return await response.json();
-        }
+        },
+        enabled: !!email,
     });
 
     const createUserMutation = useMutation({
@@ -146,10 +130,10 @@ export function UserProvider({children}: ContextProviderProps) {
     return (
         <UserContext.Provider value={{ 
             users,
+            user,
             createUser: createUserMutation.mutate, 
             updateUser: updateUserMutation.mutate,
             removeUser: removeUserMutation.mutate,
-            getUserByEmail: getUserByEmailMutation.mutate,
             error, 
             isPending 
         }}>

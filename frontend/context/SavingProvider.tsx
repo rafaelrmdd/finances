@@ -23,6 +23,7 @@ export interface Saving {
     id: string;
     name: string;
     description?: string;
+    userId: string;
     category: SavingCategoriesEnum;
     currentAmount: string;
     targetAmount: string;
@@ -30,7 +31,7 @@ export interface Saving {
     timestamp: string;
 }
 
-export type UpdateSaving = Omit<Saving, 'id' | 'timestamp'>;
+export type UpdateSaving = Omit<Saving, 'id' | 'timestamp' | 'userId'>;
 export type CreateSaving = Omit<Saving, 'id' | 'timestamp' | 'currentAmount'>;
 
 interface SavingDataProps {

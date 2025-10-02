@@ -7,6 +7,7 @@ import { BudgetProvider } from "../../context/BudgetProvider";
 import { SavingProvider } from "../../context/SavingProvider";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { UserProvider } from "../../context/UserProvider";
 
 interface ProviderProps {
     children: ReactNode;
@@ -43,13 +44,15 @@ export function Providers({
     return (
         <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>
-                <TransactionProvider>
-                    <BudgetProvider>
-                        <SavingProvider>
-                            {children}
-                        </SavingProvider>
-                    </BudgetProvider>
-                </TransactionProvider>
+                <UserProvider>
+                    <TransactionProvider>
+                        <BudgetProvider>
+                            <SavingProvider>
+                                {children}
+                            </SavingProvider>
+                        </BudgetProvider>
+                    </TransactionProvider>
+                </UserProvider>
             </QueryClientProvider>
         </SessionProvider>
     )
