@@ -1,7 +1,7 @@
 'use client'
 
 import { UseMutateFunction, useMutation, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
-import { createContext, ReactNode, useEffect } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { CategoriesEnum } from "./TransactionProvider";
 import { getSession, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

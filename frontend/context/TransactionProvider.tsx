@@ -2,7 +2,8 @@
 
 import { UseMutateFunction, useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { parseCookies } from "nookies";
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useContext } from "react";
+import { UserContext } from "./UserProvider";
 
 interface ContextProviderProps {
     children: ReactNode; 
@@ -51,13 +52,15 @@ export const TransactionContext = createContext({} as TransactionDataProps);
 
 export function TransactionProvider({children}: ContextProviderProps) {
     const { 'next-auth.session-token': jwt } = parseCookies();
+    const { user } = useContext(UserContext);
+    const userId = user?.id;
 
     const queryClient = useQueryClient();
 
     const { isPending, error, 'data': transactions } = useQuery({
         queryKey: ['transactions'],
         queryFn: async (): Promise<Transaction[]> => {
-            const response = await fetch('https://localhost:5185/api/transaction', {
+            const response = await fetch(`https://localhost:5185/api/transaction/userid/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`
                 }

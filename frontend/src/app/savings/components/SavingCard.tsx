@@ -35,6 +35,7 @@ export function SavingCard({
     const formattedRemaining = formatMoney(Number(targetAmount) - Number(currentAmount)); 
 
     const goalProgressPercentage = (Number(currentAmount) / Number(targetAmount)) * 100
+    const goalProgressPercentageFormatted = goalProgressPercentage.toFixed();
 
     return (
         <div className="p-6 rounded-lg bg-gray-800">
@@ -66,7 +67,7 @@ export function SavingCard({
                 <div className="flex justify-between mb-2">
                     <h3 className="text-[0.9rem] text-gray-400">Progress</h3>
 
-                    <span className="text-white">{goalProgressPercentage}%</span>
+                    <span className="text-white">{goalProgressPercentageFormatted}%</span>
                 </div>
 
                 {/* Progress Bar */}

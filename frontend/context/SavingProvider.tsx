@@ -1,8 +1,9 @@
 import { AddFunds } from "@/app/savings/components/Modals/AddFundsModal";
 import { QueryClient, UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { parseCookies } from "nookies";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { createContext } from "react";
+import { UserContext } from "./UserProvider";
 
 export enum SavingCategoriesEnum {
     EMERGENCY = 'emergency',
@@ -23,7 +24,7 @@ export interface Saving {
     id: string;
     name: string;
     description?: string;
-    userId: string;
+    userId?: string;
     category: SavingCategoriesEnum;
     currentAmount: string;
     targetAmount: string;
@@ -45,6 +46,8 @@ export const SavingContext = createContext<SavingDataProps>({} as SavingDataProp
 
 export function SavingProvider({ children }: { children: ReactNode }) {
     const { 'next-auth.session-token': jwt } = parseCookies();
+    const { user } = useContext(UserContext);
+    const userId = user?.id;
 
     const queryClient = useQueryClient();
 
@@ -52,7 +55,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
         queryKey: ['savings'],
         queryFn: async (): Promise<Saving[]> => {
             console.log('fetching...')
-            const response = await fetch('https://localhost:5185/api/saving', {
+            const response = await fetch(`https://localhost:5185/api/saving/userid/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`
                 }

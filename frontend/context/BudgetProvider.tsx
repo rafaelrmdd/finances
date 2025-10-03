@@ -1,12 +1,13 @@
 'use client'
 
 import { UseMutateFunction, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext, ReactNode, useEffect } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { CategoriesEnum } from "./TransactionProvider";
 import { getSession, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import nookies, { parseCookies } from 'nookies'
 import { getToken } from "next-auth/jwt";
+import { UserContext } from "./UserProvider";
 
 interface ContextProviderProps {
     children: ReactNode; 
@@ -40,13 +41,15 @@ export const BudgetContext = createContext({} as BudgetDataProps);
     
 export function BudgetProvider({children}: ContextProviderProps) {
     const { 'next-auth.session-token': jwt } = parseCookies();
+    const { user } = useContext(UserContext);
+    const userId = user?.id;
 
     const queryClient = useQueryClient();
 
     const { isPending, error, 'data': budgets } = useQuery({
         queryKey: ['budgets'],
         queryFn: async (): Promise<Budget[]> => {
-            const response = await fetch('https://localhost:5185/api/budget', {
+            const response = await fetch(`https://localhost:5185/api/budget/userid/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`
                 }
