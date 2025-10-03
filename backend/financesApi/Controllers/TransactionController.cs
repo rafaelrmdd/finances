@@ -27,6 +27,7 @@ public class TransactionController : ControllerBase
     /// <response code="200">Returns the list of transactions successfully</response>
     /// <response code="204">Returns NoContent when the list of transactions is empty</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetTransactionsAsync()
@@ -42,7 +43,7 @@ public class TransactionController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a specific transaction by ID
+    /// Gets a specific transaction by id
     /// </summary>
     /// <param name="id">The unique identifier of the transaction</param>
     /// <returns>The requested transaction data</returns>
@@ -68,6 +69,32 @@ public class TransactionController : ControllerBase
     }
 
     /// <summary>
+    /// Gets transaction(s) by userid
+    /// </summary>
+    /// <param name="id">The unique identifier of the transaction</param>
+    /// <returns>The requested transaction data</returns>
+    /// <response code="200">Returns the found transaction</response>
+    /// <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
+    [HttpGet]
+    [Authorize]
+    [Route("userid/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetTransactionsByUserIdAsync([FromRoute] Guid id)
+    {
+        try
+        {
+            var transactionResponseDTO = await _service.GetTransactionByUserIdAsync(id);
+
+            return Ok(transactionResponseDTO);
+        }
+        catch (ValidationException e)
+        {
+            return NotFound(e);
+        }
+    }
+
+    /// <summary>
     /// Adds a new transaction
     /// </summary>
     /// <param name="addTransactionDTO">
@@ -82,6 +109,7 @@ public class TransactionController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when a validation error occurs</response>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

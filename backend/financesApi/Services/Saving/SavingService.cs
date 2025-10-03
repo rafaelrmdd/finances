@@ -19,16 +19,16 @@ public class SavingService : ISavingService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Saving>> GetSavingsAsync()
+    public async Task<IEnumerable<SavingResponseDTO>> GetSavingsAsync()
     {
         var savings = await _repository.GetSavingsAsync();
 
         if (savings == null || !savings.Any())
         {
-            return new List<Saving>();
+            return new List<SavingResponseDTO>();
         }
 
-        return savings;
+        return _mapper.Map<IEnumerable<SavingResponseDTO>>(savings);
     }
 
     public async Task<SavingResponseDTO> GetSavingByIdAsync(Guid id)
@@ -41,6 +41,18 @@ public class SavingService : ISavingService
         }
 
         return _mapper.Map<SavingResponseDTO>(saving);
+    }
+
+    public async Task<IEnumerable<SavingResponseDTO>> GetSavingByUserIdAsync(Guid id)
+    {
+        var savings = await _repository.GetSavingByUserIdAsync(id);
+
+        if (savings == null)
+        {
+            throw new ValidationException($"No saving with userid: {id} was found.");
+        }
+
+        return _mapper.Map<IEnumerable<SavingResponseDTO>>(savings);
     }
 
     public async Task<SavingResponseDTO> AddSavingAsync(AddSavingDTO addSavingDTO)

@@ -19,28 +19,40 @@ public class BudgetService : IBudgetService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Budget>> GetBudgetsAsync()
+    public async Task<IEnumerable<BudgetResponseDTO>> GetBudgetsAsync()
     {
         var budgets = await _repository.GetBudgetsAsync();
 
         if (budgets == null || !budgets.Any())
         {
-            return new List<Budget>();
+            return new List<BudgetResponseDTO>();
         }
 
-        return budgets;
+        return _mapper.Map<IEnumerable<BudgetResponseDTO>>(budgets);
     }
 
     public async Task<BudgetResponseDTO> GetBudgetByIdAsync(Guid id)
     {
-        var Budget = await _repository.GetBudgetByIdAsync(id);
+        var budget = await _repository.GetBudgetByIdAsync(id);
 
-        if (Budget == null)
+        if (budget == null)
         {
             throw new ValidationException($"Budget with id: {id} was not found.");
         }
 
-        return _mapper.Map<BudgetResponseDTO>(Budget);
+        return _mapper.Map<BudgetResponseDTO>(budget);
+    }
+
+    public async Task<IEnumerable<BudgetResponseDTO>> GetBudgetByUserIdAsync(Guid id)
+    {
+        var budgets = await _repository.GetBudgetByUserIdAsync(id);
+
+        if (budgets == null)
+        {
+            throw new ValidationException($"No budget with userid: {id} was found.");
+        }
+
+        return _mapper.Map<IEnumerable<BudgetResponseDTO>>(budgets);
     }
 
     public async Task<BudgetResponseDTO> AddBudgetAsync(AddBudgetDTO addBudgetDTO)
@@ -55,9 +67,9 @@ public class BudgetService : IBudgetService
             throw new InvalidDataException("Field 'amount' cannot be empty.");
         }
 
-        Budget Budget = _mapper.Map<Budget>(addBudgetDTO);
+        Budget budget = _mapper.Map<Budget>(addBudgetDTO);
 
-        var BudgetEntity = await _repository.AddBudgetAsync(Budget);
+        var BudgetEntity = await _repository.AddBudgetAsync(budget);
 
         return _mapper.Map<BudgetResponseDTO>(BudgetEntity);
     }
@@ -79,9 +91,9 @@ public class BudgetService : IBudgetService
             throw new InvalidDataException("Field 'category' cannot be empty.");
         }
 
-        Budget Budget = _mapper.Map<Budget>(editBudgetDTO);
+        Budget budget = _mapper.Map<Budget>(editBudgetDTO);
 
-        var BudgetEntity = await _repository.EditBudgetAsync(id, Budget);
+        var BudgetEntity = await _repository.EditBudgetAsync(id, budget);
 
         return _mapper.Map<BudgetResponseDTO>(BudgetEntity);
     }

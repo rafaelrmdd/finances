@@ -19,16 +19,16 @@ public class TransactionService : ITransactionService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TransactionItem>> GetTransactionsAsync()
+    public async Task<IEnumerable<TransactionResponseDTO>> GetTransactionsAsync()
     {
         var transactions = await _repository.GetTransactionsAsync();
 
         if (transactions == null || !transactions.Any())
         {
-            return new List<TransactionItem>();
+            return new List<TransactionResponseDTO>();
         }
 
-        return transactions;
+        return _mapper.Map<IEnumerable<TransactionResponseDTO>>(transactions);
     }
 
     public async Task<TransactionResponseDTO> GetTransactionByIdAsync(Guid id)
@@ -41,6 +41,18 @@ public class TransactionService : ITransactionService
         }
 
         return _mapper.Map<TransactionResponseDTO>(transaction);
+    }
+
+    public async Task<IEnumerable<TransactionResponseDTO>> GetTransactionByUserIdAsync(Guid id)
+    {
+        var transactions = await _repository.GetTransactionUserIdAsync(id);
+
+        if (transactions == null)
+        {
+            throw new ValidationException($"No transaction with userid: {id} was found.");
+        }
+
+        return _mapper.Map<IEnumerable<TransactionResponseDTO>>(transactions);
     }
 
     public async Task<TransactionResponseDTO> AddTransactionAsync(AddTransactionDTO addTransactionDTO)

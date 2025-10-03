@@ -23,6 +23,11 @@ public class SavingRepository : ISavingRepository
         return await _context.Savings.FindAsync(id);
     }
 
+    public async Task<IEnumerable<Saving>> GetSavingByUserIdAsync(Guid id)
+    {
+        return await _context.Savings.Where(s => s.UserId == id).ToListAsync();
+    }
+
     public async Task<Saving> AddSavingAsync(Saving saving)
     {
         var entityEntry = await _context.Savings.AddAsync(saving);

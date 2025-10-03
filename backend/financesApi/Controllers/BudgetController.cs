@@ -28,6 +28,7 @@ public class BudgetController : ControllerBase
     /// <response code="204">Returns NoContent when the list of budgets is empty</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -51,8 +52,8 @@ public class BudgetController : ControllerBase
     /// <response code="200">Returns the found budget</response>
     /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
-    [Authorize]
     [HttpGet]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -62,6 +63,34 @@ public class BudgetController : ControllerBase
         try
         {
             var budgetResponseDTO = await _service.GetBudgetByIdAsync(id);
+
+            return Ok(budgetResponseDTO);
+        }
+        catch (ValidationException e)
+        {
+            return NotFound(e);
+        }
+    }
+
+    /// <summary>
+    /// Gets budget(s) by userid
+    /// </summary>
+    /// <param name="id">The userid of the budget(s)</param>
+    /// <returns>The requested budget data</returns>
+    /// <response code="200">Returns the found budget</response>
+    /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+    /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
+    [HttpGet]
+    [Authorize]
+    [Route("userid/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> GetBudgetsByUserIdAsync([FromRoute] Guid id)
+    {
+        try
+        {
+            var budgetResponseDTO = await _service.GetBudgetByUserIdAsync(id);
 
             return Ok(budgetResponseDTO);
         }
@@ -85,6 +114,7 @@ public class BudgetController : ControllerBase
     /// <response code="404">Returns NotFound When a validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -123,8 +153,8 @@ public class BudgetController : ControllerBase
     /// <response code="400">Returns BadRequest when the provided data is invalid</response>
     /// <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
-    [Authorize]
     [HttpPut]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -156,8 +186,8 @@ public class BudgetController : ControllerBase
     /// <response code="200">Returns Ok when the budget is removed successfully</response>
     /// <response code="404">Returns NotFound When the budget is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
-    [Authorize]
     [HttpDelete]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

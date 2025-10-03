@@ -62,8 +62,10 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(
     typeof(BudgetProfile),
-    typeof(TransactionProfile
-));
+    typeof(TransactionProfile),
+    typeof(SavingProfile),
+    typeof(UserProfile)
+);
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo

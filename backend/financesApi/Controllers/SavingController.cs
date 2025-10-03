@@ -27,6 +27,7 @@ public class SavingController : ControllerBase
     /// <response code="200">Returns the list of savings successfully</response>
     /// <response code="204">Returns NoContent when the list of savings is empty</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetSavingsAsync()
@@ -58,6 +59,32 @@ public class SavingController : ControllerBase
         try
         {
             var savingResponseDTO = await _service.GetSavingByIdAsync(id);
+
+            return Ok(savingResponseDTO);
+        }
+        catch (ValidationException e)
+        {
+            return NotFound(e);
+        }
+    }
+
+    /// <summary>
+    /// Gets saving(s) by userid
+    /// </summary>
+    /// <param name="id">The userid of the saving(s)</param>
+    /// <returns>The requested saving data</returns>
+    /// <response code="200">Returns the found saving</response>
+    /// <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
+    [HttpGet]
+    [Authorize]
+    [Route("userid/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetSavingsByUserIdAsync([FromRoute] Guid id)
+    {
+        try
+        {
+            var savingResponseDTO = await _service.GetSavingByUserIdAsync(id);
 
             return Ok(savingResponseDTO);
         }

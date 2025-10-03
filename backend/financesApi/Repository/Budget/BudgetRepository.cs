@@ -1,3 +1,4 @@
+using System.Collections;
 using backend.financesApi.Context;
 using backend.financesApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@ public class BudgetRepository : IBudgetRepository
     public async Task<Budget> GetBudgetByIdAsync(Guid id)
     {
         return await _context.Budgets.FindAsync(id);
+    }
+
+    public async Task<IEnumerable<Budget>> GetBudgetByUserIdAsync(Guid id)
+    {
+        return await _context.Budgets.Where(b => b.UserId == id).ToListAsync();
     }
 
     public async Task<Budget> AddBudgetAsync(Budget Budget)

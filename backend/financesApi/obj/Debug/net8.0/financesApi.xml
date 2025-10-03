@@ -28,6 +28,16 @@
             <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
             <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
         </member>
+        <member name="M:backend.financesApi.Controllers.BudgetController.GetBudgetsByUserIdAsync(System.Guid)">
+            <summary>
+            Gets budget(s) by userid
+            </summary>
+            <param name="id">The userid of the budget(s)</param>
+            <returns>The requested budget data</returns>
+            <response code="200">Returns the found budget</response>
+            <response code="404">Returns NotFound when the budget is not found or validation error occurs</response>
+            <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
+        </member>
         <member name="M:backend.financesApi.Controllers.BudgetController.AddBudgetAsync(backend.financesApi.DTOs.AddBudgetDTO)">
             <summary>
             Adds a new budget
@@ -93,6 +103,15 @@
             <response code="200">Returns the found saving</response>
             <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
         </member>
+        <member name="M:backend.financesApi.Controllers.SavingController.GetSavingsByUserIdAsync(System.Guid)">
+            <summary>
+            Gets saving(s) by userid
+            </summary>
+            <param name="id">The userid of the saving(s)</param>
+            <returns>The requested saving data</returns>
+            <response code="200">Returns the found saving</response>
+            <response code="404">Returns NotFound when the saving is not found or validation error occurs</response>
+        </member>
         <member name="M:backend.financesApi.Controllers.SavingController.AddSavingAsync(backend.financesApi.DTOs.AddSavingDTO)">
             <summary>
             Adds a new saving
@@ -152,7 +171,16 @@
         </member>
         <member name="M:backend.financesApi.Controllers.TransactionController.GetTransactionsByIdAsync(System.Guid)">
             <summary>
-            Gets a specific transaction by ID
+            Gets a specific transaction by id
+            </summary>
+            <param name="id">The unique identifier of the transaction</param>
+            <returns>The requested transaction data</returns>
+            <response code="200">Returns the found transaction</response>
+            <response code="404">Returns NotFound when the transaction is not found or validation error occurs</response>
+        </member>
+        <member name="M:backend.financesApi.Controllers.TransactionController.GetTransactionsByUserIdAsync(System.Guid)">
+            <summary>
+            Gets transaction(s) by userid
             </summary>
             <param name="id">The unique identifier of the transaction</param>
             <returns>The requested transaction data</returns>

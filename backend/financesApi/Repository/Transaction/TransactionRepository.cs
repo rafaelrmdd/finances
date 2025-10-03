@@ -22,6 +22,10 @@ public class TransactionRepository : ITransactionRepository
     {
         return await _context.Transactions.FindAsync(id);
     }
+    public async Task<IEnumerable<TransactionItem>> GetTransactionUserIdAsync(Guid id)
+    {
+        return await _context.Transactions.Where(t => t.UserId == id).ToListAsync();
+    }
 
     public async Task<TransactionItem> AddTransactionAsync(TransactionItem transaction)
     {
