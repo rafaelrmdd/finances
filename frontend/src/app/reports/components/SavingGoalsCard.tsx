@@ -31,15 +31,15 @@ export function SavingGoalsCard() {
                             >
                                 {/* w-[] must be conditional */}
                                 <div 
-                                    className={`bg-green-400 p-1 rounded-lg`}
+                                    className={`bg-green-400 p-1 rounded-lg max-w-full`}
                                     style={{width: `${percentage}%`}}
                                 ></div>
                             </div>
 
                             <div className="flex justify-between">
-                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.currentAmount)}</span> 
+                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(Number(s.currentAmount))}</span> 
                                 
-                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(s.targetAmount)}</span>
+                                <span className="text-gray-400 text-[0.9rem]">{formatMoney(Number(s.targetAmount))}</span>
                             </div>
                         </div>
                     )

@@ -9,7 +9,7 @@ export function useReportsExpenses() {
 
     const getExpenseByCategory = (category: CategoriesEnum) => {
         const expenses = transactions
-            .filter((t) => t.category === category)
+            .filter((t) => t.category.toLowerCase() === category.toLowerCase())
             .reduce((acc, t) => acc + Number(t.value), 0);
 
         return expenses;

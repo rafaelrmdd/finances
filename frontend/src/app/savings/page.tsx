@@ -17,12 +17,10 @@ import { useSavingsFilters } from "@/hooks/savings/useSavingsFilters";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
 import { SavingsFilters } from "./components/SavingsFilters";
+import { useSavingsMoneyManagement } from "@/hooks/savings/useSavingsMoneyManagement";
 
 export default function Savings() {
     Modal.setAppElement('body')
-
-    const router = useRouter();
-    const pathname = usePathname();
 
     const {
         filteredSavings,
@@ -30,17 +28,11 @@ export default function Savings() {
         createQueryString,
     } = useSavingsFilters();
 
-    const setInputSearchKeyword = (keyword: string, e: React.KeyboardEvent<HTMLInputElement>) => {
-		const target = e.target as HTMLInputElement;
-
-        if(e.key === "Enter"){
-            router.push(pathname + '?' + createQueryString(keyword, target.value))
-        }
-	}
-
-	const setSelectSearchKeyword = (keyword: string, e: ChangeEvent<any>) => {
-        router.push(pathname + '?' + createQueryString(keyword, e.target.value))
-    }
+    const { 
+        remainingToSave,
+        totalGoals,
+        totalSaved
+    } = useSavingsMoneyManagement(); 
 
     return (
         <div className="w-full bg-gray-900">
@@ -53,7 +45,7 @@ export default function Savings() {
                             icon: MdSavings,
                             color: 'bg-blue-200'
                         }}
-                        balance="1"
+                        balance={totalSaved}
                         cardName="Total Saved"
                         cardBgColor="bg-blue-400"
 				    />
@@ -63,11 +55,12 @@ export default function Savings() {
                             icon: GoGoal,
                             color: 'bg-green-200'
                         }}
-                        balance="1"
+                        balance={totalGoals}
                         cardName="Total Goals"
                         cardBgColor="bg-green-400"
 				    />
 
+                    {/* I need to think better about this card */}
                     <Card
                         icon={{
                             icon: MdTrendingUp,
@@ -83,7 +76,7 @@ export default function Savings() {
                             icon: MdAccountBalance,
                             color: 'bg-yellow-200'
                         }}
-                        balance="1"
+                        balance={remainingToSave}
                         cardName="Remaining to Save"
                         cardBgColor="bg-yellow-400"
 				    />

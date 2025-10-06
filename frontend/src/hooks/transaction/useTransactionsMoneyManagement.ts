@@ -6,15 +6,19 @@ export function useTransactionsMoneyManagement() {
     const { transactions = [] } = useContext(TransactionContext);
     
     const totalIncome = transactions
-        .filter((t) => t.type === 'income')
+        .filter((t) => t.type.toLowerCase() === 'income')
         .reduce((sum, t) => sum + Number(t.value), 0);
 
     const totalExpense = transactions
-        .filter((t) => t.type === 'expense')
+        .filter((t) => t.type.toLowerCase() === 'expense')
         .reduce((sum, t) => sum + Number(t.value), 0);
 
     const balance = totalIncome - totalExpense;
     const balanceFormated = formatMoney(balance);
+    console.log('balance: ', balance);
+    console.log('expense: ', totalExpense);
+    console.log('income: ', totalIncome);
+    console.log('transactions: ', transactions);
 
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
