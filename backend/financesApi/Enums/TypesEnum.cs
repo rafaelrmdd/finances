@@ -1,10 +1,11 @@
 namespace backend.financesApi.Enums;
 
-using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TypesEnum
 {
+    [EnumMember(Value = "income")]
     INCOME,
+    [EnumMember(Value = "expense")]
     EXPENSE
 }

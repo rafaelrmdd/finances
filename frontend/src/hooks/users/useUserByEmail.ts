@@ -4,7 +4,7 @@ import { parseCookies } from "nookies";
 
 export function useUserByEmail(email: string) {
     const { 'next-auth.session-token': jwt } = parseCookies();
-    
+
     return useQuery({
         queryKey: ['user', email],
         queryFn: async (): Promise<User> => {

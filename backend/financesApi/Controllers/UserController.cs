@@ -28,6 +28,7 @@ public class UserController : ControllerBase
     /// <response code="204">Returns NoContent when the list of users is empty</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> GetUsersAsync()
@@ -51,6 +52,7 @@ public class UserController : ControllerBase
     /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -107,6 +109,7 @@ public class UserController : ControllerBase
     /// <response code="404">Returns NotFound When a validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -143,6 +146,7 @@ public class UserController : ControllerBase
     /// <response code="404">Returns NotFound when the user is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpPut]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -174,6 +178,7 @@ public class UserController : ControllerBase
     /// <response code="404">Returns NotFound When the user is not found or validation error occurs</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpDelete]
+    [Authorize]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
