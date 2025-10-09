@@ -15,11 +15,7 @@ export function useTransactionsMoneyManagement() {
 
     const balance = totalIncome - totalExpense;
     const balanceFormated = formatMoney(balance);
-    console.log('balance: ', balance);
-    console.log('expense: ', totalExpense);
-    console.log('income: ', totalIncome);
-    console.log('transactions: ', transactions);
-
+    
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
 
@@ -42,11 +38,16 @@ export function useTransactionsMoneyManagement() {
     const currentMonthTotalIncomeFormatted = formatMoney(currentMonthTotalIncome);
     const currentMonthTotalExpenseFormatted = formatMoney(currentMonthTotalExpense);
     const currentMonthNetIncomeFormatted = formatMoney(currentMonthNetIncome);
+    const totalIncomeFormatted = formatMoney(totalIncome);
+
+    const percentageSpent = ((currentMonthTotalExpense / currentMonthTotalIncome) * 100).toFixed();
 
     return {
         balance: balanceFormated,
         currentMonthTotalIncome: currentMonthTotalIncomeFormatted,
         currentMonthTotalExpense: currentMonthTotalExpenseFormatted,
-        currentMonthNetIncome: currentMonthNetIncomeFormatted
+        currentMonthNetIncome: currentMonthNetIncomeFormatted,
+        percentageSpent,
+        totalIncome: totalIncomeFormatted,
     }
 }

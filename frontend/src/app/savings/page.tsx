@@ -26,12 +26,13 @@ export default function Savings() {
         filteredSavings,
         clearFilters,
         createQueryString,
+
     } = useSavingsFilters();
 
     const { 
         remainingToSave,
-        totalGoals,
-        totalSaved
+        totalSaved,
+        goalsLength,
     } = useSavingsMoneyManagement(); 
 
     return (
@@ -55,7 +56,7 @@ export default function Savings() {
                             icon: GoGoal,
                             color: 'bg-green-200'
                         }}
-                        balance={totalGoals}
+                        balance={goalsLength}
                         cardName="Total Goals"
                         cardBgColor="bg-green-400"
 				    />
