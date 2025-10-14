@@ -131,11 +131,19 @@ public class TransactionService : ITransactionService
             throw new InvalidDataException("Field 'type' cannot be empty.");
         }
 
+        var specifiedEntity = await _repository.GetTransactionByIdAsync(id);
+
+        if (specifiedEntity == null)
+        {
+            throw new InvalidDataException($"Transaction with id {id} not found.");
+        }
+
         EditTransactionWithUpdatedAtDTO editTransactionWithUpdatedAtDTO = new EditTransactionWithUpdatedAtDTO(
             Name: editTransactionDTO.Name,
             Type: editTransactionDTO.Type,
             Category: editTransactionDTO.Category,
             Value: editTransactionDTO.Value,
+            Timestamp: specifiedEntity.Timestamp,
             UpdatedAt: DateTimeOffset.UtcNow
         );
 

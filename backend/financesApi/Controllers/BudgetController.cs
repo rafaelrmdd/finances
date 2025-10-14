@@ -28,7 +28,6 @@ public class BudgetController : ControllerBase
     /// <response code="204">Returns NoContent when the list of budgets is empty</response>
     /// <response code="401">Returns Unauthorized when 'Authorization' header is not included or the value is wrong</response>
     [HttpGet]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
