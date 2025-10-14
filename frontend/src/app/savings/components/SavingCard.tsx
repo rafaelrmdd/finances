@@ -1,6 +1,6 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Saving, SavingContext } from "../../../../context/SavingProvider";
-import { formatDate, formatMoney } from "@/utils/formatters";
+import { formatDate, formatMoney, formatWord } from "@/utils/formatters";
 import { useContext } from "react";
 import { AddFundsButton } from "./Buttons/AddFundsButton";
 import { EditSavingButton } from "./Buttons/EditSavingButton";
@@ -37,6 +37,8 @@ export function SavingCard({
     const goalProgressPercentage = (Number(currentAmount) / Number(targetAmount)) * 100
     const goalProgressPercentageFormatted = goalProgressPercentage.toFixed();
 
+    const categoryFormatted = formatWord(saving.category);
+
     return (
         <div className="p-6 rounded-lg bg-gray-800">
             <div className="flex mb-4">
@@ -57,7 +59,7 @@ export function SavingCard({
                             />
                         </div>
                     </div>
-                    <h3 className="text-gray-400 text-[0.9rem]">{category}</h3>
+                    <h3 className="text-gray-400 text-[0.9rem]">{categoryFormatted}</h3>
                 </div>
             </div>
             

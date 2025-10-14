@@ -67,7 +67,8 @@ export function TransactionProvider({children}: ContextProviderProps) {
             });
 
             return await response.json();
-        }   
+        },
+        enabled: !!userId && !!jwt
     });
 
     const createTransactionMutation = useMutation({
@@ -117,6 +118,9 @@ export function TransactionProvider({children}: ContextProviderProps) {
                     'Authorization': `Bearer ${jwt}`
                 }
             })
+        },
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['transactions'] });
         }
     })
 

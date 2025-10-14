@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import { Saving, SavingCategoriesEnum, SavingContext } from "../../../../../context/SavingProvider";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdAccountBalance, MdBusiness, MdCardGiftcard, MdClose, MdDirectionsCar, MdFavorite, MdHealthAndSafety, MdSavings, MdSchool } from "react-icons/md";
 import { GoGoal } from "react-icons/go";
@@ -28,7 +28,6 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
     Modal.setAppElement('body')
 
     const { updateSaving } = useContext(SavingContext);
-    console.log('enum: ', SavingCategoriesEnum.BUSINESS);
 
     const { 
         register,
@@ -55,6 +54,24 @@ export function EditSavingModal({ saving, isModalOpen, closeModal, }: EditSaving
         resetCategory,
         categories
     } = useSavingsButtonManagement();
+
+    //React Form's default values are only defined once, when the form is mounted
+    //So the useEffect changes its values everytime the modal is opened
+    useEffect(() => {
+        if (isModalOpen) {
+            reset({
+                name: saving.name,
+                description: saving.description,
+                category: saving.category,
+                targetAmount: saving.targetAmount,
+                targetDate: saving.targetDate ? new Date(saving.targetDate).toISOString().split('T')[0] : '',
+                currentAmount: saving.currentAmount,
+                timestamp: saving.timestamp
+            });
+
+            toggleCategory(saving.category);
+        }
+    }, [saving, isModalOpen, reset]);
 
     const onSubmit: SubmitHandler<EditSavingModalFormProps> = (data) => {
         closeModal();

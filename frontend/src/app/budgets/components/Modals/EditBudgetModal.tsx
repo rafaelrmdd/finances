@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { Budget, BudgetContext, UpdateBudget } from "../../../../../context/BudgetProvider";
@@ -52,6 +52,22 @@ export function EditBudgetModal({
             timestamp: budget.timestamp,
         }
     });
+
+    //React Form's default values are only defined once, when the form is mounted
+    //So the useEffect changes its values everytime the modal is opened
+    useEffect(() => {
+        if (isModalOpen) {
+            reset({
+                name: budget.name,
+                category: budget.category,
+                amount: budget.amount,
+                description: budget.description,
+                startDate: budget.startDate ? new Date(budget.startDate).toISOString().split('T')[0] : '',
+                endDate: budget.endDate ? new Date(budget.endDate).toISOString().split('T')[0] : '',
+                timestamp: budget.timestamp,
+            });
+        }
+    }, [budget, isModalOpen, reset]);
 
     const onSubmit: SubmitHandler<EditBudgetModalFormProps> = (data) => {
         closeModal();

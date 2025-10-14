@@ -35,12 +35,13 @@ function getQueryClient() {
   }
 }
 
+const queryClient = getQueryClient();
+
 export function Providers({
     children,
     session
 }: ProviderProps){
-    const queryClient = getQueryClient();
-
+    
     return (
         <SessionProvider session={session}>
             <QueryClientProvider client={queryClient}>

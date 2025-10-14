@@ -63,6 +63,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
 
             return await response.json();
         },   
+        enabled: !!userId && !!jwt
         
     });
 
@@ -113,7 +114,10 @@ export function SavingProvider({ children }: { children: ReactNode }) {
                     'Authorization': `Bearer ${jwt}`
                 }
             })
-        }
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['budgets'] })
+        },
     })
 
     return (

@@ -2,7 +2,7 @@ import { MdDelete, MdWarning } from "react-icons/md";
 import { EditBudgetButton } from "./Buttons/EditBudgetButton";
 import { Budget, BudgetContext } from "../../../../context/BudgetProvider";
 import { useContext } from "react";
-import { formatMoney } from "@/utils/formatters";
+import { formatMoney, formatWord } from "@/utils/formatters";
 import { TransactionContext } from "../../../../context/TransactionProvider";
 import { FiAlertCircle, FiAlertTriangle, FiCheckCircle, FiTarget, FiXCircle } from "react-icons/fi";
 
@@ -60,6 +60,7 @@ export function BudgetRow({ budget }: { budget: Budget }) {
 
     const spentFormatted = formatMoney(spent);
     const remainingFormatted = formatMoney(remaining);
+    const categoryFormatted = formatWord(budget.category)
     
 
     return (
@@ -67,10 +68,11 @@ export function BudgetRow({ budget }: { budget: Budget }) {
             key={budget.id}
             className="bg-gray-800 text-white"
         >
+        
             <td className="px-6 py-4">
-                <h3 className=" font-semibold">{budget.name}</h3>
-                <span className="text-gray-400 text-[0.8rem] block ">{budget.category}</span>
-                <span className="text-gray-300 text-[0.9rem] block ">{budget.description}</span>
+                <h3 className=" font-semibold inline">{budget.name}</h3>
+                <span className="text-gray-400 text-[0.8rem] "> - {categoryFormatted}</span>
+                <span className="text-gray-300 text-[0.9rem] block">{budget.description}</span>
             </td>
             <td className="px-6 py-4">
                 <h3 className="text-gray-400">{formatMoney(Number(budget.amount))}</h3>

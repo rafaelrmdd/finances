@@ -56,7 +56,8 @@ export function BudgetProvider({children}: ContextProviderProps) {
             });
 
             return await response.json();
-        }   
+        },
+        enabled: !!userId && !!jwt 
     });
 
     const createBudgetMutation = useMutation({

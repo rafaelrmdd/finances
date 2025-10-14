@@ -49,7 +49,8 @@ export function UserProvider({children}: ContextProviderProps) {
             });
 
             return await response.json();
-        }   
+        },
+        enabled: !!jwt   
     });
     
     const email = session?.user?.email || '';

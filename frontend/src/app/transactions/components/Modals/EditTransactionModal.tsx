@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { useTransactionsButtonManagement } from "@/hooks/transaction/useTransactionsButtonManagement";
 import { MdAdd, MdAttachMoney, MdHome, MdKeyboardDoubleArrowUp, MdLocalGasStation, MdMovie, MdRestaurant, MdSchool, MdShoppingCart } from "react-icons/md";
 
-interface AddTransactionModalProps {
+interface EditTransactionModalProps {
     isModalOpen: boolean;
     closeModal: () => void;
     transaction: Transaction;
@@ -15,7 +15,7 @@ export function EditTransactionModal({
     isModalOpen,
     closeModal,
     transaction
-}: AddTransactionModalProps) {
+}: EditTransactionModalProps) {
     Modal.setAppElement('body');
     
     const { updateTransaction } = useContext(TransactionContext);
