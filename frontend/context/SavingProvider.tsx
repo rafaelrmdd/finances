@@ -80,10 +80,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
 		},
 		onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['savings'] });
-		},
-        onError: (error) => {
-            console.log("Error creating new 'Saving':", error.message);
-        }
+		}
 	})
 
     const updateSavingMutation = useMutation({
@@ -99,10 +96,7 @@ export function SavingProvider({ children }: { children: ReactNode }) {
 		},
 		onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['savings'] });
-		},
-        onError: (error, variables, context) => {
-            console.log("Error updating 'Saving':", error.message);
-        }
+		}
 	})
 
     const removeSavingMutation = useMutation({
@@ -116,8 +110,8 @@ export function SavingProvider({ children }: { children: ReactNode }) {
             })
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['budgets'] })
-        },
+            queryClient.invalidateQueries({ queryKey: ['savings'] })
+        }
     })
 
     return (

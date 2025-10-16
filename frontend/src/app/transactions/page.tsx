@@ -123,10 +123,10 @@ export default function Transactions() {
 								<span 
 									className="text-gray-400 text-[0.9rem]"
 								>
-									Showing  
+									Showing 
 									{lengthOfFilteredTransactions < transactionsPerPage 
-									? " " + lengthOfFilteredTransactions + " " 
-									: transactionsPerPage} 
+									? "" + lengthOfFilteredTransactions + " " 
+									: " " + transactionsPerPage + " "} 
 									of {transactions.length} transactions
 								</span>
 
@@ -136,14 +136,14 @@ export default function Transactions() {
 											if (canGoPreviousPage) {
 												setCurrentPage((currentPage) - 1);
 												setSliceBeginning((sliceBeginning) - transactionsPerPage)
-												setSliceLimit((sliceLimit) + transactionsPerPage);
+												setSliceLimit((sliceLimit) - transactionsPerPage);
 											}
 										}}
 										className="rounded-lg bg-gray-700 px-3 py-1 hover:cursor-pointer"
 									>
 										<span className="text-gray-400">Previous</span>
 									</div>
-
+{/* 
 									<div className="rounded-lg bg-gray-700 px-3 py-1">
 										<span className="text-gray-400">1</span>
 									</div>
@@ -154,7 +154,7 @@ export default function Transactions() {
 
 									<div className="rounded-lg bg-gray-700 px-3 py-1">
 										<span className="text-gray-400">3</span>
-									</div>
+									</div> */}
 
 									<div
 										onClick={() => {

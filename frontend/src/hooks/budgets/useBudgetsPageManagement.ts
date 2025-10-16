@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Transaction } from "../../../context/TransactionProvider";
+import { Budget } from "../../../context/BudgetProvider";
 
-export function useTransactionsPagement(filteredTransactions: Transaction[]) {
+export function useBudgetsPagement(budgets: Budget[]) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [sliceBeginning, setSliceBeginning] = useState(0);
     const [sliceLimit, setSliceLimit] = useState(6);
-    const lengthOfFilteredTransactions = filteredTransactions.length;
-    const transactionsPerPage = 6;
-    const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+    const lengthBudgets = budgets.length;
+    const budgetsPerPage = 6;
+    const totalPages = Math.ceil(budgets.length / budgetsPerPage);
     const canGoNextPage = currentPage < totalPages;
     const canGoPreviousPage = sliceBeginning != 0;
 
@@ -16,13 +16,13 @@ export function useTransactionsPagement(filteredTransactions: Transaction[]) {
         canGoNextPage,
         canGoPreviousPage,
         totalPages,
-        transactionsPerPage,
+        budgetsPerPage,
         sliceLimit,
         setSliceLimit,
         sliceBeginning,
         setSliceBeginning,
         currentPage,
         setCurrentPage,
-        lengthOfFilteredTransactions
+        lengthBudgets
     }
 }

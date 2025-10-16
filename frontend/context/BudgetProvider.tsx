@@ -57,7 +57,7 @@ export function BudgetProvider({children}: ContextProviderProps) {
 
             return await response.json();
         },
-        enabled: !!userId && !!jwt 
+        enabled: !!userId && !!jwt, 
     });
 
     const createBudgetMutation = useMutation({
@@ -73,9 +73,6 @@ export function BudgetProvider({children}: ContextProviderProps) {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['budgets'] })
-        },
-        onError: (error) => {
-            console.log("Error creating new 'Budget':", error.message);
         }
     })
 
@@ -92,9 +89,6 @@ export function BudgetProvider({children}: ContextProviderProps) {
         },
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['budgets'] });
-        },
-        onError: (error) => {
-            console.log("Error updating 'Budget':", error.message);
         }
     })
     
@@ -110,9 +104,6 @@ export function BudgetProvider({children}: ContextProviderProps) {
         },
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['budgets'] });
-        },
-        onError: (error) => {
-            console.log("Error removing 'Budget':", error.message);
         }
     })
 

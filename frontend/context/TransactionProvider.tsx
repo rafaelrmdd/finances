@@ -84,9 +84,6 @@ export function TransactionProvider({children}: ContextProviderProps) {
         },
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['transactions'] });
-        },
-        onError: (error) => {
-            console.log("Error creating new 'Transaction':", error.message);
         }
     })
 
@@ -103,9 +100,6 @@ export function TransactionProvider({children}: ContextProviderProps) {
         },
         onSuccess: () => {
             queryClient.refetchQueries({ queryKey: ['transactions'] });
-        },
-        onError: (error, variables, context) => {
-            console.log("Error updating 'Transaction':", error.message);
         }
     })
     

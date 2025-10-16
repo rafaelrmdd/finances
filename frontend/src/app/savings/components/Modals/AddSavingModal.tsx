@@ -42,6 +42,7 @@ export function AddSavingModal({ isModalOpen, closeModal }: AddSavingModalProps)
     const onSubmit: SubmitHandler<CreateSaving> = async (data) => {
         closeModal();
         reset();
+        toggleCategory("");
 
         //Save as DateTimeOffSet. Value setted at C# Saving Model
         const dateTimeOffset = new Date(data.targetDate).toISOString();

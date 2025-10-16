@@ -14,11 +14,28 @@ import { formatMoney } from "@/utils/formatters";
 import { AddBudgetButton } from "./components/Buttons/AddBudgetButton";
 import { BudgetRow } from "./components/BudgetRow";
 import { TransactionContext } from "../../../context/TransactionProvider";
+import { useBudgetsPagement } from "@/hooks/budgets/useBudgetsPageManagement";
 
 export default function Budgets() {
     
     const { budgets = [] } = useContext(BudgetContext); 
     const { transactions = [] } = useContext(TransactionContext);
+
+    const {
+        canGoNextPage,
+        canGoPreviousPage,
+        budgetsPerPage,
+        sliceLimit,
+        sliceBeginning,
+        lengthBudgets,
+        currentPage,
+        setCurrentPage,
+        setSliceLimit,
+        setSliceBeginning,
+    } = useBudgetsPagement(budgets);
+    console.log('budgets: ', budgets);
+    console.log('slice b: ', sliceBeginning)
+    console.log('slice l: ', sliceLimit)
 
     const currentMonth = new Date().getMonth();
     const totalSpentCurrentMonth = transactions
@@ -150,13 +167,66 @@ export default function Budgets() {
                                         key={b.id}
                                         budget={b}
                                     /> 
-                                ))}                                                           
+                                )).slice(sliceBeginning, sliceLimit)}                                                           
                             </tbody>
                         </table>
 
                         {/* Make table's bottom round */}
-                        <div className="rounded-b-lg bg-gray-800 h-10 w-full">
-                            
+                        <div className="rounded-b-lg bg-gray-800 pb-4 px-6 w-full">
+                            <hr className="text-gray-700 mb-4" />
+
+                            <div className="flex justify-between items-center">
+                                <span 
+                                    className="text-gray-400 text-[0.9rem]"
+                                >
+                                    Showing 
+                                    {lengthBudgets < budgetsPerPage 
+                                    ? " " + lengthBudgets + " " 
+                                    : " " + budgetsPerPage + " "} 
+                                    of {budgets.length} budgets
+                                </span>
+
+                                <div className="flex items-start gap-x-3">
+                                    <div
+                                        onClick={() => {
+                                            if (canGoPreviousPage) {
+                                                setCurrentPage((currentPage) - 1);
+                                                setSliceBeginning((sliceBeginning) - budgetsPerPage)
+                                                setSliceLimit((sliceLimit) - budgetsPerPage);
+                                            }
+                                        }}
+                                        className="rounded-lg bg-gray-700 px-3 py-1 hover:cursor-pointer"
+                                    >
+                                        <span className="text-gray-400">Previous</span>
+                                    </div>
+
+                                    {/* 
+                                    <div className="rounded-lg bg-gray-700 px-3 py-1">
+                                        <span className="text-gray-400">1</span>
+                                    </div>
+
+                                    <div className="rounded-lg bg-gray-700 px-3 py-1">
+                                        <span className="text-gray-400">2</span>
+                                    </div>
+
+                                    <div className="rounded-lg bg-gray-700 px-3 py-1">
+                                        <span className="text-gray-400">3</span>
+                                    </div> */}
+
+                                    <div
+                                        onClick={() => {
+                                            if (canGoNextPage) {
+                                                setCurrentPage((currentPage) + 1);
+                                                setSliceBeginning((sliceBeginning) + budgetsPerPage)
+                                                setSliceLimit((sliceLimit) + budgetsPerPage);
+                                            }
+                                        }}
+                                        className="rounded-lg bg-gray-700 px-3 py-1 hover:cursor-pointer"
+                                    >
+                                        <span className="text-gray-400">Next</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>
